@@ -107,5 +107,5 @@ def fetch_page_json(academic_year_id, mmtid):
     return json.dumps(courses, indent=4, ensure_ascii=False)
 
 
-course_json = fetch_page_json("2425", "727946")
+course_json = fetch_page_json(academic_year_id="2425", mmtid="727954")
 print(course_json)
