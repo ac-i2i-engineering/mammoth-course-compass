@@ -1,9 +1,32 @@
 import json
 
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString
 
 import re
+
+
+
+def parse_semesters(text):
+    # Text elements we find on the page will be one of several things:
+    # 1. Single comma
+    # 2. The text "Offered in"
+    # 3. "Offered in" followed by a comma-separated list of semesters
+    # 4. A comma-separated list of semesters
+
+
+    # Remove the leading "Offered in" if it exists and strip any surrounding spaces
+    if text.startswith("Offered in"):
+        text = text[len("Offered in"):].strip()
+    
+    # If the text is empty or only a comma after trimming, return an empty list
+    if not text or text == ',':
+        return []
+
+    # Split the text by commas and strip whitespace from each item
+    semesters = [semester.strip() for semester in text.split(',') if semester.strip()]
+    
+    return semesters
 
 
 def fetch_page_json(academic_year_id, mmtid):
@@ -49,27 +72,29 @@ def fetch_page_json(academic_year_id, mmtid):
         # Look for "Other years" section
         other_years_tag = title_tag.find_next_sibling('b')
         
-        #TODO: make this work with a mix of text and <a> tags
         if other_years_tag and "Other years" in other_years_tag.get_text(strip=True):
             # Initialize a list to hold the text content
             years_text = []
-            next_node = other_years_tag.find_next_sibling()
+            next_node = other_years_tag.next_sibling
 
             while next_node:
-                # If we find a <a> tag, extract its text
-                if next_node.name == 'a':
+                # h4 tag means we're at the next course
+                if getattr(next_node, 'name', None) == 'h4':
+                    break
+                # <a> tag is a link to a semester
+                if getattr(next_node, 'name', None) == 'a':
                     years_text.append(next_node.get_text(strip=True))
-                elif next_node.string:  # If it's a text node, we may find plain text
-                    years_text.append(next_node.strip())
-                # Move to the next sibling node
-                next_node = next_node.find_next_sibling()
+                
+                elif isinstance(next_node, NavigableString):
+                    text = parse_semesters(next_node.strip())
+                    years_text.extend(text)
+                    
+                next_node = next_node.next_sibling
 
             # Filter and clean the collected text
             other_years = [year for year in years_text if re.match(r'\b(Spring|Fall) \d{4}\b', year)]
 
 
-    
-        # Construct course data dictionary
         course_data = {
             "title": course_title,
             "description": description,
@@ -82,5 +107,5 @@ def fetch_page_json(academic_year_id, mmtid):
     return json.dumps(courses, indent=4, ensure_ascii=False)
 
 
-course_json = fetch_page_json("2425", "727941")
+course_json = fetch_page_json("2425", "727946")
 print(course_json)
