@@ -1,18 +1,18 @@
-# Access Amherst (Centralized Events-Hub) Project
-We're creating a web app to connect Amherst College students in a more convenient, intimate, and diverse way! Planned features include:
-* More organized updates about events on campus
-* An events map to see what's happening in real-time, with events displayed on buildings
-* A calendar to see the big picture of what's to come and how to manage your time
+# Mammoth Course Compass (Amherst's Course Review System) Project
+We're creating a web app with Course Review System at Amherst College. Planned features include:
+* Auto-indexing of courses from college catalog
+* Appropriate balance between anonymity & trust through robust moderation
+* In-depth insights using statistics & machine learning to help you chart out a plan towards your academic goals
 * And much, much more!
 
 To clone the app, run in terminal:
 
 ```bash
-git clone https://github.com/ac-i2i-engineering/access-amherst.git
+git clone https://github.com/ac-i2i-engineering/mammoth-course-compass.git
 cd access-amherst
 ```
 
-Set-up a virtual environment and activate it to "containerize" the dependencies:
+[Optional]: Set-up a virtual environment and activate it to "containerize" the dependencies:
 
 ```bash
 python3 -m venv env
