@@ -8,7 +8,8 @@ import re
 import os
 from dotenv import load_dotenv
 from django.utils import timezone
-from opencage.geocoder import OpenCageGeocode
+from django.db.models import Q
+import difflib
 
 load_dotenv()
 
@@ -170,12 +171,43 @@ def save_json():
     with open(output_file_name, 'w') as f:
         json.dump(events_list, f, indent=4)
 
+# detect if an event already exists in database
+def is_similar_event(event_data):
+    try:
+        # Attempt to parse start and end times in ISO format first
+        iso_format = '%Y-%m-%dT%H:%M:%S'
+        start_time = timezone.make_aware(datetime.strptime(event_data['starttime'], iso_format))
+        end_time = timezone.make_aware(datetime.strptime(event_data['endtime'], iso_format))
+    except ValueError:
+        # If ISO format fails, fall back to RFC format
+        rfc_format = '%a, %d %b %Y %H:%M:%S %Z'
+        start_time = timezone.make_aware(datetime.strptime(event_data['starttime'], rfc_format))
+        end_time = timezone.make_aware(datetime.strptime(event_data['endtime'], rfc_format))
+
+    # Filter for events with matching start and end times
+    similar_events = Event.objects.filter(
+        Q(start_time=start_time) & Q(end_time=end_time)
+    )
+    
+    # Check title similarity with filtered events
+    for event in similar_events:
+        title_similarity = difflib.SequenceMatcher(None, event_data['title'], event.title).ratio()
+        if title_similarity > 0.8:  # Adjust threshold for desired strictness
+            return True
+    
+    return False
+
 # Function to clean and save events to the database
 def save_to_db():
     from access_amherst_algo.rss_scraper.clean_hub_data import clean_hub_data
-    events_list = clean_hub_data()
+    
+    events_list = clean_hub_data()  # Get the cleaned list of events to be saved
     for event in events_list:
-        save_event_to_db(event)
+        # Check if a similar event already exists
+        if not is_similar_event(event):
+            # If no similar event is found, save the event
+            save_event_to_db(event)
+
 
 if __name__ == '__main__':
     save_json()
