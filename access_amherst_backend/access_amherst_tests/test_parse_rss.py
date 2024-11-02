@@ -245,6 +245,7 @@ def sample_cleaned_data():
         {
             "title": "Regular HEMAC Meeting",
             "author": None,
+            "id": "590_363_344",
             "pub_date": "Sun, 20 Oct 2024 18:50:18 GMT",
             "host": ["Historical European Martial Arts Club"],
             "link": "https://thehub.amherst.edu/event/90363344",

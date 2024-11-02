@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 from access_amherst_algo.rss_scraper.parse_rss import create_events_list
+import re
 
 def clean_hub_data(events_list=None):
     if events_list is None:
@@ -22,6 +23,10 @@ def clean_hub_data(events_list=None):
         else:
             event['author_name'] = None
             event['author_email'] = None
+
+
+        # Generate unique event ID
+        event['id'] = int(re.search(r'/(\d+)$', event['link']).group(1)) + 500_000_000
 
         cleaned_events.append(event)
 

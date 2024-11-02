@@ -1,7 +1,7 @@
 [
     {
         "title": "Family Weekend Bagel Brunch",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Hillel"
         ],
@@ -16,11 +16,12 @@
         ],
         "map_location": "Other",
         "author_name": "Hillel",
-        "author_email": "hillel@amherst.edu"
+        "author_email": "hillel@amherst.edu",
+        "id": 510512549
     },
     {
         "title": "Amherst Cricket Club Practices",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Amherst College Cricket Club"
         ],
@@ -37,11 +38,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Amherst College Cricket Club",
-        "author_email": "dmavani25@amherst.edu"
+        "author_email": "dmavani25@amherst.edu",
+        "id": 510428287
     },
     {
         "title": "Fencing Club goes to the Big One",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Amherst College Fencing Club"
         ],
@@ -56,11 +58,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Amherst College Fencing Club",
-        "author_email": "mammothfencing@gmail.com"
+        "author_email": "mammothfencing@gmail.com",
+        "id": 510662558
     },
     {
         "title": "Novice Quiz Bowl Tournament @ Brown (11/9)",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Quiz Bowl"
         ],
@@ -75,11 +78,12 @@
         ],
         "map_location": "Other",
         "author_name": "Quiz Bowl",
-        "author_email": "mzheng27@amherst.edu"
+        "author_email": "mzheng27@amherst.edu",
+        "id": 510675342
     },
     {
         "title": "3D meeting!!!!!!!",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "3D: Difference for the Developmentally Disabled"
         ],
@@ -94,11 +98,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "3D: Difference for the Developmentally Disabled",
-        "author_email": "varmour25@amherst.edu"
+        "author_email": "varmour25@amherst.edu",
+        "id": 510408503
     },
     {
         "title": "Mammoth MakerLab Weekly Meetings ",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Mammoth Makerspace"
         ],
@@ -115,11 +120,12 @@
         ],
         "map_location": "Science Center",
         "author_name": "Mammoth Makerspace",
-        "author_email": "dtheiler26@amherst.edu"
+        "author_email": "dtheiler26@amherst.edu",
+        "id": 510669729
     },
     {
         "title": "Weekly Discretionary",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Association of Amherst Students (AAS)",
             "AAS Budgetary Committee"
@@ -135,11 +141,12 @@
         ],
         "map_location": "Converse Hall",
         "author_name": "Association of Amherst Students (AAS)",
-        "author_email": "aas@amherst.edu"
+        "author_email": "aas@amherst.edu",
+        "id": 510358053
     },
     {
         "title": "Quiz Bowl",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Quiz Bowl"
         ],
@@ -155,11 +162,12 @@
         ],
         "map_location": "Chapin Hall",
         "author_name": "Quiz Bowl",
-        "author_email": "mzheng27@amherst.edu"
+        "author_email": "mzheng27@amherst.edu",
+        "id": 510425157
     },
     {
         "title": "Weekly Meeting",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Association of Amherst Students (AAS)"
         ],
@@ -174,11 +182,12 @@
         ],
         "map_location": "Converse Hall",
         "author_name": "Association of Amherst Students (AAS)",
-        "author_email": "aas@amherst.edu"
+        "author_email": "aas@amherst.edu",
+        "id": 510421058
     },
     {
         "title": "AISA (AI Safety @ Amherst) Speaker Event: Eddie Zhang",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "\u202dArtificial Intelligence Safety at Amherst"
         ],
@@ -195,11 +204,12 @@
         ],
         "map_location": "Science Center",
         "author_name": "\u202dArtificial Intelligence Safety at Amherst",
-        "author_email": "aisa@amherst.edu"
+        "author_email": "aisa@amherst.edu",
+        "id": 510676445
     },
     {
         "title": "Fencing Club Practice",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Amherst College Fencing Club"
         ],
@@ -215,11 +225,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Amherst College Fencing Club",
-        "author_email": "mammothfencing@gmail.com"
+        "author_email": "mammothfencing@gmail.com",
+        "id": 510383153
     },
     {
         "title": "Regular Theatrical Choreography Club (TCC) Meeting",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Theatrical Choreography Club"
         ],
@@ -235,11 +246,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Theatrical Choreography Club",
-        "author_email": "mhauschildt25@amherst.edu"
+        "author_email": "mhauschildt25@amherst.edu",
+        "id": 510467933
     },
     {
         "title": "Amherst Debate Society Practice",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Debate Society"
         ],
@@ -254,12 +266,13 @@
         ],
         "map_location": "Chapin Hall",
         "author_name": "Debate Society",
-        "author_email": "amherstdebateteam@gmail.com"
+        "author_email": "amherstdebateteam@gmail.com",
+        "id": 510410174
     },
     {
         "title": "Queer and Questioning",
         "author": null,
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Queer Resource Center"
         ],
@@ -274,11 +287,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": null,
-        "author_email": null
+        "author_email": null,
+        "id": 510539072
     },
     {
         "title": "Keefe Campus Center Election Watch Party ",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Center for Community Engagement",
             "Democrats",
@@ -297,12 +311,13 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Student Engagement and Leadership",
-        "author_email": "sel@amherst.edu"
+        "author_email": "sel@amherst.edu",
+        "id": 510656357
     },
     {
         "title": "First Gen Wednesdays Get Together!!",
         "author": null,
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Class & Action Resource Center"
         ],
@@ -317,12 +332,13 @@
         ],
         "map_location": "Other",
         "author_name": null,
-        "author_email": null
+        "author_email": null,
+        "id": 510679730
     },
     {
         "title": "Destress or Distract with QRC & CARC! ",
         "author": null,
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Class & Action Resource Center",
             "Queer Resource Center"
@@ -338,11 +354,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": null,
-        "author_email": null
+        "author_email": null,
+        "id": 510680532
     },
     {
         "title": "Popcorn Pop-in",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Student Engagement and Leadership"
         ],
@@ -357,11 +374,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Student Engagement and Leadership",
-        "author_email": "sel@amherst.edu"
+        "author_email": "sel@amherst.edu",
+        "id": 510245238
     },
     {
         "title": "APU Election Debrief \u2014 Pizza and Politics",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Political Union"
         ],
@@ -377,11 +395,12 @@
         ],
         "map_location": "Frost Library",
         "author_name": "Political Union",
-        "author_email": "llubyprikot26@amherst.edu"
+        "author_email": "llubyprikot26@amherst.edu",
+        "id": 510677288
     },
     {
         "title": "Food Justice Alliance Weekly Meeting",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Food Justice Alliance"
         ],
@@ -396,11 +415,12 @@
         ],
         "map_location": "Chapin Hall",
         "author_name": "Food Justice Alliance",
-        "author_email": "acfoodjustice@gmail.com"
+        "author_email": "acfoodjustice@gmail.com",
+        "id": 510383240
     },
     {
         "title": "Hub Happy Hour",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Student Engagement and Leadership"
         ],
@@ -415,11 +435,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Student Engagement and Leadership",
-        "author_email": "sel@amherst.edu"
+        "author_email": "sel@amherst.edu",
+        "id": 510592180
     },
     {
         "title": "Hub Happy Hour",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Student Engagement and Leadership"
         ],
@@ -434,11 +455,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Student Engagement and Leadership",
-        "author_email": "sel@amherst.edu"
+        "author_email": "sel@amherst.edu",
+        "id": 510653821
     },
     {
         "title": "Fencing Club Practice",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Amherst College Fencing Club"
         ],
@@ -454,11 +476,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Amherst College Fencing Club",
-        "author_email": "mammothfencing@gmail.com"
+        "author_email": "mammothfencing@gmail.com",
+        "id": 510383154
     },
     {
         "title": "General Meeting ",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Photography Club of Amherst College"
         ],
@@ -475,11 +498,12 @@
         ],
         "map_location": "Chapin Hall",
         "author_name": "Photography Club of Amherst College",
-        "author_email": "photoclub@amherst.edu"
+        "author_email": "photoclub@amherst.edu",
+        "id": 510641069
     },
     {
         "title": "QTPOC Weekly Meeting",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Queer and Trans People of Color Collective"
         ],
@@ -495,11 +519,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Queer and Trans People of Color Collective",
-        "author_email": "qtpoc-l@amherst.edu"
+        "author_email": "qtpoc-l@amherst.edu",
+        "id": 510646514
     },
     {
         "title": "Poetry Parlor",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "The Poetry Club"
         ],
@@ -514,11 +539,12 @@
         ],
         "map_location": "Other",
         "author_name": "The Poetry Club",
-        "author_email": "thepoetryclub@amherst.edu"
+        "author_email": "thepoetryclub@amherst.edu",
+        "id": 510358373
     },
     {
         "title": "Amherst Debate Society Practice",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Debate Society"
         ],
@@ -533,11 +559,12 @@
         ],
         "map_location": "Chapin Hall",
         "author_name": "Debate Society",
-        "author_email": "amherstdebateteam@gmail.com"
+        "author_email": "amherstdebateteam@gmail.com",
+        "id": 510410175
     },
     {
         "title": "AWIS Weekly Study Session",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Association for Women in Science"
         ],
@@ -552,11 +579,12 @@
         ],
         "map_location": "Science Center",
         "author_name": "Association for Women in Science",
-        "author_email": "imlee25@amherst.edu"
+        "author_email": "imlee25@amherst.edu",
+        "id": 510497800
     },
     {
         "title": "Quiz Bowl",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Quiz Bowl"
         ],
@@ -572,11 +600,12 @@
         ],
         "map_location": "Chapin Hall",
         "author_name": "Quiz Bowl",
-        "author_email": "mzheng27@amherst.edu"
+        "author_email": "mzheng27@amherst.edu",
+        "id": 510425158
     },
     {
         "title": "Amherst Cricket Club Practices",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Amherst College Cricket Club"
         ],
@@ -592,12 +621,13 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Amherst College Cricket Club",
-        "author_email": "dmavani25@amherst.edu"
+        "author_email": "dmavani25@amherst.edu",
+        "id": 510428271
     },
     {
         "title": "FLI Freshmen and Faculty Lunch with Dean Vigil ",
         "author": null,
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Class & Action Resource Center"
         ],
@@ -612,12 +642,13 @@
         ],
         "map_location": "Other",
         "author_name": null,
-        "author_email": null
+        "author_email": null,
+        "id": 510679879
     },
     {
         "title": "Queer Talk",
         "author": null,
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Queer Resource Center"
         ],
@@ -632,11 +663,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": null,
-        "author_email": null
+        "author_email": null,
+        "id": 510538773
     },
     {
         "title": "Archery Practice @ Sattva Archery Range",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Archery Club"
         ],
@@ -651,11 +683,12 @@
         ],
         "map_location": "Other",
         "author_name": "Archery Club",
-        "author_email": "mgudin27@amherst.edu"
+        "author_email": "mgudin27@amherst.edu",
+        "id": 510674794
     },
     {
         "title": "Amherst Cricket Club Practices",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Amherst College Cricket Club"
         ],
@@ -672,12 +705,13 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Amherst College Cricket Club",
-        "author_email": "dmavani25@amherst.edu"
+        "author_email": "dmavani25@amherst.edu",
+        "id": 510428288
     },
     {
         "title": "Paths of Possibilities: Alumni Panel",
         "author": null,
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Class & Action Resource Center"
         ],
@@ -692,12 +726,13 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": null,
-        "author_email": null
+        "author_email": null,
+        "id": 510679942
     },
     {
         "title": "Free Professional Headshots",
         "author": null,
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Class & Action Resource Center"
         ],
@@ -712,11 +747,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": null,
-        "author_email": null
+        "author_email": null,
+        "id": 510680014
     },
     {
         "title": "3D meeting!!!!!!!",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "3D: Difference for the Developmentally Disabled"
         ],
@@ -731,11 +767,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "3D: Difference for the Developmentally Disabled",
-        "author_email": "varmour25@amherst.edu"
+        "author_email": "varmour25@amherst.edu",
+        "id": 510408504
     },
     {
         "title": "Mammoth MakerLab Weekly Meetings ",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Mammoth Makerspace"
         ],
@@ -752,11 +789,12 @@
         ],
         "map_location": "Science Center",
         "author_name": "Mammoth Makerspace",
-        "author_email": "dtheiler26@amherst.edu"
+        "author_email": "dtheiler26@amherst.edu",
+        "id": 510669730
     },
     {
         "title": "Not Bread Alone Volunteering",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Hillel"
         ],
@@ -771,11 +809,12 @@
         ],
         "map_location": "Other",
         "author_name": "Hillel",
-        "author_email": "hillel@amherst.edu"
+        "author_email": "hillel@amherst.edu",
+        "id": 510512613
     },
     {
         "title": "ACTIVE MINDS MOVIE NIGHT!",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Active Minds"
         ],
@@ -790,11 +829,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Active Minds",
-        "author_email": "activeminds@amherst.edu"
+        "author_email": "activeminds@amherst.edu",
+        "id": 510647055
     },
     {
         "title": "Weekly Discretionary",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Association of Amherst Students (AAS)",
             "AAS Budgetary Committee"
@@ -810,11 +850,12 @@
         ],
         "map_location": "Converse Hall",
         "author_name": "Association of Amherst Students (AAS)",
-        "author_email": "aas@amherst.edu"
+        "author_email": "aas@amherst.edu",
+        "id": 510358054
     },
     {
         "title": "Weekly Meeting",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Association of Amherst Students (AAS)"
         ],
@@ -829,11 +870,12 @@
         ],
         "map_location": "Converse Hall",
         "author_name": "Association of Amherst Students (AAS)",
-        "author_email": "aas@amherst.edu"
+        "author_email": "aas@amherst.edu",
+        "id": 510421059
     },
     {
         "title": "Fencing Club Practice",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Amherst College Fencing Club"
         ],
@@ -849,11 +891,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Amherst College Fencing Club",
-        "author_email": "mammothfencing@gmail.com"
+        "author_email": "mammothfencing@gmail.com",
+        "id": 510383155
     },
     {
         "title": "Regular Theatrical Choreography Club (TCC) Meeting",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Theatrical Choreography Club"
         ],
@@ -869,11 +912,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Theatrical Choreography Club",
-        "author_email": "mhauschildt25@amherst.edu"
+        "author_email": "mhauschildt25@amherst.edu",
+        "id": 510467934
     },
     {
         "title": "Amherst Debate Society Practice",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Debate Society"
         ],
@@ -888,11 +932,12 @@
         ],
         "map_location": "Chapin Hall",
         "author_name": "Debate Society",
-        "author_email": "amherstdebateteam@gmail.com"
+        "author_email": "amherstdebateteam@gmail.com",
+        "id": 510410176
     },
     {
         "title": "Building Green: Sustainable and Socially Just Architecture",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Environmental Justice Alliance",
             "Student Engagement and Leadership"
@@ -910,12 +955,13 @@
         ],
         "map_location": "Other",
         "author_name": "Environmental Justice Alliance",
-        "author_email": "mhuq25@amherst.edu"
+        "author_email": "mhuq25@amherst.edu",
+        "id": 510680980
     },
     {
         "title": "Queer and Questioning",
         "author": null,
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Queer Resource Center"
         ],
@@ -930,12 +976,13 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": null,
-        "author_email": null
+        "author_email": null,
+        "id": 510539073
     },
     {
         "title": "FLI Week Bonfire & S'mores",
         "author": null,
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Class & Action Resource Center"
         ],
@@ -950,11 +997,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": null,
-        "author_email": null
+        "author_email": null,
+        "id": 510680308
     },
     {
         "title": "Popcorn Pop-in",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Student Engagement and Leadership"
         ],
@@ -969,12 +1017,13 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Student Engagement and Leadership",
-        "author_email": "sel@amherst.edu"
+        "author_email": "sel@amherst.edu",
+        "id": 510245239
     },
     {
         "title": "Freshly FLI Dance Break! ",
         "author": null,
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Class & Action Resource Center"
         ],
@@ -989,11 +1038,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": null,
-        "author_email": null
+        "author_email": null,
+        "id": 510680325
     },
     {
         "title": "Food Justice Alliance Weekly Meeting",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Food Justice Alliance"
         ],
@@ -1008,11 +1058,12 @@
         ],
         "map_location": "Chapin Hall",
         "author_name": "Food Justice Alliance",
-        "author_email": "acfoodjustice@gmail.com"
+        "author_email": "acfoodjustice@gmail.com",
+        "id": 510383241
     },
     {
         "title": "Hub Happy Hour ",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Student Engagement and Leadership"
         ],
@@ -1027,11 +1078,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Student Engagement and Leadership",
-        "author_email": "sel@amherst.edu"
+        "author_email": "sel@amherst.edu",
+        "id": 510592211
     },
     {
         "title": "Hub Happy Hour",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Student Engagement and Leadership"
         ],
@@ -1046,11 +1098,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Student Engagement and Leadership",
-        "author_email": "sel@amherst.edu"
+        "author_email": "sel@amherst.edu",
+        "id": 510653822
     },
     {
         "title": "Hub Happy Hour",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Student Engagement and Leadership"
         ],
@@ -1065,11 +1118,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Student Engagement and Leadership",
-        "author_email": "sel@amherst.edu"
+        "author_email": "sel@amherst.edu",
+        "id": 510654436
     },
     {
         "title": "Fencing Club Practice",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Amherst College Fencing Club"
         ],
@@ -1085,11 +1139,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Amherst College Fencing Club",
-        "author_email": "mammothfencing@gmail.com"
+        "author_email": "mammothfencing@gmail.com",
+        "id": 510383156
     },
     {
         "title": "QTPOC Weekly Meeting",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Queer and Trans People of Color Collective"
         ],
@@ -1105,11 +1160,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Queer and Trans People of Color Collective",
-        "author_email": "qtpoc-l@amherst.edu"
+        "author_email": "qtpoc-l@amherst.edu",
+        "id": 510646515
     },
     {
         "title": "Amherst Debate Society Practice",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Debate Society"
         ],
@@ -1124,11 +1180,12 @@
         ],
         "map_location": "Chapin Hall",
         "author_name": "Debate Society",
-        "author_email": "amherstdebateteam@gmail.com"
+        "author_email": "amherstdebateteam@gmail.com",
+        "id": 510568567
     },
     {
         "title": "AWIS Weekly Study Session",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Association for Women in Science"
         ],
@@ -1143,11 +1200,12 @@
         ],
         "map_location": "Science Center",
         "author_name": "Association for Women in Science",
-        "author_email": "imlee25@amherst.edu"
+        "author_email": "imlee25@amherst.edu",
+        "id": 510497801
     },
     {
         "title": "Amherst Cricket Club Practices",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Amherst College Cricket Club"
         ],
@@ -1163,12 +1221,13 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Amherst College Cricket Club",
-        "author_email": "dmavani25@amherst.edu"
+        "author_email": "dmavani25@amherst.edu",
+        "id": 510428272
     },
     {
         "title": "Queer Talk",
         "author": null,
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Queer Resource Center"
         ],
@@ -1183,11 +1242,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": null,
-        "author_email": null
+        "author_email": null,
+        "id": 510538774
     },
     {
         "title": "Archery Practice @ Sattva Archery Range",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Archery Club"
         ],
@@ -1202,11 +1262,12 @@
         ],
         "map_location": "Other",
         "author_name": "Archery Club",
-        "author_email": "mgudin27@amherst.edu"
+        "author_email": "mgudin27@amherst.edu",
+        "id": 510674795
     },
     {
         "title": "3D meeting!!!!!!!",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "3D: Difference for the Developmentally Disabled"
         ],
@@ -1221,11 +1282,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "3D: Difference for the Developmentally Disabled",
-        "author_email": "varmour25@amherst.edu"
+        "author_email": "varmour25@amherst.edu",
+        "id": 510408505
     },
     {
         "title": "Weekly Discretionary",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Association of Amherst Students (AAS)",
             "AAS Budgetary Committee"
@@ -1241,11 +1303,12 @@
         ],
         "map_location": "Converse Hall",
         "author_name": "Association of Amherst Students (AAS)",
-        "author_email": "aas@amherst.edu"
+        "author_email": "aas@amherst.edu",
+        "id": 510358055
     },
     {
         "title": "Fencing Club Practice",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Amherst College Fencing Club"
         ],
@@ -1261,11 +1324,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Amherst College Fencing Club",
-        "author_email": "mammothfencing@gmail.com"
+        "author_email": "mammothfencing@gmail.com",
+        "id": 510383157
     },
     {
         "title": "Regular Theatrical Choreography Club (TCC) Meeting",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Theatrical Choreography Club"
         ],
@@ -1281,11 +1345,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Theatrical Choreography Club",
-        "author_email": "mhauschildt25@amherst.edu"
+        "author_email": "mhauschildt25@amherst.edu",
+        "id": 510467935
     },
     {
         "title": "Amherst Debate Society Practice",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Debate Society"
         ],
@@ -1300,12 +1365,13 @@
         ],
         "map_location": "Chapin Hall",
         "author_name": "Debate Society",
-        "author_email": "amherstdebateteam@gmail.com"
+        "author_email": "amherstdebateteam@gmail.com",
+        "id": 510568568
     },
     {
         "title": "Queer and Questioning",
         "author": null,
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Queer Resource Center"
         ],
@@ -1320,11 +1386,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": null,
-        "author_email": null
+        "author_email": null,
+        "id": 510539074
     },
     {
         "title": "Popcorn Pop-in",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Student Engagement and Leadership"
         ],
@@ -1339,11 +1406,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Student Engagement and Leadership",
-        "author_email": "sel@amherst.edu"
+        "author_email": "sel@amherst.edu",
+        "id": 510245240
     },
     {
         "title": "Food Justice Alliance Weekly Meeting",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Food Justice Alliance"
         ],
@@ -1358,11 +1426,12 @@
         ],
         "map_location": "Chapin Hall",
         "author_name": "Food Justice Alliance",
-        "author_email": "acfoodjustice@gmail.com"
+        "author_email": "acfoodjustice@gmail.com",
+        "id": 510383242
     },
     {
         "title": "Hub Happy Hour ",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Student Engagement and Leadership"
         ],
@@ -1377,11 +1446,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Student Engagement and Leadership",
-        "author_email": "sel@amherst.edu"
+        "author_email": "sel@amherst.edu",
+        "id": 510592252
     },
     {
         "title": "Hub Happy Hour",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Student Engagement and Leadership"
         ],
@@ -1396,11 +1466,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Student Engagement and Leadership",
-        "author_email": "sel@amherst.edu"
+        "author_email": "sel@amherst.edu",
+        "id": 510653823
     },
     {
         "title": "Hub Happy Hour",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Student Engagement and Leadership"
         ],
@@ -1415,11 +1486,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Student Engagement and Leadership",
-        "author_email": "sel@amherst.edu"
+        "author_email": "sel@amherst.edu",
+        "id": 510654437
     },
     {
         "title": "Fencing Club Practice",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Amherst College Fencing Club"
         ],
@@ -1435,11 +1507,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Amherst College Fencing Club",
-        "author_email": "mammothfencing@gmail.com"
+        "author_email": "mammothfencing@gmail.com",
+        "id": 510383158
     },
     {
         "title": "General Meeting ",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Photography Club of Amherst College"
         ],
@@ -1456,11 +1529,12 @@
         ],
         "map_location": "Chapin Hall",
         "author_name": "Photography Club of Amherst College",
-        "author_email": "photoclub@amherst.edu"
+        "author_email": "photoclub@amherst.edu",
+        "id": 510641070
     },
     {
         "title": "QTPOC Weekly Meeting",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Queer and Trans People of Color Collective"
         ],
@@ -1476,11 +1550,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Queer and Trans People of Color Collective",
-        "author_email": "qtpoc-l@amherst.edu"
+        "author_email": "qtpoc-l@amherst.edu",
+        "id": 510646516
     },
     {
         "title": "Amherst Cricket Club Practices",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Amherst College Cricket Club"
         ],
@@ -1496,11 +1571,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Amherst College Cricket Club",
-        "author_email": "dmavani25@amherst.edu"
+        "author_email": "dmavani25@amherst.edu",
+        "id": 510428273
     },
     {
         "title": "Shabbat Dinner",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Hillel"
         ],
@@ -1515,11 +1591,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Hillel",
-        "author_email": "hillel@amherst.edu"
+        "author_email": "hillel@amherst.edu",
+        "id": 510492203
     },
     {
         "title": "Archery Practice @ Sattva Archery Range",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Archery Club"
         ],
@@ -1534,11 +1611,12 @@
         ],
         "map_location": "Other",
         "author_name": "Archery Club",
-        "author_email": "mgudin27@amherst.edu"
+        "author_email": "mgudin27@amherst.edu",
+        "id": 510674796
     },
     {
         "title": "Amherst Cricket Club Practices",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Amherst College Cricket Club"
         ],
@@ -1555,11 +1633,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Amherst College Cricket Club",
-        "author_email": "dmavani25@amherst.edu"
+        "author_email": "dmavani25@amherst.edu",
+        "id": 510428289
     },
     {
         "title": "Amherst Cricket Club Practices",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Amherst College Cricket Club"
         ],
@@ -1576,11 +1655,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Amherst College Cricket Club",
-        "author_email": "dmavani25@amherst.edu"
+        "author_email": "dmavani25@amherst.edu",
+        "id": 510428290
     },
     {
         "title": "Weekly Meeting",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Association of Amherst Students (AAS)"
         ],
@@ -1595,11 +1675,12 @@
         ],
         "map_location": "Converse Hall",
         "author_name": "Association of Amherst Students (AAS)",
-        "author_email": "aas@amherst.edu"
+        "author_email": "aas@amherst.edu",
+        "id": 510421060
     },
     {
         "title": "Amherst Debate Society Practice",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Debate Society"
         ],
@@ -1614,11 +1695,12 @@
         ],
         "map_location": "Chapin Hall",
         "author_name": "Debate Society",
-        "author_email": "amherstdebateteam@gmail.com"
+        "author_email": "amherstdebateteam@gmail.com",
+        "id": 510568569
     },
     {
         "title": "Popcorn Pop-in",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Student Engagement and Leadership"
         ],
@@ -1633,11 +1715,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Student Engagement and Leadership",
-        "author_email": "sel@amherst.edu"
+        "author_email": "sel@amherst.edu",
+        "id": 510245241
     },
     {
         "title": "Hub Happy Hour",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Student Engagement and Leadership"
         ],
@@ -1652,11 +1735,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Student Engagement and Leadership",
-        "author_email": "sel@amherst.edu"
+        "author_email": "sel@amherst.edu",
+        "id": 510653824
     },
     {
         "title": "QTPOC Weekly Meeting",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Queer and Trans People of Color Collective"
         ],
@@ -1672,11 +1756,12 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Queer and Trans People of Color Collective",
-        "author_email": "qtpoc-l@amherst.edu"
+        "author_email": "qtpoc-l@amherst.edu",
+        "id": 510646517
     },
     {
         "title": "Amherst Debate Society Practice",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Debate Society"
         ],
@@ -1691,11 +1776,12 @@
         ],
         "map_location": "Chapin Hall",
         "author_name": "Debate Society",
-        "author_email": "amherstdebateteam@gmail.com"
+        "author_email": "amherstdebateteam@gmail.com",
+        "id": 510568570
     },
     {
         "title": "AWIS Weekly Study Session",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Association for Women in Science"
         ],
@@ -1710,11 +1796,12 @@
         ],
         "map_location": "Science Center",
         "author_name": "Association for Women in Science",
-        "author_email": "imlee25@amherst.edu"
+        "author_email": "imlee25@amherst.edu",
+        "id": 510497802
     },
     {
         "title": "Amherst Cricket Club Practices",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Amherst College Cricket Club"
         ],
@@ -1730,11 +1817,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Amherst College Cricket Club",
-        "author_email": "dmavani25@amherst.edu"
+        "author_email": "dmavani25@amherst.edu",
+        "id": 510428274
     },
     {
         "title": "Amherst Cricket Club Practices",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Amherst College Cricket Club"
         ],
@@ -1751,11 +1839,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "Amherst College Cricket Club",
-        "author_email": "dmavani25@amherst.edu"
+        "author_email": "dmavani25@amherst.edu",
+        "id": 510428291
     },
     {
         "title": "3D meeting!!!!!!!",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "3D: Difference for the Developmentally Disabled"
         ],
@@ -1770,11 +1859,12 @@
         ],
         "map_location": "Alumni Gymnasium",
         "author_name": "3D: Difference for the Developmentally Disabled",
-        "author_email": "varmour25@amherst.edu"
+        "author_email": "varmour25@amherst.edu",
+        "id": 510408506
     },
     {
         "title": "Mammoth MakerLab Weekly Meetings ",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Mammoth Makerspace"
         ],
@@ -1791,11 +1881,12 @@
         ],
         "map_location": "Science Center",
         "author_name": "Mammoth Makerspace",
-        "author_email": "dtheiler26@amherst.edu"
+        "author_email": "dtheiler26@amherst.edu",
+        "id": 510669731
     },
     {
         "title": "Hub Happy Hour",
-        "pub_date": "Sat, 02 Nov 2024 04:01:08 GMT",
+        "pub_date": "Sat, 02 Nov 2024 04:55:47 GMT",
         "host": [
             "Student Engagement and Leadership"
         ],
@@ -1810,6 +1901,7 @@
         ],
         "map_location": "Keefe Campus Center",
         "author_name": "Student Engagement and Leadership",
-        "author_email": "sel@amherst.edu"
+        "author_email": "sel@amherst.edu",
+        "id": 510654439
     }
 ]

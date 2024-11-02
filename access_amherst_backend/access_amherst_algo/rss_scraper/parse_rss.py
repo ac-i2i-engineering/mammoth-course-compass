@@ -124,9 +124,6 @@ def save_event_to_db(event_data):
     # get map location
     event_data['map_location'] = categorize_location(event_data['location'])
 
-    # Generate unique event ID
-    id = int(re.search(r'/(\d+)$', event_data['link']).group(1)) + 500_000_000
-
     # Geocode to get latitude and longitude using hardcoded values
     lat, lng = get_lat_lng(event_data['map_location'])
 
@@ -136,9 +133,9 @@ def save_event_to_db(event_data):
 
     # Save or update event in the database
     Event.objects.update_or_create(
-        id=str(id),
+        id=str(event_data['id']),
         defaults={
-            "id": id,
+            "id": event_data['id'],
             "title": event_data['title'],
             "author_name": event_data['author'],
             "pub_date": pub_date,
@@ -203,8 +200,10 @@ def save_to_db():
     
     events_list = clean_hub_data()  # Get the cleaned list of events to be saved
     for event in events_list:
-        # Check if a similar event already exists
-        if not is_similar_event(event):
+        # Check if a similar event already exists. Cases:
+        # (if hub event, collision detection handled by update_or_create so always call save_event_to_db)
+        # (if not hub event, and not similar to something in DB, then only call save_event_to_db)
+        if int(event['id']) > 500_000_000 or not is_similar_event(event):
             # If no similar event is found, save the event
             save_event_to_db(event)
 
