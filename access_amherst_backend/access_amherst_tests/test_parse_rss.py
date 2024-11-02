@@ -84,7 +84,7 @@ def test_extract_event_details_cricket_club(xml_item_cricket_club):
     assert result["endtime"] == "Sat, 19 Oct 2024 20:00:00 GMT"
     assert result["location"] == "Amherst Alumni Gym (Coolidge Cage)"
     assert result["categories"] == ["Athletics", "Meeting"]
-    assert result["author"] == None
+    assert result["author"] == "dmavani25@amherst.edu (Amherst College Cricket Club)"
     assert result["host"] == ["Amherst College Cricket Club"]
     assert result["map_location"] == "Alumni Gymnasium"
 
@@ -258,15 +258,16 @@ def sample_cleaned_data():
     ]
 
 # Unit test with mocking
+@pytest.mark.django_db
 @patch('access_amherst_algo.rss_scraper.parse_rss.save_event_to_db')
 @patch('access_amherst_algo.rss_scraper.clean_hub_data.clean_hub_data')
 def test_save_to_db(mock_clean_hub_data, mock_save_event, sample_cleaned_data):
     # Mock clean_hub_data to return sample data
     mock_clean_hub_data.return_value = sample_cleaned_data
-    
+
     # Run save_to_db, which should call save_event_to_db with the sample data
     save_to_db()
-    
+
     # Verify that save_event_to_db was called with the correct data
     mock_save_event.assert_called_once_with(sample_cleaned_data[0])
 

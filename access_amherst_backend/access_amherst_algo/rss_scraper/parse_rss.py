@@ -68,7 +68,7 @@ def extract_event_details(item):
     start_time = item.find(ns + 'start').text
     end_time = item.find(ns + 'end').text
     location = item.find(ns + 'location').text
-    author = item.find('author').text if item.find('author') else None
+    author = item.find('author').text if item.find('author') is not None else None
     host = [host.text for host in item.findall(ns + 'host')]
 
     # Categorize the location for mapping purposes
