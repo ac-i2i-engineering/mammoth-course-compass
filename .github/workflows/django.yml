@@ -33,7 +33,7 @@ jobs:
         pip install -r requirements.txt
     - name: Run Unit Tests with pytest framework and generate coverage report
       working-directory: ./access_amherst_backend
-      run: pytest --cov=access_amherst_algo --cov-fail-under=70
+      run: pytest --cov=access_amherst_algo --cov-config=.coveragerc --cov-fail-under=85
     - name: Run Django Compilation CI/CD Tests
       run: |
         python ./access_amherst_backend/manage.py test
