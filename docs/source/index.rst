@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to Access Amherst's Documentation!
-====================================
+==========================================
 
 Access Amherst is a a web app to connect Amherst College students in a more convenient, intimate, and diverse way!
 

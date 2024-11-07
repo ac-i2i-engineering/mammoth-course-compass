@@ -209,6 +209,7 @@ def save_to_json_file(data, filename, folder):
         >>> events = [{"title": "Literature Speaker Event", "date": "2024-11-05", "location": "Keefee Campus Center"}]
         >>> save_to_json_file(events, "extracted_events_20241103_124530.json", "json_outputs")
         Data successfully saved to json_outputs/extracted_events_20241103_124530.json
+        
     """
     # Ensure the folder exists
     if not os.path.exists(folder):
