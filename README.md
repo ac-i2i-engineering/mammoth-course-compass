@@ -38,4 +38,22 @@ Before committing your code / raising a PR, please consider running `python -m b
 
 ![access_amherst_architecture](https://github.com/user-attachments/assets/abac7dae-4558-474f-80ca-68633f65c7b4)
 
+```mermaid
+
+graph TD
+    subgraph email_scraper
+    A1[Import LLaMA API] --> A2[Fetch message from Gmail]
+    A2 --> A3[Instruct LLaMA to extract events]
+    A3 --> A4[Save as a JSON file]
+    end
+
+    subgraph rss_scraper
+    B1[Fetch RSS] --> B2[Save as an XML file]
+    B2 --> B3[Extract events from XML]
+    B3 --> B4[Clean data]
+    B4 --> B5[Save to database as a JSON file]
+    end
+    
+```
+
 
