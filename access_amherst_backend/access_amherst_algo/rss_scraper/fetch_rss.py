@@ -4,6 +4,22 @@ from datetime import datetime
 
 
 def fetch_rss():
+    """
+    Fetch the RSS feed and save it as an XML file.
+
+    This function retrieves the RSS feed from The Hub (`https://thehub.amherst.edu/events.rss`),
+    and then saves the raw content of the response as an XML file. The filename is timestamped based 
+    on the current date and time, and the file is stored in the `rss_files` directory.
+
+    The function uses the `requests` library to fetch the data and saves it in binary format.
+
+    Returns:
+        None
+
+    Example:
+        >>> fetch_rss()
+        # This will fetch the RSS feed and save it as a timestamped XML file.
+    """
     url = "https://thehub.amherst.edu/events.rss"
     response = requests.get(url)
 

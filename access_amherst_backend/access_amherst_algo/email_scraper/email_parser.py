@@ -45,6 +45,28 @@ instruction = """
 def connect_and_fetch_latest_email(
     app_password, subject_filter, mail_server="imap.gmail.com"
 ):
+    """
+    Connect to the email server and fetch the latest email matching a subject filter.
+
+    This function connects to the specified IMAP email server (default is Gmail),
+    logs in using the provided app password, and searches for the most recent email
+    with a subject matching the `subject_filter`. It returns the email message object 
+    of the latest matching email.
+
+    Args:
+        app_password (str): The app password used for logging into the email account.
+        subject_filter (str): The subject filter used to search for specific emails.
+        mail_server (str, optional): The IMAP email server address (default is 'imap.gmail.com').
+
+    Returns:
+        email.message.Message or None: The latest email message matching the filter, or None if no matching email is found or login fails.
+
+    Example:
+        >>> email = connect_and_fetch_latest_email("amherst_college_password", "Amherst College Daily Mammoth for Sunday, November 3, 2024")
+        >>> if email:
+        >>>     print(email["From"])
+        'noreply@amherst.edu'
+    """
     mail = imaplib.IMAP4_SSL(mail_server)
     try:
         mail.login(os.getenv("EMAIL_ADDRESS"), app_password)
@@ -70,6 +92,26 @@ def connect_and_fetch_latest_email(
 
 # Function to extract the email body
 def extract_email_body(msg):
+    """
+    Extract the body of an email message.
+
+    This function extracts and returns the plain-text body of the given email message.
+    It handles both multipart and non-multipart emails, retrieving the text content from 
+    the message if available. If the email is multipart, it iterates over the parts to find 
+    the "text/plain" part and decodes it. If the email is not multipart, it directly decodes 
+    the payload.
+
+    Args:
+        msg (email.message.Message): The email message object from which to extract the body.
+
+    Returns:
+        str: The decoded plain-text body of the email, or None if no text content is found.
+
+    Example:
+        >>> email_body = extract_email_body(email_msg)
+        >>> print(email_body)
+        'This is information about Amherst College events on Sunday, November 3, 2024.'
+    """
     if msg.is_multipart():
         for part in msg.walk():
             content_type = part.get_content_type()
@@ -83,6 +125,23 @@ def extract_email_body(msg):
 def extract_event_info_using_llama(email_content):
     """
     Extract event info from the email content using the LLaMA API.
+
+    This function sends the provided email content to the LLaMA API for processing. 
+    It sends the email content along with an instruction to extract event details.
+    If the API response is valid, the function parses and returns the extracted 
+    event information as a list of event JSON objects.
+
+    Args:
+        email_content (str): The raw content of the email to be processed by the LLaMA API.
+
+    Returns:
+        list: A list of event data extracted from the email content in JSON format.
+              If extraction fails, an empty list is returned.
+
+    Example:
+        >>> events = extract_event_info_using_llama("We're hosting a Literature Speaker Event this Tuesday, November 5, 2024 in Keefe Campus Center!")
+        >>> print(events)
+        [{"title": "Literature Speaker Event", "date": "2024-11-05", "location": "Keefee Campus Center"}]
     """
 
     # API payload for LLaMA
@@ -129,6 +188,29 @@ def extract_event_info_using_llama(email_content):
 
 # Function to save the extracted events to a JSON file
 def save_to_json_file(data, filename, folder):
+    """
+    Save the extracted events to a JSON file.
+
+    This function checks if the specified folder exists, creates it if it does not,
+    and saves the provided event datato a JSON file with the specified filename.
+    The data is saved with indentation for readability and structure.
+
+    Args:
+        data (dict or list): The data to be saved in JSON format. Typically, this would 
+                              be a list or dictionary containing event data.
+        filename (str): The name of the file where the data will be saved (e.g., 'extracted_events_20241103_124530.json').
+        folder (str): The folder where the JSON file will be stored (e.g., 'json_outputs').
+
+    Returns:
+        None: This function does not return any value. It prints a message upon success 
+              or failure.
+
+    Example:
+        >>> events = [{"title": "Literature Speaker Event", "date": "2024-11-05", "location": "Keefee Campus Center"}]
+        >>> save_to_json_file(events, "extracted_events_20241103_124530.json", "json_outputs")
+        Data successfully saved to json_outputs/extracted_events_20241103_124530.json
+        
+    """
     # Ensure the folder exists
     if not os.path.exists(folder):
         os.makedirs(folder)
@@ -148,6 +230,26 @@ def save_to_json_file(data, filename, folder):
 
 # Main function to parse the email and extract events
 def parse_email(subject_filter):
+    """
+    Parse the email and extract event data.
+
+    This function connects to an email account, fetches the latest email based on the 
+    provided subject filter, extracts event information from the email body using the 
+    LLaMA API, and saves the extracted events to a JSON file. The file is saved with 
+    a timestamped filename in the 'json_outputs' directory.
+
+    Args:
+        subject_filter (str): The subject filter to identify the relevant email to fetch.
+
+    Returns:
+        None: This function does not return any value. It prints status messages 
+              for each stage of the process (success or failure).
+
+    Example:
+        >>> parse_email("Amherst College Daily Mammoth for Sunday, November 3, 2024")
+        Email fetched successfully.
+        Events saved successfully to extracted_events_20231107_150000.json.
+    """
     app_password = os.getenv("EMAIL_PASSWORD")
 
     # Fetch the latest email
