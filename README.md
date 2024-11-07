@@ -30,13 +30,14 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-## CONTRIBUTING
+## System Architecture & Design
 
-Before committing your code / raising a PR, please consider running `python -m black ./` to make sure the code format is consistent across the repository agreeing with the `black`-style production coding guidelines! We have set-up a pre-commit hook, which checks for this before allowing one to commit!
-
-## ARCHITECTURE
+Below, we present a high-level diagram of our architecture.
 
 ![access_amherst_architecture](https://github.com/user-attachments/assets/abac7dae-4558-474f-80ca-68633f65c7b4)
+
+We also detail the detailed set of functionality along with their hierarchy in the mermaid diagram below:
+
 
 ```mermaid
 
@@ -56,4 +57,7 @@ graph TD
     
 ```
 
+## CONTRIBUTING
+
+Before committing your code / raising a PR, please consider running `python -m black ./` to make sure the code format is consistent across the repository agreeing with the `black`-style production coding guidelines! We have set-up a pre-commit hook, which checks for this before allowing one to commit!
 
