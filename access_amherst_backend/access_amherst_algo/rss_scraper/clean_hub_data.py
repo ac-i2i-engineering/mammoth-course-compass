@@ -4,6 +4,28 @@ from access_amherst_algo.rss_scraper.parse_rss import create_events_list
 
 
 def clean_hub_data(events_list=None):
+    """
+    Clean and preprocess a list of event data.
+
+    This function processes a list of events by performing the following steps:
+    - Removes events that are marked as "Cancelled" in the title.
+    - Splits the author information into separate `author_name` and `author_email` fields.
+    - Saves the cleaned event data to a timestamped JSON file for later use.
+
+    If no `events_list` is provided, the function will create one by calling `create_events_list()`.
+
+    Args:
+        events_list (list of dict, optional): A list of events to be cleaned. If not provided,
+                                              the function will generate the list using `create_events_list()`.
+
+    Returns:
+        list of dict: A list of cleaned event dictionaries, with updated author information and cancelled events removed.
+
+    Example:
+        >>> events = clean_hub_data()
+        >>> print(events[0]["author_email"])
+        'literature@amherst.edu'
+    """
     if events_list is None:
         events_list = create_events_list()
 
