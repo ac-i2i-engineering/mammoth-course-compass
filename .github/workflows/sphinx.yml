@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install django sphinx
+          pip install django django_celery_beat sphinx
 
       # Add an optional command to ensure dependencies are installed correctly
       - name: Check Django Installation
