@@ -36,6 +36,7 @@ jobs:
       run: |
         pytest --cov=access_amherst_algo --cov-config=.coveragerc --cov-fail-under=85
     - name: Coveralls Workflow
+      working-directory: ./access_amherst_backend
       run: |
         coveralls --service=github
       env:
