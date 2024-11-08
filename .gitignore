@@ -164,3 +164,7 @@ cython_debug/
 #.idea/
 
 docs/build
+
+json_outputs
+cleaned_json_outputs
+rss_files
