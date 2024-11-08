@@ -35,7 +35,7 @@ jobs:
       working-directory: ./access_amherst_backend
       run: |
         pip install coverage
-        coverage run --source=./access_amherst_backend -m pytest --cov=access_amherst_algo --cov-config=.coveragerc --cov-fail-under=85
+        coverage run -m pytest --cov=access_amherst_algo --cov-config=.coveragerc --cov-fail-under=85
         coveralls
       env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
