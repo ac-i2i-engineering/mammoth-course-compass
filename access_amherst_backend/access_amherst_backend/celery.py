@@ -1,35 +1,42 @@
 from __future__ import absolute_import, unicode_literals
 import os
 from celery import Celery
-from django_celery_beat.models import PeriodicTask, IntervalSchedule, CrontabSchedule
 
-# Set the default Django settings module for the Celery program.
+# Set the default Django settings module
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "access_amherst_backend.settings")
 
+# Initialize Celery
 app = Celery("access_amherst_backend")
-app.config_from_object("django.conf:settings", namespace="CELERY")
-app.autodiscover_tasks()
 
-# Use the Celery Beat scheduler
-app.conf.beat_scheduler = "django_celery_beat.schedulers.DatabaseScheduler"
+# Load settings from Django settings.py
+app.config_from_object("django.conf:settings", namespace="CELERY")
+
+# Setup Django first
+import django
+django.setup()
+
+# Now import models after Django is setup
+from django_celery_beat.models import PeriodicTask, IntervalSchedule, CrontabSchedule
+
+# Auto-discover tasks in all registered Django apps
+app.autodiscover_tasks()
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     """
     Setup periodic tasks for Celery Beat.
     """
-    from django_celery_beat.models import PeriodicTask
-
-    # Clear existing tasks to avoid duplication
+    # Clear existing tasks
     PeriodicTask.objects.filter(name__in=[
         'Initiate Hub Workflow',
         'Initiate Daily Mammoth Workflow',
         'Remove Old Events'
     ]).delete()
 
-    # Schedule every 6 hours
+    # 6-hour interval task
     interval_schedule, _ = IntervalSchedule.objects.get_or_create(
-        every=6, period=IntervalSchedule.HOURS
+        every=6,
+        period=IntervalSchedule.HOURS
     )
     PeriodicTask.objects.create(
         interval=interval_schedule,
@@ -37,10 +44,10 @@ def setup_periodic_tasks(sender, **kwargs):
         task='access_amherst_algo.tasks.initiate_hub_workflow',
     )
 
-    # Schedule every 24 hours at 8:30 AM EST
+    # Daily Mammoth task at 8:30 AM EST
     crontab_schedule_daily_mammoth, _ = CrontabSchedule.objects.get_or_create(
         minute='30',
-        hour='13',  # 8:30 AM EST is 1:30 PM UTC
+        hour='13',
         day_of_week='*',
         day_of_month='*',
         month_of_year='*',
@@ -52,10 +59,10 @@ def setup_periodic_tasks(sender, **kwargs):
         task='access_amherst_algo.tasks.initiate_daily_mammoth_workflow',
     )
 
-    # Schedule every 24 hours at 10 PM EST
+    # Remove old events at 10 PM EST
     crontab_schedule_remove_old, _ = CrontabSchedule.objects.get_or_create(
         minute='0',
-        hour='3',  # 10 PM EST is 3:00 AM UTC
+        hour='3',
         day_of_week='*',
         day_of_month='*',
         month_of_year='*',
