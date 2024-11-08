@@ -411,7 +411,7 @@ def save_json():
     current date and time.
 
     The resulting JSON file is saved in the `json_outputs` directory under the
-    `rss_scraper` folder.
+    `rss_scraper` folder. If the directory doesn't exist, it is created.
 
     Returns:
         None
@@ -420,12 +420,17 @@ def save_json():
         >>> save_json()
         # This will create a JSON file with the event details in the specified directory.
     """
+    # Generate the events list
     events_list = create_events_list()
-    output_file_name = (
-        "access_amherst_algo/rss_scraper/json_outputs/hub_"
-        + datetime.now().strftime("%Y_%m_%d_%H")
-        + ".json"
+
+    # Define the directory and output file name
+    directory = "access_amherst_algo/rss_scraper/json_outputs"
+    os.makedirs(directory, exist_ok=True)  # Create the directory if it doesn't exist
+    output_file_name = os.path.join(
+        directory, "hub_" + datetime.now().strftime("%Y_%m_%d_%H") + ".json"
     )
+
+    # Save the events list to a JSON file
     with open(output_file_name, "w") as f:
         json.dump(events_list, f, indent=4)
 
