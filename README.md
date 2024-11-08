@@ -1,6 +1,6 @@
 # Access Amherst - Centralized Event Hub
 
-[![Coverage Status](https://coveralls.io/repos/github/ac-i2i-engineering/access-amherst/badge.svg)](https://coveralls.io/github/ac-i2i-engineering/access-amherst)
+[![Coverage Status](https://coveralls.io/repos/github/ac-i2i-engineering/access-amherst/badge.png)](https://coveralls.io/github/ac-i2i-engineering/access-amherst)
 
 Access Amherst is a web application created to connect Amherst College students through organized, accessible, and diverse event updates on campus. The platform provides real-time information on campus events, allowing students to plan their schedules effectively. 
 
