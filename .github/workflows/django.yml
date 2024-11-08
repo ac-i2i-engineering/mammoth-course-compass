@@ -34,7 +34,7 @@ jobs:
     - name: Run Unit Tests with pytest framework and generate coverage report
       working-directory: ./access_amherst_backend
       run: |
-        pytest --cov=access_amherst_algo --cov-config=.coveragerc --cov-fail-under=85
+        pytest --cov=access_amherst_algo --cov-config=.coveragerc --cov-fail-under=90
     - name: Coveralls Workflow
       working-directory: ./access_amherst_backend
       run: |

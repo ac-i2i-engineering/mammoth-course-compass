@@ -27,8 +27,7 @@ SECRET_KEY = (
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['']
-
+ALLOWED_HOSTS = ['8000-aci2iengine-accessamher-2hm43bgiemg.ws-us116.gitpod.io']
 
 # Application definition
 
@@ -40,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
