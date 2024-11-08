@@ -35,7 +35,3 @@ def fetch_rss():
     # Save the content as an XML file
     with open(file_name, "wb") as file:
         file.write(response.content)
-
-
-if __name__ == "__main__":
-    fetch_rss()

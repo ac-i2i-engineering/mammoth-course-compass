@@ -119,5 +119,51 @@ def test_parse_email(mock_save_to_json_file, mock_extract_event_info_using_llama
         mock_extract_event_info_using_llama.assert_called_once_with(email_content)
         mock_save_to_json_file.assert_called_once()
 
+def test_connect_and_fetch_latest_email_search_failure(setup_mock_env_vars):
+    """Test search failure in connect_and_fetch_latest_email."""
+    with patch("access_amherst_algo.email_scraper.email_parser.imaplib.IMAP4_SSL") as mock_imap:
+        mock_instance = mock_imap.return_value
+        mock_instance.login.return_value = "OK"
+        mock_instance.select.return_value = ("OK", None)
+        mock_instance.search.side_effect = Exception("Search failed")
+
+        email = connect_and_fetch_latest_email(app_password="test-password", subject_filter="Test Subject")
+        assert email is None
+
+def test_extract_email_body_exception_handling():
+    """Test exception handling in extract_email_body."""
+    mock_msg = MagicMock()
+    mock_msg.is_multipart.side_effect = Exception("Unexpected error")
+
+    body = extract_email_body(mock_msg)
+    assert body is None
+
+@patch("access_amherst_algo.email_scraper.email_parser.requests.post")
+@patch("access_amherst_algo.email_scraper.email_parser.sys.exit")
+def test_extract_event_info_using_llama_api_error(mock_exit, mock_post, setup_mock_env_vars):
+    """Test API error handling in extract_event_info_using_llama."""
+    mock_post.return_value.status_code = 400
+    mock_post.return_value.json.return_value = {"error": {"message": "Invalid request"}}
+
+    extracted_events = extract_event_info_using_llama(email_content)
+    # Assert that no events are extracted
+    assert extracted_events == []
+    # Ensure sys.exit was called with 1
+    mock_exit.assert_called_once_with(1)
+
+@patch("access_amherst_algo.email_scraper.email_parser.open", side_effect=PermissionError("Permission denied"))
+@patch("access_amherst_algo.email_scraper.email_parser.logging.error")
+def test_save_to_json_file_permission_error(mock_logging_error, mock_open):
+    """Test permission error handling in save_to_json_file."""
+    save_to_json_file(mock_response_json, "test.json", "json_outputs")
+    # Ensure that logging.error was called with the appropriate message
+    mock_logging_error.assert_called_once_with("Failed to save data to json_outputs/test.json: Permission denied")
+
+@patch("access_amherst_algo.email_scraper.email_parser.connect_and_fetch_latest_email", side_effect=Exception("Error connecting to email"))
+def test_parse_email_connect_exception(mock_connect_and_fetch_latest_email):
+    """Test exception handling in parse_email."""
+    with pytest.raises(Exception):
+        parse_email("Test Subject")
+
 if __name__ == "__main__":
     pytest.main()

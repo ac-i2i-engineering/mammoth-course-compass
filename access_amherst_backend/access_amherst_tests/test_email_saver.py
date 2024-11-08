@@ -153,5 +153,99 @@ def test_process_email_events_error_handling(mock_save, mock_is_similar, mock_lo
     mock_is_similar.assert_called_once()
     mock_save.assert_called_once()
 
+def test_parse_datetime_full_date():
+    """Test parsing of a full date string."""
+    result = parse_datetime("2024-11-07")
+    assert result.date() == datetime(2024, 11, 7).date()
+
+def test_parse_datetime_iso_format():
+    """Test parsing of an ISO format datetime string."""
+    result = parse_datetime("2024-11-07T09:00:00")
+    assert result.date() == datetime(2024, 11, 7).date()
+    assert result.time() == datetime.strptime("09:00:00", "%H:%M:%S").time()
+
+def test_parse_datetime_rfc_format():
+    """Test parsing of an RFC format datetime string."""
+    result = parse_datetime("Thu, 07 Nov 2024 09:00:00 GMT")
+    assert result.date() == datetime(2024, 11, 7).date()
+
+def test_parse_datetime_time_only_with_pub_date():
+    """Test parsing of time-only string with pub_date."""
+    pub_date = "2024-11-07"
+    result = parse_datetime("09:00:00", pub_date)
+    assert result.date() == datetime(2024, 11, 7).date()
+    assert result.time() == datetime.strptime("09:00:00", "%H:%M:%S").time()
+
+def test_parse_datetime_time_only_without_pub_date():
+    """Test parsing of time-only string without pub_date."""
+    result = parse_datetime("09:00:00")
+    assert result.date() == timezone.now().date()
+
+@patch('os.listdir')
+@patch('builtins.open', new_callable=mock_open, read_data=json.dumps(sample_events_list))
+def test_load_json_file_success(mock_open_file, mock_listdir):
+    """Test loading the latest JSON file successfully."""
+    mock_listdir.return_value = ["events1.json", "events2.json"]
+    result = load_json_file("some_folder")
+    assert result == sample_events_list
+
+@patch('os.listdir')
+def test_load_json_file_no_files(mock_listdir):
+    """Test when no JSON files are present."""
+    mock_listdir.return_value = []
+    result = load_json_file("some_folder")
+    assert result is None
+
+@patch('os.listdir', side_effect=Exception("Filesystem error"))
+def test_load_json_file_error(mock_listdir):
+    """Test handling of errors during JSON loading."""
+    result = load_json_file("some_folder")
+    assert result is None
+
+def test_save_event_to_db_missing_optional_fields(mock_event_model):
+    """Test saving an event with missing optional fields."""
+    event_data = sample_event.copy()
+    del event_data['link']
+    del event_data['event_description']
+
+    save_event_to_db(event_data)
+    mock_event_model.objects.update_or_create.assert_called_once()
+    call_args = mock_event_model.objects.update_or_create.call_args[1]
+    defaults = call_args['defaults']
+
+    assert defaults['link'] == "https://www.amherst.edu"
+    assert defaults['event_description'] == ""
+
+@patch('access_amherst_algo.email_scraper.email_saver.load_json_file')
+def test_process_email_events_no_events(mock_load):
+    """Test processing when no events are loaded."""
+    mock_load.return_value = None
+    process_email_events()
+    mock_load.assert_called_once()
+
+def test_is_similar_event_empty_db(mock_event_model):
+    """Test similarity detection with an empty database."""
+    mock_event_model.objects.all.return_value = []
+    result = is_similar_event(sample_event)
+    assert result is False
+
+def test_is_similar_event_exact_match(mock_event_model, mock_event_queryset):
+    """Test similarity detection with an exact match."""
+    mock_event = MagicMock()
+    mock_event.title = sample_event["title"]
+    mock_event_queryset.filter.return_value = [mock_event]
+
+    result = is_similar_event(sample_event)
+    assert result is True
+
+def test_is_similar_event_low_similarity(mock_event_model, mock_event_queryset):
+    """Test similarity detection with low similarity."""
+    mock_event = MagicMock()
+    mock_event.title = "Completely Unrelated Event"
+    mock_event_queryset.filter.return_value = [mock_event]
+
+    result = is_similar_event(sample_event)
+    assert result is False
+
 if __name__ == '__main__':
     pytest.main()

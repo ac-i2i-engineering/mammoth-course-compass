@@ -490,9 +490,3 @@ def save_to_db():
         if int(event['id']) > 500_000_000 or not is_similar_event(event):
             # If no similar event is found, save the event
             save_event_to_db(event)
-
-
-
-if __name__ == "__main__":
-    save_json()
-    save_to_db()
