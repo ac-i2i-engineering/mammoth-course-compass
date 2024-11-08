@@ -34,7 +34,7 @@ jobs:
     - name: Run Unit Tests with pytest framework and generate coverage report
       working-directory: ./access_amherst_backend
       run: |
-        coverage --source=./access_amherst_algo --cov=access_amherst_algo --cov-config=.coveragerc run -m pytest --cov-fail-under=85
+        coverage run  --source=./access_amherst_algo --cov=access_amherst_algo --cov-config=.coveragerc -m pytest --cov-fail-under=85
         coveralls
       env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
