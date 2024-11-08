@@ -1,7 +1,10 @@
 from django.db import models
 
+
 class Event(models.Model):
-    id = models.IntegerField(primary_key=True, unique=True, null=False, blank=False)
+    id = models.IntegerField(
+        primary_key=True, unique=True, null=False, blank=False
+    )
     title = models.CharField(max_length=255)
     author_name = models.CharField(max_length=255, null=True, blank=True)
     author_email = models.CharField(max_length=255, null=True, blank=True)

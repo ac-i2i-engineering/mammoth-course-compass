@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('access_amherst_algo', '0003_remove_event_author_event_author_name'),
+        ("access_amherst_algo", "0003_remove_event_author_event_author_name"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='event',
-            name='author_email',
+            model_name="event",
+            name="author_email",
             field=models.CharField(blank=True, max_length=255, null=True),
         ),
     ]

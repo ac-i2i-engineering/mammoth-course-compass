@@ -7,25 +7,38 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Event',
+            name="Event",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255)),
-                ('author', models.CharField(blank=True, max_length=255, null=True)),
-                ('pub_date', models.DateTimeField()),
-                ('host', models.TextField()),
-                ('link', models.URLField(max_length=500)),
-                ('picture_link', models.URLField(blank=True, max_length=500, null=True)),
-                ('event_description', models.TextField(blank=True, null=True)),
-                ('start_time', models.DateTimeField()),
-                ('end_time', models.DateTimeField()),
-                ('location', models.CharField(max_length=500)),
-                ('categories', models.TextField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255)),
+                (
+                    "author",
+                    models.CharField(blank=True, max_length=255, null=True),
+                ),
+                ("pub_date", models.DateTimeField()),
+                ("host", models.TextField()),
+                ("link", models.URLField(max_length=500)),
+                (
+                    "picture_link",
+                    models.URLField(blank=True, max_length=500, null=True),
+                ),
+                ("event_description", models.TextField(blank=True, null=True)),
+                ("start_time", models.DateTimeField()),
+                ("end_time", models.DateTimeField()),
+                ("location", models.CharField(max_length=500)),
+                ("categories", models.TextField()),
             ],
         ),
     ]

@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('access_amherst_algo', '0002_alter_event_id'),
+        ("access_amherst_algo", "0002_alter_event_id"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='event',
-            name='author',
+            model_name="event",
+            name="author",
         ),
         migrations.AddField(
-            model_name='event',
-            name='author_name',
+            model_name="event",
+            name="author_name",
             field=models.CharField(blank=True, max_length=255, null=True),
         ),
     ]

@@ -17,6 +17,7 @@ from access_amherst_algo.models import Event
 from datetime import datetime
 import os
 
+
 @pytest.fixture
 def xml_item_queer_talk():
     # Sample XML data for tests
@@ -47,6 +48,7 @@ def xml_item_queer_talk():
     </item>
     """
     return ET.fromstring(xml_data_queer_talk)
+
 
 @pytest.fixture
 def xml_item_cricket_club():
@@ -84,12 +86,19 @@ def test_extract_event_details_cricket_club(xml_item_cricket_club):
     assert result["author_email"] == "dmavani25@amherst.edu"
     assert result["map_location"] == "Alumni Gymnasium"
 
+
 def test_extract_event_details_cricket_club(xml_item_cricket_club):
     result = extract_event_details(xml_item_cricket_club)
     assert result["title"] == "Amherst Cricket Club Practices"
     assert result["link"] == "https://thehub.amherst.edu/event/10428285"
-    assert result["picture_link"] == "https://se-images.campuslabs.com/clink/images/8cadf245-7639-4970-bf3c-0be3d0ef46b2f593f79a-2223-4cf8-86cb-54db96a57346.png?preset=med-w"
-    assert result["event_description"] == "<div>Amherst Cricket Club Practice Details</div>"
+    assert (
+        result["picture_link"]
+        == "https://se-images.campuslabs.com/clink/images/8cadf245-7639-4970-bf3c-0be3d0ef46b2f593f79a-2223-4cf8-86cb-54db96a57346.png?preset=med-w"
+    )
+    assert (
+        result["event_description"]
+        == "<div>Amherst Cricket Club Practice Details</div>"
+    )
     assert result["pub_date"] == "Fri, 18 Oct 2024 02:21:19 GMT"
     assert result["starttime"] == "Sat, 19 Oct 2024 19:00:00 GMT"
     assert result["endtime"] == "Sat, 19 Oct 2024 20:00:00 GMT"
@@ -98,6 +107,7 @@ def test_extract_event_details_cricket_club(xml_item_cricket_club):
     assert result["author"] == "dmavani25@amherst.edu (Amherst College Cricket Club)"
     assert result["host"] == ["Amherst College Cricket Club"]
     assert result["map_location"] == "Alumni Gymnasium"
+
 
 @pytest.fixture
 def mock_rss_file():
@@ -129,20 +139,23 @@ def mock_rss_file():
     # Write the mock RSS data to this file
     with open(rss_file_path, "w") as file:
         file.write(rss_data)
-    
+
     # Return the file path to be used in the test
     return rss_file_path
+
 
 @patch("access_amherst_algo.rss_scraper.parse_rss.extract_event_details")
 def test_create_event_list(mock_extract_event_details, mock_rss_file):
     # Mock extract_event_details to return specific data for each event
     mock_extract_event_details.side_effect = [
         {"title": "Event 1", "event_description": "Details for Event 1"},
-        {"title": "Event 2", "event_description": "Details for Event 2"}
+        {"title": "Event 2", "event_description": "Details for Event 2"},
     ]
-        
+
     # Patch the function's expected file path
-    with patch("access_amherst_algo.rss_scraper.parse_rss.create_events_list") as mock_rss_file_path:
+    with patch(
+        "access_amherst_algo.rss_scraper.parse_rss.create_events_list"
+    ) as mock_rss_file_path:
         mock_rss_file_path.return_value = mock_rss_file
         # Call create_events_list and get the result
         events = create_events_list()
@@ -161,6 +174,7 @@ def test_create_event_list(mock_extract_event_details, mock_rss_file):
         # Clean up the temporary file
         os.remove(mock_rss_file)
 
+
 @pytest.fixture
 def event_list():
     # Mock output of create_event_list
@@ -169,44 +183,40 @@ def event_list():
             "title": "Queer Talk",
             "author": None,
             "pub_date": "Fri, 18 Oct 2024 02:21:19 GMT",
-            "host": [
-                "Queer Resource Center"
-            ],
+            "host": ["Queer Resource Center"],
             "link": "https://thehub.amherst.edu/event/10538770",
             "picture_link": "https://se-images.campuslabs.com/clink/images/bcbdb250-d63e-4d8d-9a6d-da44aa8785acbfe87d36-e7d5-486e-960d-cdb6b899e21d.pdf?preset=med-w",
             "event_description": "<p>Join us at the QRC for Queer Talk, a weekly conversation about queerness with a new theme every week! Don\u2019t miss it!!</p>",
             "starttime": "Fri, 18 Oct 2024 20:00:00 GMT",
             "endtime": "Fri, 18 Oct 2024 21:00:00 GMT",
             "location": "Queer Resource Center (Keefe 213)",
-            "categories": [
-                "Social"
-            ]
+            "categories": ["Social"],
         },
         {
             "title": "Amherst Cricket Club Practices",
             "author": "dmavani25@amherst.edu (Amherst College Cricket Club)",
             "pub_date": "Fri, 18 Oct 2024 02:21:19 GMT",
-            "host": [
-                "Amherst College Cricket Club"
-            ],
+            "host": ["Amherst College Cricket Club"],
             "link": "https://thehub.amherst.edu/event/10428269",
             "picture_link": "https://se-images.campuslabs.com/clink/images/a70f783f-513b-4de7-9348-85134e311d76040d872b-6bbf-47a4-863e-0b24b295f5ab.png?preset=med-w",
-            "event_description": "<div class=\"gmail_default\">Dear Cricketers,</div>\n<div class=\"gmail_default\">\u00a0</div>\n<div class=\"gmail_default\">This semester's practices are scheduled on the following times at a\u00a0<strong>weekly</strong>\u00a0cadence in\u00a0<strong>Coolidge Cage (Alumni Gym aka Tennis Courts)</strong>:</div>\n<div class=\"gmail_default\">\n<ul>\n<li><strong>Thursday 8-10 pm</strong></li>\n<li><strong>Saturday 3-5 pm</strong></li>\n</ul>\n<div><strong>So, the\u00a0INTRO-meeting is (12th Sept) THIS THURSDAY 8-10 pm!!! Equipment &amp; Snacks/Drinks Covered!</strong></div>\n<div><strong>\u00a0</strong></div>\n<div>\n<div class=\"gmail_default\">Before that, as per the\u00a0Amherst College rules, please fill out the waiver below so that we can start the\u00a0ball rolling! And, I have also sent all of you invites on the Hub to join the club, so please accept the invite there to stay posted! (GroupMe:\u00a0<a data-saferedirecturl=\"https://www.google.com/url?q=https://groupme.com/join_group/97352198/c7Az2Nim&amp;source=gmail&amp;ust=1725996770831000&amp;usg=AOvVaw0iWr_SDUW44AuoUlaEUscv\" href=\"https://groupme.com/join_group/97352198/c7Az2Nim\" rel=\"noopener\" target=\"_blank\">https://groupme.com/join_<wbr/>group/97352198/c7Az2Nim</a>)</div>\n<div class=\"gmail_default\">\n<h3>How do I sign the waiver?</h3>\n<p>Link:\u00a0<a data-saferedirecturl=\"https://www.google.com/url?q=https://risk-management.mtholyoke.edu/waivers/login.php&amp;source=gmail&amp;ust=1725996770831000&amp;usg=AOvVaw39nwDGnBb65E4VJnnujTZ-\" href=\"https://risk-management.mtholyoke.edu/waivers/login.php\" rel=\"noopener\" target=\"_blank\">https://risk-management.<wbr/>mtholyoke.edu/waivers/login.<wbr/>php</a></p>\n<p>Once logged in, you should click on\u00a0<strong>Waiver Form</strong>\u00a0in the top left-hand corner, and then select the following from the drop-down menus:</p>\n<p><strong>College:</strong>\u00a0Amherst College<br/><strong>Activity Type:</strong>\u00a0Student Group<br/><strong>Activity Name:</strong>\u00a0Amherst College Cricket Club</p>\n<p>After that you will be prompted to sign and fill in your background information!</p>\n<p>Thank you so much\u00a0for your\u00a0support and patience throughout this!</p>\n<p>Take care,</p>\n<p>Founder &amp; President of Cricket Club</p>\n</div>\n</div>\n</div>",
+            "event_description": '<div class="gmail_default">Dear Cricketers,</div>\n<div class="gmail_default">\u00a0</div>\n<div class="gmail_default">This semester\'s practices are scheduled on the following times at a\u00a0<strong>weekly</strong>\u00a0cadence in\u00a0<strong>Coolidge Cage (Alumni Gym aka Tennis Courts)</strong>:</div>\n<div class="gmail_default">\n<ul>\n<li><strong>Thursday 8-10 pm</strong></li>\n<li><strong>Saturday 3-5 pm</strong></li>\n</ul>\n<div><strong>So, the\u00a0INTRO-meeting is (12th Sept) THIS THURSDAY 8-10 pm!!! Equipment &amp; Snacks/Drinks Covered!</strong></div>\n<div><strong>\u00a0</strong></div>\n<div>\n<div class="gmail_default">Before that, as per the\u00a0Amherst College rules, please fill out the waiver below so that we can start the\u00a0ball rolling! And, I have also sent all of you invites on the Hub to join the club, so please accept the invite there to stay posted! (GroupMe:\u00a0<a data-saferedirecturl="https://www.google.com/url?q=https://groupme.com/join_group/97352198/c7Az2Nim&amp;source=gmail&amp;ust=1725996770831000&amp;usg=AOvVaw0iWr_SDUW44AuoUlaEUscv" href="https://groupme.com/join_group/97352198/c7Az2Nim" rel="noopener" target="_blank">https://groupme.com/join_<wbr/>group/97352198/c7Az2Nim</a>)</div>\n<div class="gmail_default">\n<h3>How do I sign the waiver?</h3>\n<p>Link:\u00a0<a data-saferedirecturl="https://www.google.com/url?q=https://risk-management.mtholyoke.edu/waivers/login.php&amp;source=gmail&amp;ust=1725996770831000&amp;usg=AOvVaw39nwDGnBb65E4VJnnujTZ-" href="https://risk-management.mtholyoke.edu/waivers/login.php" rel="noopener" target="_blank">https://risk-management.<wbr/>mtholyoke.edu/waivers/login.<wbr/>php</a></p>\n<p>Once logged in, you should click on\u00a0<strong>Waiver Form</strong>\u00a0in the top left-hand corner, and then select the following from the drop-down menus:</p>\n<p><strong>College:</strong>\u00a0Amherst College<br/><strong>Activity Type:</strong>\u00a0Student Group<br/><strong>Activity Name:</strong>\u00a0Amherst College Cricket Club</p>\n<p>After that you will be prompted to sign and fill in your background information!</p>\n<p>Thank you so much\u00a0for your\u00a0support and patience throughout this!</p>\n<p>Take care,</p>\n<p>Founder &amp; President of Cricket Club</p>\n</div>\n</div>\n</div>',
             "starttime": "Fri, 25 Oct 2024 00:00:00 GMT",
             "endtime": "Fri, 25 Oct 2024 02:00:00 GMT",
             "location": "Amherst Alumni Gym (Coolidge Cage)",
-            "categories": [
-                "Athletics",
-                "Workshop"
-            ]
+            "categories": ["Athletics", "Workshop"],
         },
     ]
     return event_list
 
+
 @patch("access_amherst_algo.rss_scraper.parse_rss.create_events_list")
-@patch("access_amherst_algo.rss_scraper.parse_rss.open", new_callable=mock_open)
+@patch(
+    "access_amherst_algo.rss_scraper.parse_rss.open", new_callable=mock_open
+)
 @patch("access_amherst_algo.rss_scraper.parse_rss.json.dump")
-def test_save_json(mock_json_dump, mock_open, mock_create_events_list, event_list):
+def test_save_json(
+    mock_json_dump, mock_open, mock_create_events_list, event_list
+):
     # Mock the return value of `create_events_list`
     mock_create_events_list.return_value = event_list
 
@@ -217,10 +227,13 @@ def test_save_json(mock_json_dump, mock_open, mock_create_events_list, event_lis
     mock_create_events_list.assert_called_once()
 
     # Verify file path and opening mode
-    expected_file_name = 'access_amherst_algo/rss_scraper/json_outputs/hub_' + datetime.now().strftime('%Y_%m_%d_%H') + '.json'
-    mock_open.assert_called_once_with(expected_file_name, 'w')
+    expected_file_name = (
+        "access_amherst_algo/rss_scraper/json_outputs/hub_"
+        + datetime.now().strftime("%Y_%m_%d_%H")
+        + ".json"
+    )
+    mock_open.assert_called_once_with(expected_file_name, "w")
 
-    
     # Check the content written to the file
     mock_json_dump.assert_called_once_with(event_list, mock_open(), indent=4)
 
@@ -228,26 +241,21 @@ def test_save_json(mock_json_dump, mock_open, mock_create_events_list, event_lis
 @pytest.fixture
 def sample_pre_cleaned_data():
     return [
-    {
-        "title": "Amherst Cricket Club Practices",
-        "author": "dmavani25@amherst.edu (Amherst College Cricket Club)",
-        "pub_date": "Fri, 18 Oct 2024 02:21:19 GMT",
-        "host": [
-            "Amherst College Cricket Club"
-        ],
-        "link": "https://thehub.amherst.edu/event/10428286",
-        "picture_link": "https://se-images.campuslabs.com/clink/images/8cadf245-7639-4970-bf3c-0be3d0ef46b2f593f79a-2223-4cf8-86cb-54db96a57346.png?preset=med-w",
-        "event_description": "<div class=\"gmail_default\">Dear Cricketers,</div>\n<div class=\"gmail_default\">\u00a0</div>\n<div class=\"gmail_default\">This semester's practices are scheduled on the following times at a\u00a0<strong>weekly</strong>\u00a0cadence in\u00a0<strong>Coolidge Cage (Alumni Gym aka Tennis Courts)</strong>:</div>\n<div class=\"gmail_default\">\n<ul>\n<li><strong>Thursday 8-10 pm</strong></li>\n<li><strong>Saturday 3-5 pm</strong></li>\n</ul>\n<div><strong>So, the\u00a0INTRO-meeting is (12th Sept) THIS THURSDAY 8-10 pm!!! Equipment &amp; Snacks/Drinks Covered!</strong></div>\n<div><strong>\u00a0</strong></div>\n<div>\n<div class=\"gmail_default\">Before that, as per the\u00a0Amherst College rules, please fill out the waiver below so that we can start the\u00a0ball rolling! And, I have also sent all of you invites on the Hub to join the club, so please accept the invite there to stay posted! (GroupMe:\u00a0<a data-saferedirecturl=\"https://www.google.com/url?q=https://groupme.com/join_group/97352198/c7Az2Nim&amp;source=gmail&amp;ust=1725996770831000&amp;usg=AOvVaw0iWr_SDUW44AuoUlaEUscv\" href=\"https://groupme.com/join_group/97352198/c7Az2Nim\" rel=\"noopener\" target=\"_blank\">https://groupme.com/join_<wbr/>group/97352198/c7Az2Nim</a>)</div>\n<div class=\"gmail_default\">\n<h3>How do I sign the waiver?</h3>\n<p>Link:\u00a0<a data-saferedirecturl=\"https://www.google.com/url?q=https://risk-management.mtholyoke.edu/waivers/login.php&amp;source=gmail&amp;ust=1725996770831000&amp;usg=AOvVaw39nwDGnBb65E4VJnnujTZ-\" href=\"https://risk-management.mtholyoke.edu/waivers/login.php\" rel=\"noopener\" target=\"_blank\">https://risk-management.<wbr/>mtholyoke.edu/waivers/login.<wbr/>php</a></p>\n<p>Once logged in, you should click on\u00a0<strong>Waiver Form</strong>\u00a0in the top left-hand corner, and then select the following from the drop-down menus:</p>\n<p><strong>College:</strong>\u00a0Amherst College<br/><strong>Activity Type:</strong>\u00a0Student Group<br/><strong>Activity Name:</strong>\u00a0Amherst College Cricket Club</p>\n<p>After that you will be prompted to sign and fill in your background information!</p>\n<p>Thank you so much\u00a0for your\u00a0support and patience throughout this!</p>\n<p>Take care,</p>\n<p>Founder &amp; President of Cricket Club</p>\n</div>\n</div>\n</div>",
-        "starttime": "Sat, 26 Oct 2024 19:00:00 GMT",
-        "endtime": "Sat, 26 Oct 2024 20:00:00 GMT",
-        "location": "Amherst Alumni Gym (Coolidge Cage)",
-        "categories": [
-            "Athletics",
-            "Meeting",
-            "Workshop"
-        ]
-    }
+        {
+            "title": "Amherst Cricket Club Practices",
+            "author": "dmavani25@amherst.edu (Amherst College Cricket Club)",
+            "pub_date": "Fri, 18 Oct 2024 02:21:19 GMT",
+            "host": ["Amherst College Cricket Club"],
+            "link": "https://thehub.amherst.edu/event/10428286",
+            "picture_link": "https://se-images.campuslabs.com/clink/images/8cadf245-7639-4970-bf3c-0be3d0ef46b2f593f79a-2223-4cf8-86cb-54db96a57346.png?preset=med-w",
+            "event_description": '<div class="gmail_default">Dear Cricketers,</div>\n<div class="gmail_default">\u00a0</div>\n<div class="gmail_default">This semester\'s practices are scheduled on the following times at a\u00a0<strong>weekly</strong>\u00a0cadence in\u00a0<strong>Coolidge Cage (Alumni Gym aka Tennis Courts)</strong>:</div>\n<div class="gmail_default">\n<ul>\n<li><strong>Thursday 8-10 pm</strong></li>\n<li><strong>Saturday 3-5 pm</strong></li>\n</ul>\n<div><strong>So, the\u00a0INTRO-meeting is (12th Sept) THIS THURSDAY 8-10 pm!!! Equipment &amp; Snacks/Drinks Covered!</strong></div>\n<div><strong>\u00a0</strong></div>\n<div>\n<div class="gmail_default">Before that, as per the\u00a0Amherst College rules, please fill out the waiver below so that we can start the\u00a0ball rolling! And, I have also sent all of you invites on the Hub to join the club, so please accept the invite there to stay posted! (GroupMe:\u00a0<a data-saferedirecturl="https://www.google.com/url?q=https://groupme.com/join_group/97352198/c7Az2Nim&amp;source=gmail&amp;ust=1725996770831000&amp;usg=AOvVaw0iWr_SDUW44AuoUlaEUscv" href="https://groupme.com/join_group/97352198/c7Az2Nim" rel="noopener" target="_blank">https://groupme.com/join_<wbr/>group/97352198/c7Az2Nim</a>)</div>\n<div class="gmail_default">\n<h3>How do I sign the waiver?</h3>\n<p>Link:\u00a0<a data-saferedirecturl="https://www.google.com/url?q=https://risk-management.mtholyoke.edu/waivers/login.php&amp;source=gmail&amp;ust=1725996770831000&amp;usg=AOvVaw39nwDGnBb65E4VJnnujTZ-" href="https://risk-management.mtholyoke.edu/waivers/login.php" rel="noopener" target="_blank">https://risk-management.<wbr/>mtholyoke.edu/waivers/login.<wbr/>php</a></p>\n<p>Once logged in, you should click on\u00a0<strong>Waiver Form</strong>\u00a0in the top left-hand corner, and then select the following from the drop-down menus:</p>\n<p><strong>College:</strong>\u00a0Amherst College<br/><strong>Activity Type:</strong>\u00a0Student Group<br/><strong>Activity Name:</strong>\u00a0Amherst College Cricket Club</p>\n<p>After that you will be prompted to sign and fill in your background information!</p>\n<p>Thank you so much\u00a0for your\u00a0support and patience throughout this!</p>\n<p>Take care,</p>\n<p>Founder &amp; President of Cricket Club</p>\n</div>\n</div>\n</div>',
+            "starttime": "Sat, 26 Oct 2024 19:00:00 GMT",
+            "endtime": "Sat, 26 Oct 2024 20:00:00 GMT",
+            "location": "Amherst Alumni Gym (Coolidge Cage)",
+            "categories": ["Athletics", "Meeting", "Workshop"],
+        }
     ]
+
 
 @pytest.fixture
 def sample_cleaned_data():
@@ -269,6 +277,7 @@ def sample_cleaned_data():
         }
     ]
 
+
 # Unit test with mocking
 @pytest.mark.django_db
 @patch('access_amherst_algo.rss_scraper.parse_rss.save_event_to_db')
@@ -282,6 +291,7 @@ def test_save_to_db(mock_clean_hub_data, mock_save_event, sample_cleaned_data):
 
     # Verify that save_event_to_db was called with the correct data
     mock_save_event.assert_called_once_with(sample_cleaned_data[0])
+
 
 # Database test with actual data saving
 @pytest.mark.django_db

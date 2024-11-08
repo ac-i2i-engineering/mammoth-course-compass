@@ -8,6 +8,7 @@ from .parse_database import filter_events, get_unique_locations, get_events_by_h
 from .generate_map import create_map, add_event_markers, generate_heatmap
 from .models import Event
 
+
 # View to run db_saver command
 def run_db_saver(request):
     call_command("db_saver")
@@ -73,6 +74,7 @@ def data_dashboard(request):
     }
     
     return render(request, 'access_amherst_algo/dashboard.html', context)
+
 
 @csrf_exempt
 def update_heatmap(request):
