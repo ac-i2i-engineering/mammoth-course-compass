@@ -1,9 +1,9 @@
-.. access_amherst_backend documentation master file, created by
+.. Access Amherst documentation master file, created by
    sphinx-quickstart on Tue Oct 29 20:08:27 2024.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-access_amherst_backend documentation
+Access Amherst documentation
 ====================================
 
 Add your content using ``reStructuredText`` syntax. See the
