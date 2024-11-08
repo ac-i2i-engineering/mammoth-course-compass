@@ -152,3 +152,10 @@ CELERY_BROKER_TRANSPORT_OPTIONS = {
 # Time zone settings (should match Celery's timezone)
 TIME_ZONE = "America/New_York"
 USE_TZ = True
+
+# Static files
+STATIC_URL = "/static/"  # URL for serving static files
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # Directory for collectstatic to copy files
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "access_amherst_algo/static"),  # Include app-specific static files
+]
