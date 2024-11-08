@@ -137,7 +137,8 @@ def save_event_to_db(event_data):
         defaults={
             "id": event_data['id'],
             "title": event_data['title'],
-            "author_name": event_data['author'],
+            "author_name": event_data['author_name'],
+            "author_email": event_data['author_email'],
             "pub_date": pub_date,
             "host": json.dumps(event_data['host']),
             "link": event_data['link'],
