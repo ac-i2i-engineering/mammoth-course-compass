@@ -25,6 +25,9 @@ def fetch_rss():
 
     # Define the directory and file name
     directory = "access_amherst_algo/rss_scraper/rss_files"
+
+    os.makedirs(directory, exist_ok=True)
+
     file_name = os.path.join(
         directory, "hub_" + datetime.now().strftime("%Y_%m_%d_%H") + ".xml"
     )
