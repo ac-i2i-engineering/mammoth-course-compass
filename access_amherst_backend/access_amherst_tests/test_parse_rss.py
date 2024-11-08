@@ -2,7 +2,17 @@ from django.utils import timezone
 import pytest
 from unittest.mock import patch, mock_open
 import xml.etree.ElementTree as ET
-from access_amherst_algo.rss_scraper.parse_rss import create_events_list, save_json, extract_event_details, save_to_db, save_event_to_db
+from access_amherst_algo.rss_scraper.parse_rss import (
+    create_events_list,
+    save_json,
+    extract_event_details,
+    save_to_db,
+    save_event_to_db,
+    categorize_location,
+    get_lat_lng,
+    add_random_offset,
+    is_similar_event
+)
 from access_amherst_algo.models import Event
 from datetime import datetime
 import os
@@ -316,3 +326,79 @@ def test_save_event_updates_existing_event(sample_cleaned_data):
     # Check that no duplicates were created
     updated_count = Event.objects.count()
     assert updated_count == initial_count  # Ensure the count remains the same
+
+# Test for categorize_location function, covering more keywords and "Other" case
+def test_categorize_location():
+    assert categorize_location("Keefe Campus Center") == "Keefe Campus Center"
+    assert categorize_location("Ford Hall") == "Ford Hall"
+    assert categorize_location("Unknown Location") == "Other"
+
+# Test get_lat_lng function for known and unknown locations
+def test_get_lat_lng():
+    lat, lng = get_lat_lng("Science Center")
+    assert lat == 42.37105378715133
+    assert lng == -72.51334790776447
+
+    lat, lng = get_lat_lng("Unknown Location")
+    assert lat is None
+    assert lng is None
+
+# Test add_random_offset function with known lat/lng to verify range of offset
+def test_add_random_offset():
+    lat, lng = 42.372092, -72.514224
+    new_lat, new_lng = add_random_offset(lat, lng)
+
+    # Check the offset range
+    assert abs(new_lat - lat) < 0.00015
+    assert abs(new_lng - lng) < 0.00015
+
+# Test is_similar_event for exact match and close title match
+@pytest.mark.django_db
+def test_is_similar_event(sample_cleaned_data):
+    event_data = sample_cleaned_data[0]
+    save_event_to_db(event_data)  # Save initial event
+
+    similar_data = event_data.copy()
+    similar_data['title'] = "Regular HEMAC Mtg"
+    
+    # Test similar title with same times
+    assert is_similar_event(similar_data) == True
+
+    # Test similar title with different times
+    different_time_data = event_data.copy()
+    different_time_data['starttime'] = "Sun, 20 Oct 2024 22:30:00 GMT"
+    assert is_similar_event(different_time_data) == False
+
+# Test create_events_list for correct extraction and parsing
+@patch("access_amherst_algo.rss_scraper.parse_rss.extract_event_details")
+@patch("xml.etree.ElementTree.parse")
+def test_create_events_list(mock_parse, mock_extract_event_details, xml_item_queer_talk):
+    mock_parse.return_value.getroot.return_value.findall.return_value = [xml_item_queer_talk]
+    mock_extract_event_details.return_value = {
+        "title": "Test Event",
+        "link": "https://testlink.com",
+        "starttime": "2024-10-18T20:00:00",
+        "endtime": "2024-10-18T21:00:00",
+        "location": "Test Location",
+        "categories": ["Social"]
+    }
+
+    events_list = create_events_list()
+    assert len(events_list) == 1
+    assert events_list[0]["title"] == "Test Event"
+
+# Test save_json for correct file creation and JSON output
+@patch("builtins.open", new_callable=mock_open)
+@patch("json.dump")
+def test_save_json_creates_file(mock_json_dump, mock_open):
+    events_list = [
+        {"title": "Event A", "starttime": "2024-10-18T20:00:00"},
+        {"title": "Event B", "starttime": "2024-10-19T15:00:00"}
+    ]
+    with patch("access_amherst_algo.rss_scraper.parse_rss.create_events_list", return_value=events_list):
+        save_json()
+
+    # Check file and json.dump calls
+    file_path = 'access_amherst_algo/rss_scraper/json_outputs/hub_' + datetime.now().strftime('%Y_%m_%d_%H') + '.json'
+    mock_open.assert_called_once_with(file_path, 'w')
+    mock_json_dump.assert_called_once_with(events_list, mock_open(), indent=4)

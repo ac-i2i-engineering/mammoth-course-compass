@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
-  <channel><title>Amherst College Public Events occurring between Thursday, November 7, 2024 8:36 PM EST and Saturday, December 7, 2024 8:36 PM EST</title>
-<description>A listing of public events for Amherst College occurring between Thursday, November 7, 2024 8:36 PM EST and Saturday, December 7, 2024 8:36 PM EST.</description>
+  <channel><title>Amherst College Public Events occurring between Thursday, November 7, 2024 8:49 PM EST and Saturday, December 7, 2024 8:49 PM EST</title>
+<description>A listing of public events for Amherst College occurring between Thursday, November 7, 2024 8:49 PM EST and Saturday, December 7, 2024 8:49 PM EST.</description>
 <language>en-us</language>
-<lastBuildDate>Fri, 08 Nov 2024 01:36:41 GMT</lastBuildDate>
+<lastBuildDate>Fri, 08 Nov 2024 01:49:36 GMT</lastBuildDate>
 <category>Public Events</category>
 <generator>Campus Labs Engage</generator>
 <ttl>300</ttl>
-<pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+<pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
 <link>https://thehub.amherst.edu/events</link>
 <item>
   <title>Quiz Bowl</title>
@@ -26,7 +26,7 @@
 </div>]]></description>
   <category>Social</category>
   <category>Meeting</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 08 Nov 2024 01:00:00 GMT</start>
   <end xmlns="events">Fri, 08 Nov 2024 02:00:00 GMT</end>
   <location xmlns="events">Chapin 203</location>
@@ -75,7 +75,7 @@
 </div>]]></description>
   <category>Athletics</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 08 Nov 2024 01:00:00 GMT</start>
   <end xmlns="events">Fri, 08 Nov 2024 03:00:00 GMT</end>
   <location xmlns="events">Amherst Alumni Gym (Coolidge Cage)</location>
@@ -101,7 +101,7 @@
 </div>]]></description>
   <category>Cultural</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 08 Nov 2024 16:30:00 GMT</start>
   <end xmlns="events">Fri, 08 Nov 2024 17:15:00 GMT</end>
   <location xmlns="events">Classroom 211, Frost Library</location>
@@ -126,7 +126,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 08 Nov 2024 18:30:00 GMT</start>
   <end xmlns="events">Fri, 08 Nov 2024 19:30:00 GMT</end>
   <location xmlns="events">O'Connor Common </location>
@@ -150,7 +150,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 08 Nov 2024 21:00:00 GMT</start>
   <end xmlns="events">Fri, 08 Nov 2024 22:00:00 GMT</end>
   <location xmlns="events">Queer Resource Center (Keefe 213)</location>
@@ -174,7 +174,7 @@
   </div>
 </div>]]></description>
   <category>Athletics</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 08 Nov 2024 21:30:00 GMT</start>
   <end xmlns="events">Sat, 09 Nov 2024 00:30:00 GMT</end>
   <location xmlns="events">Sattva Center for Archery Training, Northampton, MA</location>
@@ -200,7 +200,7 @@
 </div>]]></description>
   <category>Arts</category>
   <category>Arts and Crafts</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Sat, 09 Nov 2024 16:00:00 GMT</start>
   <end xmlns="events">Sat, 09 Nov 2024 18:45:00 GMT</end>
   <location xmlns="events">Montague Book Mill</location>
@@ -227,7 +227,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Sat, 09 Nov 2024 17:00:00 GMT</start>
   <end xmlns="events">Sat, 09 Nov 2024 19:00:00 GMT</end>
   <location xmlns="events">King/Wieland Grill</location>
@@ -277,7 +277,7 @@
   <category>Athletics</category>
   <category>Meeting</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Sat, 09 Nov 2024 20:00:00 GMT</start>
   <end xmlns="events">Sat, 09 Nov 2024 21:00:00 GMT</end>
   <location xmlns="events">Amherst Alumni Gym (Coolidge Cage)</location>
@@ -304,7 +304,7 @@
   </div>
 </div>]]></description>
   <category>ThoughtfulLearning</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Sat, 09 Nov 2024 22:00:00 GMT</start>
   <end xmlns="events">Sun, 10 Nov 2024 00:00:00 GMT</end>
   <location xmlns="events">Friedmann Room</location>
@@ -329,7 +329,7 @@
 </div>]]></description>
   <category>Cultural</category>
   <category>Arts and Crafts</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Sat, 09 Nov 2024 23:00:00 GMT</start>
   <end xmlns="events">Sun, 10 Nov 2024 01:00:00 GMT</end>
   <location xmlns="events">The Powerhouse</location>
@@ -375,7 +375,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Sun, 10 Nov 2024 17:00:00 GMT</start>
   <end xmlns="events">Sun, 10 Nov 2024 19:00:00 GMT</end>
   <location xmlns="events">SEL Office Keefe Campus Center </location>
@@ -401,7 +401,7 @@
   </div>
 </div>]]></description>
   <category>CommunityService</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Sun, 10 Nov 2024 18:00:00 GMT</start>
   <end xmlns="events">Sun, 10 Nov 2024 20:00:00 GMT</end>
   <location xmlns="events">Queer Resource Center</location>
@@ -426,7 +426,7 @@
 </div>]]></description>
   <category>Social</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Sun, 10 Nov 2024 17:15:00 GMT</start>
   <end xmlns="events">Sun, 10 Nov 2024 22:00:00 GMT</end>
   <location xmlns="events">Book N Plow</location>
@@ -450,7 +450,7 @@
   </div>
 </div>]]></description>
   <category>CommunityService</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Sun, 10 Nov 2024 23:30:00 GMT</start>
   <end xmlns="events">Mon, 11 Nov 2024 01:00:00 GMT</end>
   <location xmlns="events">Conway Classroom (in Alumni Gym)</location>
@@ -476,7 +476,7 @@
   <category>Social</category>
   <category>Meeting</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Mon, 11 Nov 2024 01:00:00 GMT</start>
   <end xmlns="events">Mon, 11 Nov 2024 03:00:00 GMT</end>
   <location xmlns="events">Amherst College Science Center A113</location>
@@ -500,7 +500,7 @@
   </div>
 </div>]]></description>
   <category>CommunityService</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 08 Nov 2024 16:00:00 GMT</start>
   <end xmlns="events">Mon, 11 Nov 2024 19:00:00 GMT</end>
   <location xmlns="events">Amherst Coffee</location>
@@ -525,7 +525,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Mon, 11 Nov 2024 21:00:00 GMT</start>
   <end xmlns="events">Mon, 11 Nov 2024 23:00:00 GMT</end>
   <location xmlns="events">Keefe Movie Theater</location>
@@ -549,7 +549,7 @@
   </div>
 </div>]]></description>
   <category>GroupBusiness</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 12 Nov 2024 00:00:00 GMT</start>
   <end xmlns="events">Tue, 12 Nov 2024 01:30:00 GMT</end>
   <location xmlns="events">Cole Assembly Room (Red Room), Converse Hall</location>
@@ -576,7 +576,7 @@
   </div>
 </div>]]></description>
   <category>ThoughtfulLearning</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 12 Nov 2024 01:00:00 GMT</start>
   <end xmlns="events">Tue, 12 Nov 2024 02:00:00 GMT</end>
   <location xmlns="events">Room E212</location>
@@ -600,7 +600,7 @@
   </div>
 </div>]]></description>
   <category>GroupBusiness</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 12 Nov 2024 01:30:00 GMT</start>
   <end xmlns="events">Tue, 12 Nov 2024 02:30:00 GMT</end>
   <location xmlns="events">Red Room, Converse Hall</location>
@@ -633,7 +633,7 @@
 </div>]]></description>
   <category>Athletics</category>
   <category>Meeting</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 12 Nov 2024 21:00:00 GMT</start>
   <end xmlns="events">Tue, 12 Nov 2024 22:30:00 GMT</end>
   <location xmlns="events">Alumni Gym (Middleton Gym)</location>
@@ -659,7 +659,7 @@
 </div>]]></description>
   <category>Arts</category>
   <category>Meeting</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 12 Nov 2024 22:30:00 GMT</start>
   <end xmlns="events">Wed, 13 Nov 2024 00:00:00 GMT</end>
   <location xmlns="events">Middleton Gym - Alumni Gym OR Front of Alumni Gym (Weather Depending)</location>
@@ -683,7 +683,7 @@
   </div>
 </div>]]></description>
   <category>ThoughtfulLearning</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 12 Nov 2024 23:00:00 GMT</start>
   <end xmlns="events">Wed, 13 Nov 2024 00:30:00 GMT</end>
   <location xmlns="events">Chapin 203</location>
@@ -712,7 +712,7 @@
   <category>ThoughtfulLearning</category>
   <category>Lecture</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 12 Nov 2024 22:30:00 GMT</start>
   <end xmlns="events">Wed, 13 Nov 2024 00:30:00 GMT</end>
   <location xmlns="events">Friedman Room</location>
@@ -738,7 +738,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Wed, 13 Nov 2024 00:30:00 GMT</start>
   <end xmlns="events">Wed, 13 Nov 2024 01:30:00 GMT</end>
   <location xmlns="events">Queer Resource Center (Keefe 213) </location>
@@ -762,7 +762,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Wed, 13 Nov 2024 00:00:00 GMT</start>
   <end xmlns="events">Wed, 13 Nov 2024 02:00:00 GMT</end>
   <location xmlns="events">Keefe Campus FirePit</location>
@@ -786,7 +786,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Wed, 13 Nov 2024 20:00:00 GMT</start>
   <end xmlns="events">Wed, 13 Nov 2024 22:00:00 GMT</end>
   <location xmlns="events">Keefe Campus Center 102</location>
@@ -813,7 +813,7 @@
 </div>]]></description>
   <category>ThoughtfulLearning</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Wed, 13 Nov 2024 22:00:00 GMT</start>
   <end xmlns="events">Wed, 13 Nov 2024 23:30:00 GMT</end>
   <location xmlns="events">Friedmann Room in Keefe Center</location>
@@ -837,7 +837,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 14 Nov 2024 00:30:00 GMT</start>
   <end xmlns="events">Thu, 14 Nov 2024 01:30:00 GMT</end>
   <location xmlns="events">Friedmann Room</location>
@@ -861,7 +861,7 @@
   </div>
 </div>]]></description>
   <category>CommunityService</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 14 Nov 2024 01:00:00 GMT</start>
   <end xmlns="events">Thu, 14 Nov 2024 02:00:00 GMT</end>
   <location xmlns="events">Chapin 204</location>
@@ -886,7 +886,7 @@
   </div>
 </div>]]></description>
   <category>ThoughtfulLearning</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 14 Nov 2024 20:30:00 GMT</start>
   <end xmlns="events">Thu, 14 Nov 2024 21:30:00 GMT</end>
   <location xmlns="events">Keefe Campus Center 102 </location>
@@ -911,7 +911,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 14 Nov 2024 20:30:00 GMT</start>
   <end xmlns="events">Thu, 14 Nov 2024 21:30:00 GMT</end>
   <location xmlns="events">Keefe 102</location>
@@ -936,7 +936,7 @@
   </div>
 </div>]]></description>
   <category>GroupBusiness</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 14 Nov 2024 20:30:00 GMT</start>
   <end xmlns="events">Thu, 14 Nov 2024 21:30:00 GMT</end>
   <location xmlns="events">Keefe 102</location>
@@ -962,7 +962,7 @@
 </div>]]></description>
   <category>Cultural</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 14 Nov 2024 21:00:00 GMT</start>
   <end xmlns="events">Thu, 14 Nov 2024 21:45:00 GMT</end>
   <location xmlns="events">Classroom 211, Frost Library</location>
@@ -995,7 +995,7 @@
 </div>]]></description>
   <category>Athletics</category>
   <category>Meeting</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 14 Nov 2024 21:00:00 GMT</start>
   <end xmlns="events">Thu, 14 Nov 2024 22:30:00 GMT</end>
   <location xmlns="events">Alumni Gym (Middleton Gym)</location>
@@ -1021,7 +1021,7 @@
 </div>]]></description>
   <category>Cultural</category>
   <category>Meeting</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 14 Nov 2024 22:30:00 GMT</start>
   <end xmlns="events">Thu, 14 Nov 2024 23:30:00 GMT</end>
   <location xmlns="events">Queer Resource Center 2nd Floor of Keefe</location>
@@ -1045,7 +1045,7 @@
   </div>
 </div>]]></description>
   <category>ThoughtfulLearning</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 14 Nov 2024 23:00:00 GMT</start>
   <end xmlns="events">Fri, 15 Nov 2024 00:30:00 GMT</end>
   <location xmlns="events">Chapin 203</location>
@@ -1070,7 +1070,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 15 Nov 2024 00:00:00 GMT</start>
   <end xmlns="events">Fri, 15 Nov 2024 01:00:00 GMT</end>
   <location xmlns="events">Science Center E212</location>
@@ -1119,7 +1119,7 @@
 </div>]]></description>
   <category>Athletics</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 15 Nov 2024 01:00:00 GMT</start>
   <end xmlns="events">Fri, 15 Nov 2024 03:00:00 GMT</end>
   <location xmlns="events">Amherst Alumni Gym (Coolidge Cage)</location>
@@ -1144,7 +1144,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 15 Nov 2024 21:00:00 GMT</start>
   <end xmlns="events">Fri, 15 Nov 2024 22:00:00 GMT</end>
   <location xmlns="events">Queer Resource Center (Keefe 213)</location>
@@ -1171,7 +1171,7 @@
   </div>
 </div>]]></description>
   <category>ThoughtfulLearning</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 15 Nov 2024 21:00:00 GMT</start>
   <end xmlns="events">Fri, 15 Nov 2024 22:00:00 GMT</end>
   <location xmlns="events">O'Connor Commons</location>
@@ -1196,7 +1196,7 @@
   </div>
 </div>]]></description>
   <category>Athletics</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 15 Nov 2024 21:30:00 GMT</start>
   <end xmlns="events">Sat, 16 Nov 2024 00:30:00 GMT</end>
   <location xmlns="events">Sattva Center for Archery Training, Northampton, MA</location>
@@ -1221,7 +1221,7 @@
   </div>
 </div>]]></description>
   <category>Cultural</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Sun, 17 Nov 2024 22:00:00 GMT</start>
   <end xmlns="events">Mon, 18 Nov 2024 00:00:00 GMT</end>
   <location xmlns="events">Eighmy Powerhouse</location>
@@ -1245,7 +1245,7 @@
   </div>
 </div>]]></description>
   <category>CommunityService</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Sun, 17 Nov 2024 23:30:00 GMT</start>
   <end xmlns="events">Mon, 18 Nov 2024 01:00:00 GMT</end>
   <location xmlns="events">Conway Classroom (in Alumni Gym)</location>
@@ -1269,7 +1269,7 @@
   </div>
 </div>]]></description>
   <category>GroupBusiness</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 19 Nov 2024 00:00:00 GMT</start>
   <end xmlns="events">Tue, 19 Nov 2024 01:30:00 GMT</end>
   <location xmlns="events">Cole Assembly Room (Red Room), Converse Hall</location>
@@ -1298,7 +1298,7 @@
 </div>]]></description>
   <category>Cultural</category>
   <category>Arts and Crafts</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 19 Nov 2024 16:30:00 GMT</start>
   <end xmlns="events">Tue, 19 Nov 2024 18:30:00 GMT</end>
   <location xmlns="events">Keefe Campus Center Atrium</location>
@@ -1332,7 +1332,7 @@
 </div>]]></description>
   <category>Athletics</category>
   <category>Meeting</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 19 Nov 2024 21:00:00 GMT</start>
   <end xmlns="events">Tue, 19 Nov 2024 22:30:00 GMT</end>
   <location xmlns="events">Alumni Gym (Middleton Gym)</location>
@@ -1358,7 +1358,7 @@
 </div>]]></description>
   <category>Cultural</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 19 Nov 2024 22:30:00 GMT</start>
   <end xmlns="events">Tue, 19 Nov 2024 23:15:00 GMT</end>
   <location xmlns="events">Classroom 211, Frost Library</location>
@@ -1384,7 +1384,7 @@
 </div>]]></description>
   <category>Arts</category>
   <category>Meeting</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 19 Nov 2024 22:30:00 GMT</start>
   <end xmlns="events">Wed, 20 Nov 2024 00:00:00 GMT</end>
   <location xmlns="events">Middleton Gym - Alumni Gym OR Front of Alumni Gym (Weather Depending)</location>
@@ -1408,7 +1408,7 @@
   </div>
 </div>]]></description>
   <category>ThoughtfulLearning</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 19 Nov 2024 23:00:00 GMT</start>
   <end xmlns="events">Wed, 20 Nov 2024 00:30:00 GMT</end>
   <location xmlns="events">Chapin 203</location>
@@ -1433,7 +1433,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Wed, 20 Nov 2024 00:30:00 GMT</start>
   <end xmlns="events">Wed, 20 Nov 2024 01:30:00 GMT</end>
   <location xmlns="events">Queer Resource Center (Keefe 213)</location>
@@ -1457,7 +1457,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Wed, 20 Nov 2024 20:00:00 GMT</start>
   <end xmlns="events">Wed, 20 Nov 2024 22:00:00 GMT</end>
   <location xmlns="events">Keefe Campus Center 102</location>
@@ -1482,7 +1482,7 @@
   </div>
 </div>]]></description>
   <category>CommunityService</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 21 Nov 2024 01:00:00 GMT</start>
   <end xmlns="events">Thu, 21 Nov 2024 02:00:00 GMT</end>
   <location xmlns="events">Chapin 204</location>
@@ -1507,7 +1507,7 @@
   </div>
 </div>]]></description>
   <category>ThoughtfulLearning</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 21 Nov 2024 20:30:00 GMT</start>
   <end xmlns="events">Thu, 21 Nov 2024 21:30:00 GMT</end>
   <location xmlns="events">Keefe Campus Center 102 </location>
@@ -1532,7 +1532,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 21 Nov 2024 20:30:00 GMT</start>
   <end xmlns="events">Thu, 21 Nov 2024 21:30:00 GMT</end>
   <location xmlns="events">Keefe 102</location>
@@ -1557,7 +1557,7 @@
   </div>
 </div>]]></description>
   <category>GroupBusiness</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 21 Nov 2024 20:30:00 GMT</start>
   <end xmlns="events">Thu, 21 Nov 2024 21:30:00 GMT</end>
   <location xmlns="events">Keefe 102</location>
@@ -1583,7 +1583,7 @@
 </div>]]></description>
   <category>Cultural</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 21 Nov 2024 21:00:00 GMT</start>
   <end xmlns="events">Thu, 21 Nov 2024 21:45:00 GMT</end>
   <location xmlns="events">Classroom 211, Frost Library</location>
@@ -1616,7 +1616,7 @@
 </div>]]></description>
   <category>Athletics</category>
   <category>Meeting</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 21 Nov 2024 21:00:00 GMT</start>
   <end xmlns="events">Thu, 21 Nov 2024 22:30:00 GMT</end>
   <location xmlns="events">Alumni Gym (Middleton Gym)</location>
@@ -1642,7 +1642,7 @@
 </div>]]></description>
   <category>Cultural</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Mon, 18 Nov 2024 22:00:00 GMT</start>
   <end xmlns="events">Thu, 21 Nov 2024 22:45:00 GMT</end>
   <location xmlns="events">Classroom 211, Frost Library</location>
@@ -1669,7 +1669,7 @@
   <category>Arts</category>
   <category>Meeting</category>
   <category>Arts and Crafts</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 21 Nov 2024 22:30:00 GMT</start>
   <end xmlns="events">Thu, 21 Nov 2024 23:30:00 GMT</end>
   <location xmlns="events">Chapin 119</location>
@@ -1695,7 +1695,7 @@
 </div>]]></description>
   <category>Cultural</category>
   <category>Meeting</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 21 Nov 2024 22:30:00 GMT</start>
   <end xmlns="events">Thu, 21 Nov 2024 23:30:00 GMT</end>
   <location xmlns="events">Queer Resource Center 2nd Floor of Keefe</location>
@@ -1744,7 +1744,7 @@
 </div>]]></description>
   <category>Athletics</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 22 Nov 2024 01:00:00 GMT</start>
   <end xmlns="events">Fri, 22 Nov 2024 03:00:00 GMT</end>
   <location xmlns="events">Amherst Alumni Gym (Coolidge Cage)</location>
@@ -1770,7 +1770,7 @@
 </div>]]></description>
   <category>Cultural</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 22 Nov 2024 18:00:00 GMT</start>
   <end xmlns="events">Fri, 22 Nov 2024 18:30:00 GMT</end>
   <location xmlns="events">Classroom 211, Frost Library</location>
@@ -1795,7 +1795,7 @@
   </div>
 </div>]]></description>
   <category>Cultural</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 22 Nov 2024 23:30:00 GMT</start>
   <end xmlns="events">Sat, 23 Nov 2024 00:30:00 GMT</end>
   <location xmlns="events">Friedmann Room, Keefe Campus Center</location>
@@ -1820,7 +1820,7 @@
   </div>
 </div>]]></description>
   <category>Athletics</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 22 Nov 2024 21:30:00 GMT</start>
   <end xmlns="events">Sat, 23 Nov 2024 00:30:00 GMT</end>
   <location xmlns="events">Sattva Center for Archery Training, Northampton, MA</location>
@@ -1870,7 +1870,7 @@
   <category>Athletics</category>
   <category>Meeting</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Sat, 16 Nov 2024 20:00:00 GMT</start>
   <end xmlns="events">Sat, 23 Nov 2024 21:00:00 GMT</end>
   <location xmlns="events">Amherst Alumni Gym (Coolidge Cage)</location>
@@ -1920,7 +1920,7 @@
   <category>Athletics</category>
   <category>Meeting</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Sat, 23 Nov 2024 20:00:00 GMT</start>
   <end xmlns="events">Sat, 23 Nov 2024 21:00:00 GMT</end>
   <location xmlns="events">Amherst Alumni Gym (Coolidge Cage)</location>
@@ -1944,7 +1944,7 @@
   </div>
 </div>]]></description>
   <category>GroupBusiness</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 19 Nov 2024 01:30:00 GMT</start>
   <end xmlns="events">Tue, 26 Nov 2024 02:30:00 GMT</end>
   <location xmlns="events">Red Room, Converse Hall</location>
@@ -1968,7 +1968,7 @@
   </div>
 </div>]]></description>
   <category>ThoughtfulLearning</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 26 Nov 2024 23:00:00 GMT</start>
   <end xmlns="events">Wed, 27 Nov 2024 00:30:00 GMT</end>
   <location xmlns="events">Chapin 203</location>
@@ -1993,7 +1993,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Wed, 27 Nov 2024 20:00:00 GMT</start>
   <end xmlns="events">Wed, 27 Nov 2024 22:00:00 GMT</end>
   <location xmlns="events">Keefe Campus Center 102</location>
@@ -2018,7 +2018,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 28 Nov 2024 20:30:00 GMT</start>
   <end xmlns="events">Thu, 28 Nov 2024 21:30:00 GMT</end>
   <location xmlns="events">Keefe 102</location>
@@ -2044,7 +2044,7 @@
 </div>]]></description>
   <category>Cultural</category>
   <category>Meeting</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 28 Nov 2024 22:30:00 GMT</start>
   <end xmlns="events">Thu, 28 Nov 2024 23:30:00 GMT</end>
   <location xmlns="events">Queer Resource Center 2nd Floor of Keefe</location>
@@ -2068,7 +2068,7 @@
   </div>
 </div>]]></description>
   <category>ThoughtfulLearning</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 28 Nov 2024 23:00:00 GMT</start>
   <end xmlns="events">Fri, 29 Nov 2024 00:30:00 GMT</end>
   <location xmlns="events">Chapin 203</location>
@@ -2093,7 +2093,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 22 Nov 2024 00:00:00 GMT</start>
   <end xmlns="events">Fri, 29 Nov 2024 01:00:00 GMT</end>
   <location xmlns="events">Science Center E212</location>
@@ -2142,7 +2142,7 @@
 </div>]]></description>
   <category>Athletics</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 29 Nov 2024 01:00:00 GMT</start>
   <end xmlns="events">Fri, 29 Nov 2024 03:00:00 GMT</end>
   <location xmlns="events">Amherst Alumni Gym (Coolidge Cage)</location>
@@ -2192,7 +2192,7 @@
   <category>Athletics</category>
   <category>Meeting</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Sat, 30 Nov 2024 20:00:00 GMT</start>
   <end xmlns="events">Sat, 30 Nov 2024 21:00:00 GMT</end>
   <location xmlns="events">Amherst Alumni Gym (Coolidge Cage)</location>
@@ -2216,7 +2216,7 @@
   </div>
 </div>]]></description>
   <category>CommunityService</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Sun, 01 Dec 2024 23:30:00 GMT</start>
   <end xmlns="events">Mon, 02 Dec 2024 01:00:00 GMT</end>
   <location xmlns="events">Conway Classroom (in Alumni Gym)</location>
@@ -2242,7 +2242,7 @@
   <category>Social</category>
   <category>Meeting</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Mon, 02 Dec 2024 01:00:00 GMT</start>
   <end xmlns="events">Mon, 02 Dec 2024 03:00:00 GMT</end>
   <location xmlns="events">Amherst College Science Center A113</location>
@@ -2266,7 +2266,7 @@
   </div>
 </div>]]></description>
   <category>GroupBusiness</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 03 Dec 2024 00:00:00 GMT</start>
   <end xmlns="events">Tue, 03 Dec 2024 01:30:00 GMT</end>
   <location xmlns="events">Cole Assembly Room (Red Room), Converse Hall</location>
@@ -2291,7 +2291,7 @@
   </div>
 </div>]]></description>
   <category>GroupBusiness</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 03 Dec 2024 01:30:00 GMT</start>
   <end xmlns="events">Tue, 03 Dec 2024 02:30:00 GMT</end>
   <location xmlns="events">Red Room, Converse Hall</location>
@@ -2324,7 +2324,7 @@
 </div>]]></description>
   <category>Athletics</category>
   <category>Meeting</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 03 Dec 2024 21:00:00 GMT</start>
   <end xmlns="events">Tue, 03 Dec 2024 22:30:00 GMT</end>
   <location xmlns="events">Alumni Gym (Middleton Gym)</location>
@@ -2350,7 +2350,7 @@
 </div>]]></description>
   <category>Arts</category>
   <category>Meeting</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 03 Dec 2024 22:30:00 GMT</start>
   <end xmlns="events">Wed, 04 Dec 2024 00:00:00 GMT</end>
   <location xmlns="events">Middleton Gym - Alumni Gym OR Front of Alumni Gym (Weather Depending)</location>
@@ -2374,7 +2374,7 @@
   </div>
 </div>]]></description>
   <category>ThoughtfulLearning</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Tue, 03 Dec 2024 23:00:00 GMT</start>
   <end xmlns="events">Wed, 04 Dec 2024 00:30:00 GMT</end>
   <location xmlns="events">Chapin 203</location>
@@ -2399,7 +2399,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Wed, 04 Dec 2024 00:30:00 GMT</start>
   <end xmlns="events">Wed, 04 Dec 2024 01:30:00 GMT</end>
   <location xmlns="events">Queer Resource Center (Keefe 213)</location>
@@ -2423,7 +2423,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Wed, 04 Dec 2024 20:00:00 GMT</start>
   <end xmlns="events">Wed, 04 Dec 2024 22:00:00 GMT</end>
   <location xmlns="events">Keefe Campus Center 102</location>
@@ -2448,7 +2448,7 @@
   </div>
 </div>]]></description>
   <category>CommunityService</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 05 Dec 2024 01:00:00 GMT</start>
   <end xmlns="events">Thu, 05 Dec 2024 02:00:00 GMT</end>
   <location xmlns="events">Chapin 204</location>
@@ -2473,7 +2473,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 05 Dec 2024 20:30:00 GMT</start>
   <end xmlns="events">Thu, 05 Dec 2024 21:30:00 GMT</end>
   <location xmlns="events">Keefe 102</location>
@@ -2498,7 +2498,7 @@
   </div>
 </div>]]></description>
   <category>GroupBusiness</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 05 Dec 2024 20:30:00 GMT</start>
   <end xmlns="events">Thu, 05 Dec 2024 21:30:00 GMT</end>
   <location xmlns="events">Keefe 102</location>
@@ -2523,7 +2523,7 @@
   </div>
 </div>]]></description>
   <category>GroupBusiness</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 07 Nov 2024 20:30:00 GMT</start>
   <end xmlns="events">Thu, 05 Dec 2024 21:30:00 GMT</end>
   <location xmlns="events">Keefe 102</location>
@@ -2556,7 +2556,7 @@
 </div>]]></description>
   <category>Athletics</category>
   <category>Meeting</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 05 Dec 2024 21:00:00 GMT</start>
   <end xmlns="events">Thu, 05 Dec 2024 22:30:00 GMT</end>
   <location xmlns="events">Alumni Gym (Middleton Gym)</location>
@@ -2583,7 +2583,7 @@
   <category>Arts</category>
   <category>Meeting</category>
   <category>Arts and Crafts</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 05 Dec 2024 22:30:00 GMT</start>
   <end xmlns="events">Thu, 05 Dec 2024 23:30:00 GMT</end>
   <location xmlns="events">Chapin 119</location>
@@ -2610,7 +2610,7 @@
   <category>Arts</category>
   <category>Meeting</category>
   <category>Arts and Crafts</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 05 Dec 2024 22:30:00 GMT</start>
   <end xmlns="events">Thu, 05 Dec 2024 23:30:00 GMT</end>
   <location xmlns="events">Chapin 119 </location>
@@ -2636,7 +2636,7 @@
 </div>]]></description>
   <category>Cultural</category>
   <category>Meeting</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 05 Dec 2024 22:30:00 GMT</start>
   <end xmlns="events">Thu, 05 Dec 2024 23:30:00 GMT</end>
   <location xmlns="events">Queer Resource Center 2nd Floor of Keefe</location>
@@ -2660,7 +2660,7 @@
   </div>
 </div>]]></description>
   <category>ThoughtfulLearning</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Thu, 05 Dec 2024 23:00:00 GMT</start>
   <end xmlns="events">Fri, 06 Dec 2024 00:30:00 GMT</end>
   <location xmlns="events">Chapin 203</location>
@@ -2685,7 +2685,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 06 Dec 2024 00:00:00 GMT</start>
   <end xmlns="events">Fri, 06 Dec 2024 01:00:00 GMT</end>
   <location xmlns="events">Science Center E212</location>
@@ -2734,7 +2734,7 @@
 </div>]]></description>
   <category>Athletics</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 06 Dec 2024 01:00:00 GMT</start>
   <end xmlns="events">Fri, 06 Dec 2024 03:00:00 GMT</end>
   <location xmlns="events">Amherst Alumni Gym (Coolidge Cage)</location>
@@ -2759,7 +2759,7 @@
   </div>
 </div>]]></description>
   <category>Social</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 06 Dec 2024 21:00:00 GMT</start>
   <end xmlns="events">Fri, 06 Dec 2024 22:00:00 GMT</end>
   <location xmlns="events">Queer Resource Center (Keefe 213)</location>
@@ -2783,7 +2783,7 @@
   </div>
 </div>]]></description>
   <category>Cultural</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 06 Dec 2024 23:30:00 GMT</start>
   <end xmlns="events">Sat, 07 Dec 2024 00:30:00 GMT</end>
   <location xmlns="events">Friedmann Room, Keefe Campus Center</location>
@@ -2808,7 +2808,7 @@
   </div>
 </div>]]></description>
   <category>Athletics</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Fri, 06 Dec 2024 21:30:00 GMT</start>
   <end xmlns="events">Sat, 07 Dec 2024 00:30:00 GMT</end>
   <location xmlns="events">Sattva Center for Archery Training, Northampton, MA</location>
@@ -2858,7 +2858,7 @@
   <category>Athletics</category>
   <category>Meeting</category>
   <category>Workshop</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Sat, 07 Dec 2024 20:00:00 GMT</start>
   <end xmlns="events">Sat, 07 Dec 2024 21:00:00 GMT</end>
   <location xmlns="events">Amherst Alumni Gym (Coolidge Cage)</location>
@@ -2883,7 +2883,7 @@
 </div>]]></description>
   <category>Arts</category>
   <category>Concert</category>
-  <pubDate>Fri, 08 Nov 2024 01:36:41 GMT</pubDate>
+  <pubDate>Fri, 08 Nov 2024 01:49:36 GMT</pubDate>
   <start xmlns="events">Sun, 08 Dec 2024 01:00:00 GMT</start>
   <end xmlns="events">Sun, 08 Dec 2024 03:00:00 GMT</end>
   <location xmlns="events">Eighmy Powerhouse</location>
