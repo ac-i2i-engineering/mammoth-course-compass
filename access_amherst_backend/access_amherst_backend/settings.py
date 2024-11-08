@@ -27,7 +27,7 @@ SECRET_KEY = (
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["8000-aci2iengine-accessamher-boob7wkxxw5.ws-us116.gitpod.io"]
+ALLOWED_HOSTS = ['']
 
 
 # Application definition

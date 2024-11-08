@@ -25,6 +25,7 @@ click==8.1.7
 click-didyoumean==0.3.1
 click-plugins==1.1.1
 click-repl==0.3.0
+coverage==7.6.4
 Django==5.1.1
 docstring_parser==0.16
 folium==0.18.0
@@ -53,13 +54,14 @@ grpcio-status==1.67.0
 httplib2==0.22.0
 imagesize==1.4.1
 imaplib2==3.6
+iniconfig==2.0.0
 kombu==5.4.2
 multidict==6.1.0
 numpy==2.1.2
 oauth2client==4.1.3
 opencage==3.0.2
 pandas==2.2.3
-pathspec==0.12.1
+pluggy==1.5.0
 propcache==0.2.0
 proto-plus==1.25.0
 protobuf==5.28.3
@@ -68,6 +70,9 @@ pyasn1_modules==0.4.1
 pydantic==2.9.2
 pydantic_core==2.23.4
 pyparsing==3.2.0
+pytest==8.3.3
+pytest-cov==6.0.0
+pytest-django==4.9.0
 python-dotenv==1.0.1
 pytz==2024.2
 redis==5.2.0
@@ -85,7 +90,6 @@ sqlparse==0.5.1
 tqdm==4.66.5
 tzdata==2024.2
 uritemplate==4.1.1
-vertexai==1.70.0
 vine==5.1.0
 xyzservices==2024.9.0
 yarl==1.17.1

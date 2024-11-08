@@ -8,7 +8,8 @@ import re
 import os
 from dotenv import load_dotenv
 from django.utils import timezone
-from opencage.geocoder import OpenCageGeocode
+from django.db.models import Q
+import difflib
 
 load_dotenv()
 
@@ -186,13 +187,13 @@ def extract_event_details(item):
         )
 
     # Gather categories and other event metadata
-    categories = [category.text for category in item.findall("category")]
-    pub_date = item.find("pubDate").text
-    start_time = item.find(ns + "start").text
-    end_time = item.find(ns + "end").text
-    location = item.find(ns + "location").text
-    author = item.find("author").text if item.find("author") else None
-    host = [host.text for host in item.findall(ns + "host")]
+    categories = [category.text for category in item.findall('category')]
+    pub_date = item.find('pubDate').text
+    start_time = item.find(ns + 'start').text
+    end_time = item.find(ns + 'end').text
+    location = item.find(ns + 'location').text
+    author = item.find('author').text if item.find('author') is not None else None
+    host = [host.text for host in item.findall(ns + 'host')]
 
     # Categorize the location for mapping purposes
     map_location = categorize_location(location)
@@ -336,9 +337,6 @@ def save_event_to_db(event_data):
     # get map location
     event_data["map_location"] = categorize_location(event_data["location"])
 
-    # Generate unique event ID
-    id = int(re.search(r"/(\d+)$", event_data["link"]).group(1)) + 500_000_000
-
     # Geocode to get latitude and longitude using hardcoded values
     lat, lng = get_lat_lng(event_data["map_location"])
 
@@ -348,11 +346,12 @@ def save_event_to_db(event_data):
 
     # Save or update event in the database
     Event.objects.update_or_create(
-        id=str(id),
+        id=str(event_data['id']),
         defaults={
-            "id": id,
-            "title": event_data["title"],
-            "author_name": event_data["author"],
+            "id": event_data['id'],
+            "title": event_data['title'],
+            "author_name": event_data['author_name'],
+            "author_email": event_data['author_email'],
             "pub_date": pub_date,
             "host": json.dumps(event_data["host"]),
             "link": event_data["link"],
@@ -430,6 +429,31 @@ def save_json():
     with open(output_file_name, "w") as f:
         json.dump(events_list, f, indent=4)
 
+# detect if an event already exists in database
+def is_similar_event(event_data):
+    try:
+        # Attempt to parse start and end times in ISO format first
+        iso_format = '%Y-%m-%dT%H:%M:%S'
+        start_time = timezone.make_aware(datetime.strptime(event_data['starttime'], iso_format))
+        end_time = timezone.make_aware(datetime.strptime(event_data['endtime'], iso_format))
+    except ValueError:
+        # If ISO format fails, fall back to RFC format
+        rfc_format = '%a, %d %b %Y %H:%M:%S %Z'
+        start_time = timezone.make_aware(datetime.strptime(event_data['starttime'], rfc_format))
+        end_time = timezone.make_aware(datetime.strptime(event_data['endtime'], rfc_format))
+
+    # Filter for events with matching start and end times
+    similar_events = Event.objects.filter(
+        Q(start_time=start_time) & Q(end_time=end_time)
+    )
+    
+    # Check title similarity with filtered events
+    for event in similar_events:
+        title_similarity = difflib.SequenceMatcher(None, event_data['title'], event.title).ratio()
+        if title_similarity > 0.8:  # Adjust threshold for desired strictness
+            return True
+    
+    return False
 
 # Function to clean and save events to the database
 def save_to_db():
@@ -451,10 +475,17 @@ def save_to_db():
         # This will save the cleaned event data to the database.
     """
     from access_amherst_algo.rss_scraper.clean_hub_data import clean_hub_data
+    
+    events_list = clean_hub_data()  # Get the cleaned list of events to be saved
 
-    events_list = clean_hub_data()
     for event in events_list:
-        save_event_to_db(event)
+        # Check if a similar event already exists. Cases:
+        # (if hub event, collision detection handled by update_or_create so always call save_event_to_db)
+        # (if not hub event, and not similar to something in DB, then only call save_event_to_db)
+        if int(event['id']) > 500_000_000 or not is_similar_event(event):
+            # If no similar event is found, save the event
+            save_event_to_db(event)
+
 
 
 if __name__ == "__main__":
