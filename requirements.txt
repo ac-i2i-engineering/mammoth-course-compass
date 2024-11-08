@@ -3,6 +3,7 @@ requests
 pandas
 redis
 celery
+coveralls
 pytest
 pytest-django
 pytest-cov
