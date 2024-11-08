@@ -41,6 +41,9 @@ jobs:
       run: |
         python -m black ./
     - name: Coveralls Report Submission
-      run: coveralls
+      run: |
+        pip install coverage
+        coverage run --source=./access_amherst_backend -m pytest access_amherst_backend/access_amherst_tests/
+        coveralls
       env: 
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
