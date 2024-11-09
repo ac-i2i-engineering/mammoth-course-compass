@@ -114,8 +114,8 @@ def categorize_location(location):
     Categorize a location based on keywords in the `location_buckets` dictionary.
 
     This function searches the `location` string for any keyword defined in the
-    `location_buckets` dictionary. If a keyword is found, it returns the associated 
-    category name from the dictionary. If no keyword is matched, it returns "Other" 
+    `location_buckets` dictionary. If a keyword is found, it returns the associated
+    category name from the dictionary. If no keyword is matched, it returns "Other"
     as the default category.
 
     Args:
@@ -160,7 +160,7 @@ def extract_event_details(item):
             - `location` (str): The event location as specified in the XML.
             - `categories` (list of str): Categories or tags associated with the event.
             - `map_location` (str): Categorized location name for mapping purposes.
-    
+
     Example:
         >>> event_data = extract_event_details(xml_item)
         >>> print(event_data['title'])
@@ -187,13 +187,15 @@ def extract_event_details(item):
         )
 
     # Gather categories and other event metadata
-    categories = [category.text for category in item.findall('category')]
-    pub_date = item.find('pubDate').text
-    start_time = item.find(ns + 'start').text
-    end_time = item.find(ns + 'end').text
-    location = item.find(ns + 'location').text
-    author = item.find('author').text if item.find('author') is not None else None
-    host = [host.text for host in item.findall(ns + 'host')]
+    categories = [category.text for category in item.findall("category")]
+    pub_date = item.find("pubDate").text
+    start_time = item.find(ns + "start").text
+    end_time = item.find(ns + "end").text
+    location = item.find(ns + "location").text
+    author = (
+        item.find("author").text if item.find("author") is not None else None
+    )
+    host = [host.text for host in item.findall(ns + "host")]
 
     # Categorize the location for mapping purposes
     map_location = categorize_location(location)
@@ -220,8 +222,8 @@ def get_lat_lng(location):
     Retrieve the latitude and longitude for a given location.
 
     This function searches the `location` string for any keyword defined in the
-    `location_buckets` dictionary. If a keyword is found, it returns the associated 
-    category name from the dictionary. If no keyword is matched, it returns "Other" 
+    `location_buckets` dictionary. If a keyword is found, it returns the associated
+    category name from the dictionary. If no keyword is matched, it returns "Other"
     as the default category. If a keyword is found, it returns the corresponding
     latitude and longitude. If no keyword is matched, it returns `(None, None)`.
 
@@ -296,7 +298,7 @@ def save_event_to_db(event_data):
             - `endtime` (str): Event end time in either ISO or RFC 2822 format.
             - `location` (str): Raw location string of the event.
             - `categories` (list of str): Categories or tags associated with the event.
-    
+
     Returns:
         None
 
@@ -346,12 +348,12 @@ def save_event_to_db(event_data):
 
     # Save or update event in the database
     Event.objects.update_or_create(
-        id=str(event_data['id']),
+        id=str(event_data["id"]),
         defaults={
-            "id": event_data['id'],
-            "title": event_data['title'],
-            "author_name": event_data['author_name'],
-            "author_email": event_data['author_email'],
+            "id": event_data["id"],
+            "title": event_data["title"],
+            "author_name": event_data["author_name"],
+            "author_email": event_data["author_email"],
             "pub_date": pub_date,
             "host": json.dumps(event_data["host"]),
             "link": event_data["link"],
@@ -406,8 +408,8 @@ def save_json():
     Save the list of extracted events to a JSON file.
 
     This function generates a timestamped JSON file containing event details.
-    It first creates a list of events by calling `create_events_list()`, and 
-    then writes this list to a JSON file with a filename format based on the 
+    It first creates a list of events by calling `create_events_list()`, and
+    then writes this list to a JSON file with a filename format based on the
     current date and time.
 
     The resulting JSON file is saved in the `json_outputs` directory under the
@@ -425,7 +427,9 @@ def save_json():
 
     # Define the directory and output file name
     directory = "access_amherst_algo/rss_scraper/json_outputs"
-    os.makedirs(directory, exist_ok=True)  # Create the directory if it doesn't exist
+    os.makedirs(
+        directory, exist_ok=True
+    )  # Create the directory if it doesn't exist
     output_file_name = os.path.join(
         directory, "hub_" + datetime.now().strftime("%Y_%m_%d_%H") + ".json"
     )
@@ -434,40 +438,52 @@ def save_json():
     with open(output_file_name, "w") as f:
         json.dump(events_list, f, indent=4)
 
+
 # detect if an event already exists in database
 def is_similar_event(event_data):
     try:
         # Attempt to parse start and end times in ISO format first
-        iso_format = '%Y-%m-%dT%H:%M:%S'
-        start_time = timezone.make_aware(datetime.strptime(event_data['starttime'], iso_format))
-        end_time = timezone.make_aware(datetime.strptime(event_data['endtime'], iso_format))
+        iso_format = "%Y-%m-%dT%H:%M:%S"
+        start_time = timezone.make_aware(
+            datetime.strptime(event_data["starttime"], iso_format)
+        )
+        end_time = timezone.make_aware(
+            datetime.strptime(event_data["endtime"], iso_format)
+        )
     except ValueError:
         # If ISO format fails, fall back to RFC format
-        rfc_format = '%a, %d %b %Y %H:%M:%S %Z'
-        start_time = timezone.make_aware(datetime.strptime(event_data['starttime'], rfc_format))
-        end_time = timezone.make_aware(datetime.strptime(event_data['endtime'], rfc_format))
+        rfc_format = "%a, %d %b %Y %H:%M:%S %Z"
+        start_time = timezone.make_aware(
+            datetime.strptime(event_data["starttime"], rfc_format)
+        )
+        end_time = timezone.make_aware(
+            datetime.strptime(event_data["endtime"], rfc_format)
+        )
 
     # Filter for events with matching start and end times
     similar_events = Event.objects.filter(
         Q(start_time=start_time) & Q(end_time=end_time)
     )
-    
+
     # Check title similarity with filtered events
     for event in similar_events:
-        title_similarity = difflib.SequenceMatcher(None, event_data['title'], event.title).ratio()
+        title_similarity = difflib.SequenceMatcher(
+            None, event_data["title"], event.title
+        ).ratio()
         if title_similarity > 0.8:  # Adjust threshold for desired strictness
             return True
-    
+
     return False
+
 
 # Function to clean and save events to the database
 def save_to_db():
     """
     Clean and save event data to the database.
 
-    This function first retrieves a cleaned list of events by calling the 
-    `clean_hub_data()` function. It then iterates through each event in the 
-    list and saves the event data to the database using the `save_event_to_db()` 
+    This function first retrieves a cleaned list of events by calling the
+    `clean_hub_data()` function. It then iterates through each event in the
+    list and saves the event data to the database using the `save_event_to_db()`
     function.
 
     This process ensures that only cleaned event data is stored in the database.
@@ -480,13 +496,15 @@ def save_to_db():
         # This will save the cleaned event data to the database.
     """
     from access_amherst_algo.rss_scraper.clean_hub_data import clean_hub_data
-    
-    events_list = clean_hub_data()  # Get the cleaned list of events to be saved
+
+    events_list = (
+        clean_hub_data()
+    )  # Get the cleaned list of events to be saved
 
     for event in events_list:
         # Check if a similar event already exists. Cases:
         # (if hub event, collision detection handled by update_or_create so always call save_event_to_db)
         # (if not hub event, and not similar to something in DB, then only call save_event_to_db)
-        if int(event['id']) > 500_000_000 or not is_similar_event(event):
+        if int(event["id"]) > 500_000_000 or not is_similar_event(event):
             # If no similar event is found, save the event
             save_event_to_db(event)

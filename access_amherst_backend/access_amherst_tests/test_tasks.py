@@ -8,13 +8,14 @@ from access_amherst_algo.tasks import (
     remove_old_events,
 )
 
+
 @pytest.mark.django_db
 class TestCeleryTasks:
     @patch("access_amherst_algo.tasks.call_command")
     def test_initiate_hub_workflow(self, mock_call_command):
         # Run the task
         result = initiate_hub_workflow.apply()
-        
+
         # Assert task was executed
         assert isinstance(result, EagerResult)
         assert result.status == "SUCCESS"

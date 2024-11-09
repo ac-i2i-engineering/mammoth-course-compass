@@ -15,13 +15,19 @@ class Command(BaseCommand):
 
         try:
             process_email_events()
-            self.stdout.write(self.style.SUCCESS("Successfully parsed Daily Mammoth into DB"))
+            self.stdout.write(
+                self.style.SUCCESS("Successfully parsed Daily Mammoth into DB")
+            )
         except Exception as e:
-            self.stdout.write(self.style.ERROR(f"Error processing email events: {e}"))
+            self.stdout.write(
+                self.style.ERROR(f"Error processing email events: {e}")
+            )
         finally:
             # Clear the json_outputs directory
             self._clear_directory(json_outputs_dir)
-            self.stdout.write(self.style.SUCCESS("Cleaned up json_outputs directory."))
+            self.stdout.write(
+                self.style.SUCCESS("Cleaned up json_outputs directory.")
+            )
 
     @staticmethod
     def _clear_directory(directory):

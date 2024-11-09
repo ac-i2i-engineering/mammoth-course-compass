@@ -6,38 +6,38 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('access_amherst_algo', '0006_event_map_location'),
+        ("access_amherst_algo", "0006_event_map_location"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='event',
-            name='end_time',
+            model_name="event",
+            name="end_time",
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='event',
-            name='host',
+            model_name="event",
+            name="host",
             field=models.TextField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='event',
-            name='link',
+            model_name="event",
+            name="link",
             field=models.URLField(blank=True, max_length=500, null=True),
         ),
         migrations.AlterField(
-            model_name='event',
-            name='location',
+            model_name="event",
+            name="location",
             field=models.CharField(blank=True, max_length=500, null=True),
         ),
         migrations.AlterField(
-            model_name='event',
-            name='pub_date',
+            model_name="event",
+            name="pub_date",
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='event',
-            name='start_time',
+            model_name="event",
+            name="start_time",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]

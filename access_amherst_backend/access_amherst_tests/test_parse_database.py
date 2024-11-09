@@ -1,8 +1,14 @@
 import pytest
 from django.utils import timezone
 from access_amherst_algo.models import Event
-from access_amherst_algo.parse_database import filter_events, get_unique_locations, get_events_by_hour, get_category_data
+from access_amherst_algo.parse_database import (
+    filter_events,
+    get_unique_locations,
+    get_events_by_hour,
+    get_category_data,
+)
 import pytz
+
 
 @pytest.fixture
 def create_events():
@@ -18,7 +24,7 @@ def create_events():
         longitude=-72.519444,
         event_description="Description 1",
         categories='["Category1"]',
-        pub_date=now
+        pub_date=now,
     )
     Event.objects.create(
         title="Event 2",
@@ -30,8 +36,9 @@ def create_events():
         longitude=-72.518444,
         event_description="Description 2",
         categories='["Category2"]',
-        pub_date=now
+        pub_date=now,
     )
+
 
 @pytest.mark.django_db
 def test_filter_events(create_events):
@@ -53,6 +60,7 @@ def test_filter_events(create_events):
     events = filter_events(start_date=start_date, end_date=end_date)
     assert events.count() == 2  # Assuming both events fall within the range
 
+
 @pytest.mark.django_db
 def test_get_unique_locations(create_events):
     """Test retrieving unique map locations."""
@@ -61,20 +69,22 @@ def test_get_unique_locations(create_events):
     assert "Map Location 1" in unique_locations
     assert "Map Location 2" in unique_locations
 
+
 @pytest.mark.django_db
 def test_get_events_by_hour(create_events):
     """Test grouping events by hour."""
-    timezone_est = pytz.timezone('America/New_York')
+    timezone_est = pytz.timezone("America/New_York")
     events_by_hour = get_events_by_hour(Event.objects.all(), timezone_est)
     assert len(events_by_hour) > 0
     for event in events_by_hour:
         assert "hour" in event
         assert "event_count" in event
 
+
 @pytest.mark.django_db
 def test_get_category_data(create_events):
     """Test parsing category data and grouping by hour."""
-    timezone_est = pytz.timezone('America/New_York')
+    timezone_est = pytz.timezone("America/New_York")
     category_data = get_category_data(Event.objects.all(), timezone_est)
     assert len(category_data) > 0
-    assert all('category' in data and 'hour' in data for data in category_data)
+    assert all("category" in data and "hour" in data for data in category_data)

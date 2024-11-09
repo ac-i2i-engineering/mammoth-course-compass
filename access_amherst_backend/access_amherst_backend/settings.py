@@ -21,17 +21,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = (
-    os.getenv("DJANGO_SECRET_KEY")
-)
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['access-amherst-a59g.onrender.com']
+ALLOWED_HOSTS = ["access-amherst-a59g.onrender.com"]
 
 # Application definition
 
@@ -130,23 +129,25 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Celery Configuration
-CELERY_TIMEZONE = "America/New_York"  # Match the timezone you're using in celery.py
+CELERY_TIMEZONE = (
+    "America/New_York"  # Match the timezone you're using in celery.py
+)
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60  # 30 minutes
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 # Redis Configuration (for production)
-CELERY_BROKER_URL = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
-CELERY_RESULT_BACKEND = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
+CELERY_BROKER_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+CELERY_RESULT_BACKEND = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 
 # Production settings for reliability
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BROKER_CONNECTION_MAX_RETRIES = None
 CELERY_BROKER_TRANSPORT_OPTIONS = {
-    'visibility_timeout': 21600,  # 6 hours (matching your longest interval)
-    'max_connections': 20,
-    'socket_timeout': 30,
-    'socket_connect_timeout': 30,
+    "visibility_timeout": 21600,  # 6 hours (matching your longest interval)
+    "max_connections": 20,
+    "socket_timeout": 30,
+    "socket_connect_timeout": 30,
 }
 
 # Time zone settings (should match Celery's timezone)
@@ -155,7 +156,11 @@ USE_TZ = True
 
 # Static files
 STATIC_URL = "/static/"  # URL for serving static files
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # Directory for collectstatic to copy files
+STATIC_ROOT = os.path.join(
+    BASE_DIR, "staticfiles"
+)  # Directory for collectstatic to copy files
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "access_amherst_algo/static"),  # Include app-specific static files
+    os.path.join(
+        BASE_DIR, "access_amherst_algo/static"
+    ),  # Include app-specific static files
 ]

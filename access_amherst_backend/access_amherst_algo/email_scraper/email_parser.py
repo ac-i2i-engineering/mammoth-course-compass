@@ -13,11 +13,11 @@ import logging
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,  # Set to DEBUG for detailed logs in a dev environment
-    format='%(asctime)s - %(levelname)s - %(message)s',
+    format="%(asctime)s - %(levelname)s - %(message)s",
     handlers=[
         logging.FileHandler("app.log"),  # Log to a file
-        logging.StreamHandler()         # Also log to the console
-    ]
+        logging.StreamHandler(),  # Also log to the console
+    ],
 )
 
 # Load environment variables
@@ -52,13 +52,16 @@ instruction = """
     Ensure all fields follow the exact format above. Only return the list of event JSON objects. START WITH [{. END WITH }].
 """
 
-def connect_and_fetch_latest_email(app_password, subject_filter, mail_server="imap.gmail.com"):
+
+def connect_and_fetch_latest_email(
+    app_password, subject_filter, mail_server="imap.gmail.com"
+):
     """
     Connect to the email server and fetch the latest email matching a subject filter.
 
     This function connects to the specified IMAP email server (default is Gmail),
     logs in using the provided app password, and searches for the most recent email
-    with a subject matching the `subject_filter`. It returns the email message object 
+    with a subject matching the `subject_filter`. It returns the email message object
     of the latest matching email.
 
     Args:
@@ -90,7 +93,9 @@ def connect_and_fetch_latest_email(app_password, subject_filter, mail_server="im
             logging.error(f"Failed to fetch emails: {status}")
             return None
 
-        for msg_num in messages[0].split()[-1:]:  # Only fetch the latest message
+        for msg_num in messages[0].split()[
+            -1:
+        ]:  # Only fetch the latest message
             res, msg = mail.fetch(msg_num, "(RFC822)")
             for response_part in msg:
                 if isinstance(response_part, tuple):
@@ -108,7 +113,7 @@ def extract_email_body(msg):
 
     This function connects to the specified IMAP email server (default is Gmail),
     logs in using the provided app password, and searches for the most recent email
-    with a subject matching the `subject_filter`. It returns the email message object 
+    with a subject matching the `subject_filter`. It returns the email message object
     of the latest matching email.
 
     Args:
@@ -144,9 +149,9 @@ def extract_event_info_using_llama(email_content):
     """
     Extract event info from the email content using the LLaMA API.
 
-    This function sends the provided email content to the LLaMA API for processing. 
+    This function sends the provided email content to the LLaMA API for processing.
     It sends the email content along with an instruction to extract event details.
-    If the API response is valid, the function parses and returns the extracted 
+    If the API response is valid, the function parses and returns the extracted
     event information as a list of event JSON objects.
 
     Args:
@@ -184,7 +189,9 @@ def extract_event_info_using_llama(email_content):
             logging.error(f"API Error: {error_message}")
             sys.exit(1)
 
-        extracted_events_json = response_data["choices"][0]["message"]["content"]
+        extracted_events_json = response_data["choices"][0]["message"][
+            "content"
+        ]
         events_data = json.loads(extracted_events_json)
         logging.info("Event data extracted successfully using LLaMA API.")
         return events_data
@@ -204,20 +211,20 @@ def save_to_json_file(data, filename, folder):
     The data is saved with indentation for readability and structure.
 
     Args:
-        data (dict or list): The data to be saved in JSON format. Typically, this would 
+        data (dict or list): The data to be saved in JSON format. Typically, this would
                               be a list or dictionary containing event data.
         filename (str): The name of the file where the data will be saved (e.g., 'extracted_events_20241103_124530.json').
         folder (str): The folder where the JSON file will be stored (e.g., 'json_outputs').
 
     Returns:
-        None: This function does not return any value. It prints a message upon success 
+        None: This function does not return any value. It prints a message upon success
               or failure.
 
     Example:
         >>> events = [{"title": "Literature Speaker Event", "date": "2024-11-05", "location": "Keefee Campus Center"}]
         >>> save_to_json_file(events, "extracted_events_20241103_124530.json", "json_outputs")
         Data successfully saved to json_outputs/extracted_events_20241103_124530.json
-        
+
     """
     if not os.path.exists(folder):
         os.makedirs(folder)
@@ -236,16 +243,16 @@ def parse_email(subject_filter):
     """
     Parse the email and extract event data.
 
-    This function connects to an email account, fetches the latest email based on the 
-    provided subject filter, extracts event information from the email body using the 
-    LLaMA API, and saves the extracted events to a JSON file. The file is saved with 
+    This function connects to an email account, fetches the latest email based on the
+    provided subject filter, extracts event information from the email body using the
+    LLaMA API, and saves the extracted events to a JSON file. The file is saved with
     a timestamped filename in the 'json_outputs' directory.
 
     Args:
         subject_filter (str): The subject filter to identify the relevant email to fetch.
 
     Returns:
-        None: This function does not return any value. It prints status messages 
+        None: This function does not return any value. It prints status messages
               for each stage of the process (success or failure).
 
     Example:

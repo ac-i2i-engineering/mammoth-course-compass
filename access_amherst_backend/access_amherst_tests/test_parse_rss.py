@@ -11,7 +11,7 @@ from access_amherst_algo.rss_scraper.parse_rss import (
     categorize_location,
     get_lat_lng,
     add_random_offset,
-    is_similar_event
+    is_similar_event,
 )
 from access_amherst_algo.models import Event
 from datetime import datetime
@@ -71,12 +71,19 @@ def xml_item_cricket_club():
     """
     return ET.fromstring(xml_data)
 
+
 def test_extract_event_details_cricket_club(xml_item_cricket_club):
     result = extract_event_details(xml_item_cricket_club)
     assert result["title"] == "Amherst Cricket Club Practices"
     assert result["link"] == "https://thehub.amherst.edu/event/10428285"
-    assert result["picture_link"] == "https://se-images.campuslabs.com/clink/images/8cadf245-7639-4970-bf3c-0be3d0ef46b2f593f79a-2223-4cf8-86cb-54db96a57346.png?preset=med-w"
-    assert result["event_description"] == "<div>Amherst Cricket Club Practice Details</div>"
+    assert (
+        result["picture_link"]
+        == "https://se-images.campuslabs.com/clink/images/8cadf245-7639-4970-bf3c-0be3d0ef46b2f593f79a-2223-4cf8-86cb-54db96a57346.png?preset=med-w"
+    )
+    assert (
+        result["event_description"]
+        == "<div>Amherst Cricket Club Practice Details</div>"
+    )
     assert result["pub_date"] == "Fri, 18 Oct 2024 02:21:19 GMT"
     assert result["starttime"] == "Sat, 19 Oct 2024 19:00:00 GMT"
     assert result["endtime"] == "Sat, 19 Oct 2024 20:00:00 GMT"
@@ -104,7 +111,10 @@ def test_extract_event_details_cricket_club(xml_item_cricket_club):
     assert result["endtime"] == "Sat, 19 Oct 2024 20:00:00 GMT"
     assert result["location"] == "Amherst Alumni Gym (Coolidge Cage)"
     assert result["categories"] == ["Athletics", "Meeting"]
-    assert result["author"] == "dmavani25@amherst.edu (Amherst College Cricket Club)"
+    assert (
+        result["author"]
+        == "dmavani25@amherst.edu (Amherst College Cricket Club)"
+    )
     assert result["host"] == ["Amherst College Cricket Club"]
     assert result["map_location"] == "Alumni Gymnasium"
 
@@ -280,8 +290,8 @@ def sample_cleaned_data():
 
 # Unit test with mocking
 @pytest.mark.django_db
-@patch('access_amherst_algo.rss_scraper.parse_rss.save_event_to_db')
-@patch('access_amherst_algo.rss_scraper.clean_hub_data.clean_hub_data')
+@patch("access_amherst_algo.rss_scraper.parse_rss.save_event_to_db")
+@patch("access_amherst_algo.rss_scraper.clean_hub_data.clean_hub_data")
 def test_save_to_db(mock_clean_hub_data, mock_save_event, sample_cleaned_data):
     # Mock clean_hub_data to return sample data
     mock_clean_hub_data.return_value = sample_cleaned_data
@@ -299,7 +309,7 @@ def test_save_event_creates_new_event(sample_cleaned_data):
     # Modify sample_cleaned_data to match the separated author fields
     sample_cleaned_data[0]["author_name"] = "Amherst College Cricket Club"
     sample_cleaned_data[0]["author_email"] = "dmavani25@amherst.edu"
-    
+
     # Pass the first dictionary in the list to save_event_to_db
     save_event_to_db(sample_cleaned_data[0])
 
@@ -308,22 +318,23 @@ def test_save_event_creates_new_event(sample_cleaned_data):
 
     # Retrieve the created event using the expected ID
     event = Event.objects.get(id=90_363_344 + 500_000_000)
-    
+
     # Verify event fields match the expected values
     assert event.author_name == "Amherst College Cricket Club"
     assert event.author_email == "dmavani25@amherst.edu"
+
 
 @pytest.mark.django_db
 def test_save_event_updates_existing_event(sample_cleaned_data):
     sample_cleaned_data[0]["author_name"] = "Amherst College Cricket Club"
     sample_cleaned_data[0]["author_email"] = "dmavani25@amherst.edu"
-    
+
     # Save initial event
     save_event_to_db(sample_cleaned_data[0])
 
     # Prepare updated data by modifying a copy of the initial dictionary
     updated_data = sample_cleaned_data[0].copy()
-    updated_data['title'] = 'Updated Title'
+    updated_data["title"] = "Updated Title"
     updated_data["author_name"] = "Updated Author"
 
     # Save the updated data to the database
@@ -331,14 +342,16 @@ def test_save_event_updates_existing_event(sample_cleaned_data):
 
     # Verify the event was updated
     event = Event.objects.get(id=90_363_344 + 500_000_000)
-    assert event.title == 'Updated Title'
+    assert event.title == "Updated Title"
     assert event.author_name == "Updated Author"
+
 
 # Test for categorize_location function, covering more keywords and "Other" case
 def test_categorize_location():
     assert categorize_location("Keefe Campus Center") == "Keefe Campus Center"
     assert categorize_location("Ford Hall") == "Ford Hall"
     assert categorize_location("Unknown Location") == "Other"
+
 
 # Test get_lat_lng function for known and unknown locations
 def test_get_lat_lng():
@@ -350,6 +363,7 @@ def test_get_lat_lng():
     assert lat is None
     assert lng is None
 
+
 # Test add_random_offset function with known lat/lng to verify range of offset
 def test_add_random_offset():
     lat, lng = 42.372092, -72.514224
@@ -359,44 +373,57 @@ def test_add_random_offset():
     assert abs(new_lat - lat) < 0.00015
     assert abs(new_lng - lng) < 0.00015
 
+
 # Test is_similar_event for exact match and close title match
 @pytest.mark.django_db
 def test_is_similar_event(sample_cleaned_data):
     # Add author_name and author_email to sample_cleaned_data if missing
-    sample_cleaned_data[0]["author_name"] = sample_cleaned_data[0].get("author_name", "Historical European Martial Arts Club")
-    sample_cleaned_data[0]["author_email"] = sample_cleaned_data[0].get("author_email", None)
-    
+    sample_cleaned_data[0]["author_name"] = sample_cleaned_data[0].get(
+        "author_name", "Historical European Martial Arts Club"
+    )
+    sample_cleaned_data[0]["author_email"] = sample_cleaned_data[0].get(
+        "author_email", None
+    )
+
     # Save initial event to database
     event_data = sample_cleaned_data[0]
-    save_event_to_db(event_data) 
+    save_event_to_db(event_data)
 
     # Create a similar event with a slightly different title but same start/end times
     similar_data = event_data.copy()
-    similar_data['title'] = "Regular HEMAC Mtg"  # Similar title
+    similar_data["title"] = "Regular HEMAC Mtg"  # Similar title
     assert is_similar_event(similar_data) == True  # Expecting a match
 
     # Create a similar event with a different start time
     different_time_data = event_data.copy()
-    different_time_data['starttime'] = "Sun, 20 Oct 2024 22:30:00 GMT"  # Different time
+    different_time_data["starttime"] = (
+        "Sun, 20 Oct 2024 22:30:00 GMT"  # Different time
+    )
     assert is_similar_event(different_time_data) == False  # Expecting no match
+
 
 # Test create_events_list for correct extraction and parsing
 @patch("access_amherst_algo.rss_scraper.parse_rss.extract_event_details")
 @patch("xml.etree.ElementTree.parse")
-def test_create_events_list(mock_parse, mock_extract_event_details, xml_item_queer_talk):
-    mock_parse.return_value.getroot.return_value.findall.return_value = [xml_item_queer_talk]
+def test_create_events_list(
+    mock_parse, mock_extract_event_details, xml_item_queer_talk
+):
+    mock_parse.return_value.getroot.return_value.findall.return_value = [
+        xml_item_queer_talk
+    ]
     mock_extract_event_details.return_value = {
         "title": "Test Event",
         "link": "https://testlink.com",
         "starttime": "2024-10-18T20:00:00",
         "endtime": "2024-10-18T21:00:00",
         "location": "Test Location",
-        "categories": ["Social"]
+        "categories": ["Social"],
     }
 
     events_list = create_events_list()
     assert len(events_list) == 1
     assert events_list[0]["title"] == "Test Event"
+
 
 # Test save_json for correct file creation and JSON output
 @patch("builtins.open", new_callable=mock_open)
@@ -404,12 +431,19 @@ def test_create_events_list(mock_parse, mock_extract_event_details, xml_item_que
 def test_save_json_creates_file(mock_json_dump, mock_open):
     events_list = [
         {"title": "Event A", "starttime": "2024-10-18T20:00:00"},
-        {"title": "Event B", "starttime": "2024-10-19T15:00:00"}
+        {"title": "Event B", "starttime": "2024-10-19T15:00:00"},
     ]
-    with patch("access_amherst_algo.rss_scraper.parse_rss.create_events_list", return_value=events_list):
+    with patch(
+        "access_amherst_algo.rss_scraper.parse_rss.create_events_list",
+        return_value=events_list,
+    ):
         save_json()
 
     # Check file and json.dump calls
-    file_path = 'access_amherst_algo/rss_scraper/json_outputs/hub_' + datetime.now().strftime('%Y_%m_%d_%H') + '.json'
-    mock_open.assert_called_once_with(file_path, 'w')
+    file_path = (
+        "access_amherst_algo/rss_scraper/json_outputs/hub_"
+        + datetime.now().strftime("%Y_%m_%d_%H")
+        + ".json"
+    )
+    mock_open.assert_called_once_with(file_path, "w")
     mock_json_dump.assert_called_once_with(events_list, mock_open(), indent=4)
