@@ -6,5 +6,4 @@ repos:
       language_version: python3.10
       name: black
       entry: black
-      args: [--config, pyproject.toml]
       files: \.(py|pyi)$
