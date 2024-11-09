@@ -47,7 +47,8 @@ def test_filter_events(create_events):
     assert events.first().map_location == "Map Location 2"
 
     # Test filtering by date range
-    start_date = timezone.now().date()
+    timezone_est = pytz.timezone("America/New_York")
+    start_date = timezone.now().astimezone(timezone_est).date()
     end_date = start_date + timezone.timedelta(days=1)
     events = filter_events(start_date=start_date, end_date=end_date)
     assert events.count() == 2  # Assuming both events fall within the range
