@@ -6,7 +6,7 @@ import os
 
 def clean_hub_data(events_list=None):
     """
-    Clean and preprocess a list of event data.
+    Clean and preprocess a list of data from events.
 
     This function processes a list of events by performing the following steps:
     - Removes events that are marked as "Cancelled" in the title.
