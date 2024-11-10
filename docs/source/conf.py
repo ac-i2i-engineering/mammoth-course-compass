@@ -27,7 +27,7 @@ language = "python"
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "alabaster"
-html_static_path = ["_static"]
+html_static_path = ["../build/html/_static"]
 
 # set up Django environment
 import os

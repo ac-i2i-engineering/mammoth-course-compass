@@ -19,16 +19,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = (
-    "django-insecure-g#^63*v$=mo#n=z##(nfa9v+m^c)u4^+92b3p3t#0xxpd-=j-7"
-)
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["8000-aci2iengine-accessamher-boob7wkxxw5.ws-us116.gitpod.io"]
-
+ALLOWED_HOSTS = ["access-amherst-a59g.onrender.com"]
 
 # Application definition
 
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -125,13 +128,39 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Celery tasks
-CELERY_BEAT_SCHEDULE = {
-    "delete-old-events-every-24-hours": {
-        "task": "access_amherst_algo.tasks.remove_old_events",
-        "schedule": 86400.0,  # 86400 seconds = 24 hours
-    },
+# Celery Configuration
+CELERY_TIMEZONE = (
+    "America/New_York"  # Match the timezone you're using in celery.py
+)
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60  # 30 minutes
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
+# Redis Configuration (for production)
+CELERY_BROKER_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+CELERY_RESULT_BACKEND = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+
+# Production settings for reliability
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+CELERY_BROKER_CONNECTION_MAX_RETRIES = None
+CELERY_BROKER_TRANSPORT_OPTIONS = {
+    "visibility_timeout": 21600,  # 6 hours (matching your longest interval)
+    "max_connections": 20,
+    "socket_timeout": 30,
+    "socket_connect_timeout": 30,
 }
 
-# Redis Server
-CELERY_BROKER_URL = "redis://localhost:6379/0"
+# Time zone settings (should match Celery's timezone)
+TIME_ZONE = "America/New_York"
+USE_TZ = True
+
+# Static files
+STATIC_URL = "/static/"  # URL for serving static files
+STATIC_ROOT = os.path.join(
+    BASE_DIR, "staticfiles"
+)  # Directory for collectstatic to copy files
+STATICFILES_DIRS = [
+    os.path.join(
+        BASE_DIR, "access_amherst_algo/static"
+    ),  # Include app-specific static files
+]

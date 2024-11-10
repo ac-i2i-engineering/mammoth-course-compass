@@ -1,4 +1,4 @@
-name: Django Unit Tests + CI/CD e2e Workflow
+name: Pytest + CI/CD 
 
 on:
   push:
@@ -33,7 +33,14 @@ jobs:
         pip install -r requirements.txt
     - name: Run Unit Tests with pytest framework and generate coverage report
       working-directory: ./access_amherst_backend
-      run: pytest --cov=access_amherst_algo --cov-fail-under=70
+      run: |
+        pytest --cov=access_amherst_algo --cov-config=.coveragerc --cov-fail-under=90
+    - name: Coveralls Workflow
+      working-directory: ./access_amherst_backend
+      run: |
+        coveralls --service=github
+      env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Run Django Compilation CI/CD Tests
       run: |
         python ./access_amherst_backend/manage.py test

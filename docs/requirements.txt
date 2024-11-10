@@ -1,0 +1,4 @@
+python-dotenv
+Django
+django-celery-beat
+sphinx
