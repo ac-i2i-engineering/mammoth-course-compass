@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "access_amherst_backend"
+project = "Access Amherst"
 copyright = "2024, Dhyey Mavani, Liam Davis, Ryan Ji, Shreya Hegde, Thu Hoang"
 author = "Dhyey Mavani, Liam Davis, Ryan Ji, Shreya Hegde, Thu Hoang"
 release = "0.0.0"

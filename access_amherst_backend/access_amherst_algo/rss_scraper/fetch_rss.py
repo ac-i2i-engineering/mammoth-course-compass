@@ -16,8 +16,9 @@ def fetch_rss():
     Returns:
         None
 
-    Example:
-        >>> fetch_rss()
+    Examples
+    --------
+    >>> fetch_rss()
         # This will fetch the RSS feed and save it as a timestamped XML file.
     """
     url = "https://thehub.amherst.edu/events.rss"

@@ -17,17 +17,23 @@ def clean_hub_data(events_list=None):
 
     If no `events_list` is provided, the function will create one by calling `create_events_list()`.
 
-    Args:
-        events_list (list of dict, optional): A list of events to be cleaned. If not provided,
-                                              the function will generate the list using `create_events_list()`.
+    Parameters
+    ----------
+    events_list : list of dict, optional
+        A list of events to be cleaned. If not provided, the function will generate 
+        the list using `create_events_list()`.
 
-    Returns:
-        list of dict: A list of cleaned event dictionaries, with updated author information and cancelled events removed.
+    Returns
+    -------
+    list of dict
+        A list of cleaned event dictionaries, with updated author information and 
+        cancelled events removed.
 
-    Example:
-        >>> events = clean_hub_data()
-        >>> print(events[0]["author_email"])
-        'literature@amherst.edu'
+    Examples
+    --------
+    >>> events = clean_hub_data()
+    >>> print(events[0]["author_email"])
+    'literature@amherst.edu'
     """
     if events_list is None:
         events_list = create_events_list()
