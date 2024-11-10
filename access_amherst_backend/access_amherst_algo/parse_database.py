@@ -7,7 +7,39 @@ import re
 
 
 def filter_events(query="", locations=None, start_date=None, end_date=None):
-    """Filter events based on query, location, and date range."""
+    """
+    Filter events based on a search query, location, and date range.
+
+    This function allows for filtering a list of events by title (via a search query), 
+    location (by matching the event's map location), and a date range (by filtering 
+    events that occur between the provided start and end dates). The function returns 
+    a distinct set of events that match the provided criteria.
+
+    Parameters
+    ----------
+    query : str, optional
+        The search query to filter event titles. The default is an empty string, which 
+        will not filter by title.
+    locations : list of str, optional
+        A list of locations to filter events by their map location. The default is None, 
+        meaning no location filter is applied.
+    start_date : date, optional
+        The start date to filter events by their start time. The default is None.
+    end_date : date, optional
+        The end date to filter events by their start time. The default is None.
+
+    Returns
+    -------
+    QuerySet
+        A QuerySet of distinct events that match the specified filters.
+
+    Examples
+    --------
+    >>> events = filter_events(query="Speaker", locations=["Keefe Campus Center"], 
+    >>>                         start_date="2024-11-01", end_date="2024-11-30")
+    >>> for event in events:
+    >>>     print(event.title)
+    """
     events = Event.objects.all()
 
     if query:
@@ -23,12 +55,57 @@ def filter_events(query="", locations=None, start_date=None, end_date=None):
 
 
 def get_unique_locations():
-    """Retrieve distinct event locations for filtering."""
+    """
+    Retrieve distinct event locations for filtering.
+
+    This function queries the database to return a list of unique event locations 
+    from the `map_location` field, which can be used for filtering events based on 
+    location.
+
+    Returns
+    -------
+    list
+        A list of distinct event locations.
+
+    Examples
+    --------
+    >>> locations = get_unique_locations()
+    >>> print(locations)
+    ['Keefe Campus Center', 'Science Center', ' Frost Library']
+    """
     return Event.objects.values_list("map_location", flat=True).distinct()
 
 
 def get_events_by_hour(events, timezone):
-    """Group events by the hour and adjust to specified timezone."""
+    """
+    Group events by the hour and adjust to specified timezone.
+
+    This function groups events based on the hour of their start time and adjusts 
+    the hour to the specified timezone. It excludes events with null start times, 
+    annotates each event with the hour of the start time, and counts the number of 
+    events in each hour. The final result is a list of event counts by hour, with 
+    the hour adjusted to the provided timezone.
+
+    Parameters
+    ----------
+    events : QuerySet
+        A queryset containing event data, which should include a `start_time` field.
+    timezone : pytz.timezone
+        The timezone to which the event hours should be adjusted.
+
+    Returns
+    -------
+    list
+        A list of dictionaries, each containing the hour and the corresponding event count.
+
+    Examples
+    --------
+    >>> events_by_hour = get_events_by_hour(events, pytz.timezone("America/New_York"))
+    >>> for event in events_by_hour:
+    >>>     print(event)
+    {'hour': 18, 'event_count': 5}
+    {'hour': 19, 'event_count': 3}
+    """
     events_by_hour = (
         events.exclude(
             start_time__isnull=True
@@ -55,7 +132,35 @@ def get_events_by_hour(events, timezone):
 
 
 def get_category_data(events, timezone):
-    """Parse and clean category data for events, grouping by hour."""
+    """
+    Parse and clean category data for events, grouping by hour.
+
+    This function processes a list of events, extracting and cleaning category 
+    data for each event. It filters out events with null start times, converts 
+    the event start times to the specified timezone, and then parses and normalizes 
+    the categories associated with each event. The data is returned as a list of 
+    dictionaries, each containing the cleaned category and the corresponding event hour.
+
+    Parameters
+    ----------
+    events : QuerySet
+        A queryset containing event data, which should include `start_time` and `categories` fields.
+    timezone : pytz.timezone
+        The timezone to which the event start times should be adjusted.
+
+    Returns
+    -------
+    list
+        A list of dictionaries, each containing the cleaned category and corresponding event hour.
+
+    Examples
+    --------
+    >>> category_data = get_category_data(events, pytz.timezone("America/New_York"))
+    >>> for category in category_data:
+    >>>     print(category)
+    {'category': 'Lecture', 'hour': 18}
+    {'category': 'Workshop', 'hour': 19}
+    """
     category_data = []
 
     # Filter out events with null start_time
