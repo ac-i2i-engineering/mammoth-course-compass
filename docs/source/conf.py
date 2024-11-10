@@ -26,7 +26,8 @@ language = "python"
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "sphinx_rtd_theme"
+extensions.append("sphinx_wagtail_theme")
+html_theme = 'sphinx_wagtail_theme'
 #html_static_path = ["../build/html/_static"]
 
 # set up Django environment
