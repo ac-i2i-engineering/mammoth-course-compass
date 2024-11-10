@@ -2,3 +2,4 @@ python-dotenv
 Django
 django-celery-beat
 sphinx
+beautifulsoup4
