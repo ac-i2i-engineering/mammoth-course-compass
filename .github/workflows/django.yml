@@ -1,8 +1,6 @@
 name: Pytest + CI/CD 
 
 on:
-  schedule:
-    - cron: "*/7 * * * *"
   push:
     branches:
       - master
