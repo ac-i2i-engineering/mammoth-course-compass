@@ -307,18 +307,7 @@ def save_event_to_db(event_data):
     Parameters
     ----------
     event_data : dict
-        A dictionary containing event details, expected to include:
-        - `title` (str): Title of the event.
-        - `author` (str or None): The event author if available.
-        - `pub_date` (str): The publication date in RFC 2822 format.
-        - `host` (list of str): Hosts associated with the event.
-        - `link` (str): Unique URL link to the event.
-        - `picture_link` (str or None): URL to the event’s image, if available.
-        - `event_description` (str): Description or details about the event.
-        - `starttime` (str): Event start time in either ISO or RFC 2822 format.
-        - `endtime` (str): Event end time in either ISO or RFC 2822 format.
-        - `location` (str): Raw location string of the event.
-        - `categories` (list of str): Categories or tags associated with the event.
+        A dictionary containing event details
 
     Returns
     -------
