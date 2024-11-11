@@ -78,3 +78,4 @@ uritemplate==4.1.1
 vine==5.1.0
 xyzservices==2024.9.0
 yarl==1.17.1
+sphinx_wagtail_theme
