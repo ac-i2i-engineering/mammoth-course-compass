@@ -4,3 +4,5 @@ django-celery-beat
 sphinx
 beautifulsoup4
 sphinx-wagtail-theme
+folium==0.18.0
+pytz==2024.2
