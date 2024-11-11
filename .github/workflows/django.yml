@@ -78,6 +78,7 @@ jobs:
       run: |
         git config --local user.name "github-actions[bot]"
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git checkout -b githubworkflows/cron-job || git checkout githubworkflows/cron-job
         git add .
         git commit -m "Automated workflow and cleanup commit"
         git push --set-upstream origin githubworkflows/cron-job
