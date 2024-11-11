@@ -2,6 +2,52 @@ from django.db import models
 
 
 class Event(models.Model):
+    """
+    Event model representing an event with various attributes such as title, description, time, 
+    location, and associated metadata. This class stores the details of an event and includes 
+    fields for the event's author, start and end times, location, and categories. It also provides 
+    methods for querying and manipulating event data.
+
+    Parameters
+    ----------
+    id : int
+        A unique identifier for the event (primary key).
+    title : str
+        The title of the event.
+    author_name : str, optional
+        The name of the author of the event.
+    author_email : str, optional
+        The email address of the author of the event.
+    pub_date : datetime, optional
+        The publication date of the event.
+    host : str, optional
+        A comma-separated list or JSON of hosts for the event.
+    link : str, optional
+        A URL link related to the event (e.g., a registration page or event page).
+    picture_link : str, optional
+        A URL link to an image representing the event.
+    event_description : str, optional
+        A detailed description of the event.
+    start_time : datetime, optional
+        The start time of the event.
+    end_time : datetime, optional
+        The end time of the event.
+    location : str, optional
+        The location of the event.
+    categories : str
+        A comma-separated list or JSON of categories the event belongs to.
+    latitude : float, optional
+        The latitude of the event location.
+    longitude : float, optional
+        The longitude of the event location.
+    map_location : str, optional
+        A textual description of the location on a map.
+
+    Methods
+    -------
+    __str__() :
+        Returns a string representation of the event (the event's title).
+    """
     id = models.IntegerField(
         primary_key=True, unique=True, null=False, blank=False
     )

@@ -114,19 +114,24 @@ def categorize_location(location):
     Categorize a location based on keywords in the `location_buckets` dictionary.
 
     This function searches the `location` string for any keyword defined in the
-    `location_buckets` dictionary. If a keyword is found, it returns the associated
-    category name from the dictionary. If no keyword is matched, it returns "Other"
+    `location_buckets` dictionary. If a keyword is found, it returns the associated 
+    category name from the dictionary. If no keyword is matched, it returns "Other" 
     as the default category.
 
-    Args:
-        location (str): The location description to categorize.
+    Parameters
+    ----------
+    location : str
+        The location description to categorize.
 
-    Returns:
-        str: The category name if a keyword is matched, otherwise "Other".
+    Returns
+    -------
+    str
+        The category name if a keyword is matched, otherwise "Other".
 
-    Example:
-        >>> categorize_location("Friedmann Room")
-        'Keefe Campus Center'
+    Examples
+    --------
+    >>> categorize_location("Friedmann Room")
+    'Keefe Campus Center'
     """
     for keyword, info in location_buckets.items():
         if re.search(rf"\b{keyword}\b", location, re.IGNORECASE):
@@ -143,28 +148,33 @@ def extract_event_details(item):
     title, link, description, categories, and other event metadata.
     It also handles optional fields like images and author.
 
-    Args:
-        item (xml.etree.ElementTree.Element): The XML item element containing event details.
+    Parameters
+    ----------
+    item : xml.etree.ElementTree.Element
+        The XML item element containing event details.
 
-    Returns:
-        dict: A dictionary containing event details with the following keys:
-            - `title` (str): The event title.
-            - `author` (str or None): The event author, if available.
-            - `pub_date` (str): Publication date of the event.
-            - `host` (list of str): A list of host names associated with the event.
-            - `link` (str): URL link to the event.
-            - `picture_link` (str or None): URL to the event image, if available.
-            - `event_description` (str): Parsed HTML content of the event description.
-            - `starttime` (str): Event start time.
-            - `endtime` (str): Event end time.
-            - `location` (str): The event location as specified in the XML.
-            - `categories` (list of str): Categories or tags associated with the event.
-            - `map_location` (str): Categorized location name for mapping purposes.
+    Returns
+    -------
+    dict
+        A dictionary containing event details with the following keys:
+        - `title` (str): The event title.
+        - `author` (str or None): The event author, if available.
+        - `pub_date` (str): Publication date of the event.
+        - `host` (list of str): A list of host names associated with the event.
+        - `link` (str): URL link to the event.
+        - `picture_link` (str or None): URL to the event image, if available.
+        - `event_description` (str): Parsed HTML content of the event description.
+        - `starttime` (str): Event start time.
+        - `endtime` (str): Event end time.
+        - `location` (str): The event location as specified in the XML.
+        - `categories` (list of str): Categories or tags associated with the event.
+        - `map_location` (str): Categorized location name for mapping purposes.
 
-    Example:
-        >>> event_data = extract_event_details(xml_item)
-        >>> print(event_data['title'])
-        'Literature Speaker Event'
+    Examples
+    --------
+    >>> event_data = extract_event_details(xml_item)
+    >>> print(event_data['title'])
+    'Literature Speaker Event'
     """
     ns = "{events}"
 
@@ -222,22 +232,25 @@ def get_lat_lng(location):
     Retrieve the latitude and longitude for a given location.
 
     This function searches the `location` string for any keyword defined in the
-    `location_buckets` dictionary. If a keyword is found, it returns the associated
-    category name from the dictionary. If no keyword is matched, it returns "Other"
-    as the default category. If a keyword is found, it returns the corresponding
+    `location_buckets` dictionary. If a keyword is found, it returns the associated 
     latitude and longitude. If no keyword is matched, it returns `(None, None)`.
 
-    Args:
-        location (str): The location description to search for latitude and longitude.
+    Parameters
+    ----------
+    location : str
+        The location description to search for latitude and longitude.
 
-    Returns:
-        tuple: A tuple containing:
-            - `latitude` (float or None): The latitude of the location if a match is found, otherwise None.
-            - `longitude` (float or None): The longitude of the location if a match is found, otherwise None.
+    Returns
+    -------
+    tuple
+        A tuple containing:
+        - `latitude` (float or None): The latitude of the location if a match is found, otherwise None.
+        - `longitude` (float or None): The longitude of the location if a match is found, otherwise None.
 
-    Example:
-        >>> get_lat_lng("Friedmann Room")
-        (42.37141504481807, -72.51479991450528)
+    Examples
+    --------
+    >>> get_lat_lng("Friedmann Room")
+    (42.37141504481807, -72.51479991450528)
     """
     for keyword, info in location_buckets.items():
         if re.search(rf"\b{keyword}\b", location, re.IGNORECASE):
@@ -255,18 +268,24 @@ def add_random_offset(lat, lng):
     on the map scale to create minor variations in coordinates, which is useful for
     visual distinction on maps.
 
-    Args:
-        lat (float): The original latitude coordinate.
-        lng (float): The original longitude coordinate.
+    Parameters
+    ----------
+    lat : float
+        The original latitude coordinate.
+    lng : float
+        The original longitude coordinate.
 
-    Returns:
-        tuple: A tuple containing:
-            - `lat` (float): The latitude with a random offset applied.
-            - `lng` (float): The longitude with a random offset applied.
+    Returns
+    -------
+    tuple
+        A tuple containing:
+        - `lat` (float): The latitude with a random offset applied.
+        - `lng` (float): The longitude with a random offset applied.
 
-    Example:
-        >>> add_random_offset(42.37141504481807, -72.51479991450528)
-        (42.37149564586236, -72.51478632450079)  # Results may vary due to randomness
+    Examples
+    --------
+    >>> add_random_offset(42.37141504481807, -72.51479991450528)
+    (42.37149564586236, -72.51478632450079)  # Results may vary due to randomness
     """
     # Define a small range for random offsets (in degrees)
     offset_range = 0.00015  # Adjust this value as needed for your map scale
@@ -282,40 +301,33 @@ def save_event_to_db(event_data):
 
     This function processes event data for database storage by parsing publication,
     start, and end dates into timezone-aware datetime objects, extracting and
-    adjusting location data, and generating a unique event ID. Finally, the function
+    adjusting location data, and generating a unique event ID. The function then
     updates or creates an entry in the database's `Event` table.
 
-    Args:
-        event_data (dict): A dictionary containing event details, expected to include:
-            - `title` (str): Title of the event.
-            - `author` (str or None): The event author if available.
-            - `pub_date` (str): The publication date in RFC 2822 format.
-            - `host` (list of str): Hosts associated with the event.
-            - `link` (str): Unique URL link to the event.
-            - `picture_link` (str or None): URL to the event’s image, if available.
-            - `event_description` (str): Description or details about the event.
-            - `starttime` (str): Event start time in either ISO or RFC 2822 format.
-            - `endtime` (str): Event end time in either ISO or RFC 2822 format.
-            - `location` (str): Raw location string of the event.
-            - `categories` (list of str): Categories or tags associated with the event.
+    Parameters
+    ----------
+    event_data : dict
+        A dictionary containing event details
 
-    Returns:
-        None
+    Returns
+    -------
+    None
 
-    Example:
-        >>> event_data = {
-        ...     "title": "Literature Speaker Event",
-        ...     "link": "https://thehub.amherst.edu/event/10000000",
-        ...     "event_description": "Join us to hear our speaker's talk on American Literature! Food from a local restaurant will be provided.",
-        ...     "categories": ["Lecture", "Workshop"],
-        ...     "pub_date": "Sun, 03 Nov 2024 05:30:25 GMT",
-        ...     "starttime": "Tue, 05 Nov 2024 18:00:00 GMT",
-        ...     "endtime": "Tue, 05 Nov 2024 19:00:00 GMT",
-        ...     "location": "Friedmann Room",
-        ...     "author": "literature@amherst.edu",
-        ...     "host": "Literature Club",
-        ... }
-        >>> save_event_to_db(event_data)
+    Examples
+    --------
+    >>> event_data = {
+    ...     "title": "Literature Speaker Event",
+    ...     "link": "https://thehub.amherst.edu/event/10000000",
+    ...     "event_description": "Join us to hear our speaker's talk on American Literature! Food from a local restaurant will be provided.",
+    ...     "categories": ["Lecture", "Workshop"],
+    ...     "pub_date": "Sun, 03 Nov 2024 05:30:25 GMT",
+    ...     "starttime": "Tue, 05 Nov 2024 18:00:00 GMT",
+    ...     "endtime": "Tue, 05 Nov 2024 19:00:00 GMT",
+    ...     "location": "Friedmann Room",
+    ...     "author": "literature@amherst.edu",
+    ...     "host": "Literature Club",
+    ... }
+    >>> save_event_to_db(event_data)
     """
     pub_date_format = "%a, %d %b %Y %H:%M:%S %Z"
     pub_date = timezone.make_aware(
@@ -380,14 +392,17 @@ def create_events_list():
     The event details are returned as a list of dictionaries, with each dictionary
     containing relevant information for a single event.
 
-    Returns:
-        list of dict: A list where each dictionary represents an event and contains
-        extracted details retrieved by `extract_event_details`.
+    Returns
+    -------
+    list of dict
+        A list where each dictionary represents an event and contains extracted
+        details retrieved by `extract_event_details`.
 
-    Example:
-        >>> events = create_events_list()
-        >>> print(events[0]["title"])
-        'Literature Speaker Event'
+    Examples
+    --------
+    >>> events = create_events_list()
+    >>> print(events[0]["title"])
+    'Literature Speaker Event'
     """
     rss_file_name = (
         "access_amherst_algo/rss_scraper/rss_files/hub_"
@@ -413,14 +428,15 @@ def save_json():
     current date and time.
 
     The resulting JSON file is saved in the `json_outputs` directory under the
-    `rss_scraper` folder. If the directory doesn't exist, it is created.
+    `rss_scraper` folder.
 
-    Returns:
-        None
+    Returns
+    -------
+    None
 
-    Example:
-        >>> save_json()
-        # This will create a JSON file with the event details in the specified directory.
+    Examples
+    --------
+    >>> save_json()
     """
     # Generate the events list
     events_list = create_events_list()
@@ -481,19 +497,20 @@ def save_to_db():
     """
     Clean and save event data to the database.
 
-    This function first retrieves a cleaned list of events by calling the
-    `clean_hub_data()` function. It then iterates through each event in the
-    list and saves the event data to the database using the `save_event_to_db()`
+    This function first retrieves a cleaned list of events by calling the 
+    `clean_hub_data()` function. It then iterates through each event in the 
+    list and saves the event data to the database using the `save_event_to_db()` 
     function.
 
     This process ensures that only cleaned event data is stored in the database.
 
-    Returns:
-        None
+    Returns
+    -------
+    None
 
-    Example:
-        >>> save_to_db()
-        # This will save the cleaned event data to the database.
+    Examples
+    --------
+    >>> save_to_db()
     """
     from access_amherst_algo.rss_scraper.clean_hub_data import clean_hub_data
 
