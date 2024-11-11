@@ -65,14 +65,13 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Execute Daily Mammoth Workflow, Hub Workflow, and Remove Old Events
+    - name: Execute Hub Workflow, and Remove Old Events
       working-directory: ./access_amherst_backend
       env:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
         DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
         DJANGO_SETTINGS_MODULE: ${{ secrets.DJANGO_SETTINGS_MODULE }}
       run: |
-        python manage.py daily_mammoth_workflow
         python manage.py hub_workflow
         python manage.py remove_old_events
     - name: Commit and Push to githubworkflows/cron-job
