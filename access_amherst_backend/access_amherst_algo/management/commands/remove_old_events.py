@@ -1,12 +1,15 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from access_amherst_algo.models import Event
+import pytz
 
 class Command(BaseCommand):
-    help = "Deletes events that have a start_time older than 24 hours"
+    help = "Deletes events that have a start_time older than 1 hour"
 
     def handle(self, *args, **kwargs):
-        threshold_time = timezone.now() - timezone.timedelta(hours=2)
+        est = pytz.timezone('America/New_York')
+        current_time_est = timezone.now().astimezone(est)
+        threshold_time = current_time_est - timezone.timedelta(hours=1)
         old_events = Event.objects.filter(start_time__lt=threshold_time)
         
         # Log each event that will be deleted
