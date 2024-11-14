@@ -28,9 +28,9 @@ load_dotenv()
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["access-amherst-jbqe.onrender.com"]
+ALLOWED_HOSTS = ["access-amherst-jbqe.onrender.com", "localhost", "8000-aci2iengine-accessamher-8dbwotegono.ws-us116.gitpod.io"]
 
 # Application definition
 

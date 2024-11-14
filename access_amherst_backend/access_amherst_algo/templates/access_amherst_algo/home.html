@@ -138,26 +138,38 @@
     <div class="map-button-container">
         <a href="{% url 'map' %}" class="map-button">View Map</a>
         <a href="{% url 'dashboard' %}" class="map-button">View Dashboard</a>
+        <a href="{% url 'calendar' %}" class="map-button">View Calendar</a>
     </div>
 
     <form method="GET" action="" class="search-filter-container">
         <!-- Search bar -->
         <input type="text" class="search-bar" name="query" placeholder="Search events..." value="{{ query }}" />
-
+    
         <!-- Location dropdown filter (multi-select) -->
         <select class="dropdown" name="locations" multiple>
             {% for location in unique_locations %}
-                <option value="{{ location }}" {% if location in selected_locations %}selected{% endif %}>{{ location }}</option>
+                <option value="{{ location }}" {% if location in selected_locations %}selected{% endif %}>
+                    {{ location }}
+                </option>
             {% endfor %}
         </select>
-
+    
+        <!-- Category dropdown filter (multi-select) -->
+        <select class="dropdown" name="categories" multiple>
+            {% for category in unique_categories %}
+                <option value="{{ category }}" {% if category in selected_categories %}selected{% endif %}>
+                    {{ category }}
+                </option>
+            {% endfor %}
+        </select>
+    
         <!-- Date filter -->
         <input type="date" class="date-picker" name="start_date" value="{{ start_date }}">
         <input type="date" class="date-picker" name="end_date" value="{{ end_date }}">
-        
+    
         <!-- Submit button for filters -->
         <button type="submit" class="map-button">Filter Events</button>
-    </form>
+    </form>    
 
     <div class="event-grid">
         {% for event in events %}
@@ -166,7 +178,7 @@
                 {% if event.picture_link %}
                     <img src="{{ event.picture_link }}" alt="Event image">
                 {% else %}
-                    <img src="{% static 'stock.png' %}" alt="Default event image">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.logolynx.com%2Fimages%2Flogolynx%2Fs_6a%2F6a523fd65ce2d0d9514dbe09730f8c47.png&f=1&nofb=1&ipt=aecd0db4e989c2d957cbef72cead1797407138565ff2648e20787d23b4cb62f6&ipo=images" alt="Default event image">
                 {% endif %}
             </div>
         

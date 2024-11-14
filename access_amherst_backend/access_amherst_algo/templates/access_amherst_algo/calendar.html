@@ -1,0 +1,247 @@
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Calendar View</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3e5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        h1 {
+            color: #800080;
+            text-align: center;
+            font-size: 2.5em;
+            margin: 20px 0;
+        }
+
+        .map-button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .map-button {
+            background-color: #800080;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+
+        /* Calendar specific styles */
+        :root {
+            --primary-color: #800080;
+            --bg-color: #f3e5f5;
+            --border-color: #ddd;
+            --event-text: #fff;
+            --time-column-width: 80px;
+        }
+
+        .calendar-container {
+            display: grid;
+            grid-template-columns: var(--time-column-width) repeat(7, 1fr);
+            gap: 1px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px auto;
+            border: 1px solid var(--border-color);
+            background: var(--border-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        :root {
+            --primary-color: #800080;
+            --bg-color: #f3e5f5;
+            --border-color: #ddd;
+            --event-text: #fff;
+            --time-column-width: 80px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .calendar-header {
+            text-align: center;
+            padding: 20px;
+            background: var(--bg-color);
+        }
+
+        .calendar-container {
+            display: grid;
+            grid-template-columns: var(--time-column-width) repeat(7, 1fr);
+            gap: 1px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            border: 1px solid var(--border-color);
+            background: var(--border-color);
+        }
+
+        .day-header {
+            background: var(--bg-color);
+            padding: 15px 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            position: sticky;
+            top: 0;
+            z-index: 3;
+        }
+
+        .time-column {
+            background: var(--bg-color);
+            position: sticky;
+            left: 0;
+            z-index: 2;
+        }
+
+        .time-slot {
+            height: 60px;
+            padding: 5px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+            background: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .day-column {
+            position: relative;
+            background: white;
+            min-height: 60px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .event-block {
+            position: absolute;
+            padding: 8px;
+            background-color: var(--primary-color);
+            color: var(--event-text);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            width: calc((100% - 4px) / var(--columns));
+            left: calc(var(--column) * (100% / var(--columns)));
+            opacity: 0.9;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .event-block:hover {
+            opacity: 1;
+            z-index: 4;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: scale(1.02);
+        }
+
+        .event-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .event-time {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            margin-bottom: 2px;
+        }
+
+        .event-location {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        @media (max-width: 768px) {
+            .calendar-container {
+                grid-template-columns: var(--time-column-width) repeat(3, 1fr);
+            }
+            
+            .day-header, .day-column {
+                display: none;
+            }
+            
+            .day-header:nth-child(-n+4),
+            .day-column:nth-child(-n+4) {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Events Calendar</h1>
+
+    <!-- Navigation buttons -->
+    <div class="map-button-container">
+        <a href="{% url 'home' %}" class="map-button">View Events</a>
+        <a href="{% url 'map' %}" class="map-button">View Map</a>
+        <a href="{% url 'dashboard' %}" class="map-button">View Dashboard</a>
+    </div>
+
+    <main class="calendar-container">
+        <div class="time-column" aria-hidden="true"></div>
+        {% for day in days_of_week %}
+            <div class="day-header" role="columnheader">
+                {{ day|date:"l, M d" }}
+            </div>
+        {% endfor %}
+
+        <div class="time-column">
+            {% for time in times %}
+                <div class="time-slot" role="rowheader">
+                    {{ time|time:"g:i A" }}
+                </div>
+            {% endfor %}
+        </div>
+
+        {% for day in days_of_week %}
+            <div class="day-column" role="gridcell">
+                {% with day_str=day|date:"Y-m-d" %}
+                    {% for event in events_by_day|get_item:day_str %}
+                        <div class="event-block" 
+                             style="top: {{ event.top }}px; 
+                                    height: {{ event.height }}px;
+                                    --columns: {{ event.columns }};
+                                    --column: {{ event.column }};"
+                             role="article"
+                             aria-label="{{ event.title }} from {{ event.start_time|time:'g:i A' }} to {{ event.end_time|time:'g:i A' }}">
+                            <div class="event-title">{{ event.title }}</div>
+                            <div class="event-time">{{ event.start_time|time:"g:i A" }} - {{ event.end_time|time:"g:i A" }}</div>
+                            <div class="event-location">{{ event.location }}</div>
+                        </div>
+                    {% endfor %}
+                {% endwith %}
+            </div>
+        {% endfor %}
+    </main>
+</body>
+</html>
