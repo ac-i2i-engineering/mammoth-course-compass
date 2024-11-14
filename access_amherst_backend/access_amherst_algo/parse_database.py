@@ -183,3 +183,61 @@ def get_category_data(events, timezone):
             pass
 
     return category_data
+
+
+def filter_events_by_category(events, categories):
+    """
+    Filter events by a list of categories.
+
+    Parameters
+    ----------
+    events : QuerySet
+        A queryset containing event data.
+    categories : list of str
+        A list of categories to filter events.
+
+    Returns
+    -------
+    QuerySet
+        A queryset of events matching the provided categories.
+    """
+    if categories:
+        category_regex = "|".join(re.escape(cat) for cat in categories)
+        events = events.filter(categories__iregex=rf"(\b{category_regex}\b)")
+    return events
+
+
+def clean_category(category):
+    """
+    Clean a category string to ensure it starts and ends with alphanumeric characters.
+
+    Parameters
+    ----------
+    category : str
+        The category string to clean.
+
+    Returns
+    -------
+    str
+        The cleaned category string.
+    """
+    return re.sub(r"^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$", "", category.strip())
+
+
+def get_unique_categories():
+    """
+    Retrieve unique categories from events, ensuring they start and end with alphanumeric characters.
+
+    Returns
+    -------
+    list
+        A list of unique, cleaned categories.
+    """
+    categories = Event.objects.values_list("categories", flat=True)
+    unique_categories = set()
+    for category_list in categories:
+        if category_list:
+            unique_categories.update(
+                clean_category(category) for category in category_list.split(",")
+            )
+    return sorted(unique_categories)

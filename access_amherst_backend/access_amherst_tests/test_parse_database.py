@@ -1,11 +1,15 @@
 import pytest
 from django.utils import timezone
+from django.db.models import QuerySet
 from access_amherst_algo.models import Event
 from access_amherst_algo.parse_database import (
     filter_events,
     get_unique_locations,
     get_events_by_hour,
     get_category_data,
+    filter_events_by_category, 
+    get_unique_categories, 
+    clean_category
 )
 import pytz
 
@@ -38,6 +42,34 @@ def create_events():
         categories='["Category2"]',
         pub_date=now,
     )
+
+
+@pytest.fixture
+def event_factory(db):
+    """
+    Factory fixture for creating Event instances.
+
+    Parameters
+    ----------
+    db : pytest fixture
+        Ensures access to the database during tests.
+
+    Returns
+    -------
+    callable
+        A function to create `Event` instances with customizable attributes.
+    """
+    def create_event(**kwargs):
+        return Event.objects.create(
+            title=kwargs.get("title", "Test Event"),
+            start_time=kwargs.get("start_time", None),
+            end_time=kwargs.get("end_time", None),
+            location=kwargs.get("location", "Test Location"),
+            categories=kwargs.get("categories", ""),
+            picture_link=kwargs.get("picture_link", None),
+            link=kwargs.get("link", None),
+        )
+    return create_event
 
 
 @pytest.mark.django_db
@@ -88,3 +120,56 @@ def test_get_category_data(create_events):
     category_data = get_category_data(Event.objects.all(), timezone_est)
     assert len(category_data) > 0
     assert all("category" in data and "hour" in data for data in category_data)
+
+
+@pytest.mark.django_db
+def test_filter_events_by_category(event_factory):
+    # Arrange: Create events with different categories
+    event_factory(title="Event 1", categories="Music, Sports")
+    event_factory(title="Event 2", categories="Music")
+    event_factory(title="Event 3", categories="Sports")
+    event_factory(title="Event 4", categories="Art")
+
+    # Act: Retrieve all events and filter by specific categories
+    all_events = Event.objects.all()
+    filtered_events = filter_events_by_category(all_events, ["Music", "Art"])
+
+    # Assert: Ensure the filtered events match the categories
+    assert isinstance(filtered_events, QuerySet), "The result should be a QuerySet."
+    assert filtered_events.count() == 3, "Three events should match the categories."
+    titles = [event.title for event in filtered_events]
+    assert "Event 1" in titles
+    assert "Event 2" in titles
+    assert "Event 4" in titles
+    assert "Event 3" not in titles, "Event 3 should not be included."
+
+
+@pytest.mark.django_db
+def test_get_unique_categories(event_factory):
+    """
+    Test the get_unique_categories function.
+    """
+    # Create test events with categories
+    event_factory(categories="Workshop, Lecture")
+    event_factory(categories="Seminar")
+    event_factory(categories="Workshop, Networking")
+    
+    # Get unique categories
+    unique_categories = get_unique_categories()
+    assert isinstance(unique_categories, list)
+    assert len(unique_categories) == 4  # ["Workshop", "Lecture", "Seminar", "Networking"]
+    assert set(unique_categories) == {"Workshop", "Lecture", "Seminar", "Networking"}
+
+
+def test_clean_category():
+    """
+    Test the clean_category function.
+    """
+    # Test various category strings
+    assert clean_category(" Workshop ") == "Workshop"
+    assert clean_category("!!!Lecture!!!") == "Lecture"
+    assert clean_category("(Seminar)") == "Seminar"
+    assert clean_category("Conference-123") == "Conference-123"
+    assert clean_category("!@#Special_Event$%") == "Special_Event"
+    assert clean_category("") == ""  # Edge case: Empty string
+    assert clean_category("   ") == ""  # Edge case: Whitespace only
