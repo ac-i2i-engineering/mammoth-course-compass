@@ -5,6 +5,7 @@ import os
 import difflib
 from access_amherst_algo.models import Event
 from django.db.models import Q
+import pytz
 
 
 def load_json_file(folder_path):
@@ -31,8 +32,7 @@ def load_json_file(folder_path):
 
 def parse_datetime(date_str, pub_date=None):
     """
-    Parse different datetime formats and return timezone-aware datetime object
-    Now handles time-only strings by combining them with pub_date
+    Parse datetime strings and convert to EST by applying UTC-5 offset
     """
     if not date_str:
         return None
@@ -48,28 +48,30 @@ def parse_datetime(date_str, pub_date=None):
         for fmt in formats:
             try:
                 dt = datetime.strptime(date_str, fmt)
-                return timezone.make_aware(dt)
+                # Apply 5-hour offset for EST conversion
+                dt = dt - timedelta(hours=5)
+                return pytz.utc.localize(dt)
             except ValueError:
                 continue
 
         # If that fails, try parsing as time only
         try:
-            # Parse time-only format
             time = datetime.strptime(date_str, "%H:%M:%S").time()
 
-            # If we have a pub_date, use it as the base date
             if pub_date:
                 if isinstance(pub_date, str):
                     pub_date = parse_datetime(pub_date)
 
                 if pub_date:
-                    # Combine the date from pub_date with the time
                     dt = datetime.combine(pub_date.date(), time)
-                    return timezone.make_aware(dt)
+                    # Apply 5-hour offset for EST conversion
+                    dt = dt - timedelta(hours=5)
+                    return pytz.utc.localize(dt)
 
-            # If no pub_date, use current date
             dt = datetime.combine(timezone.now().date(), time)
-            return timezone.make_aware(dt)
+            # Apply 5-hour offset for EST conversion
+            dt = dt - timedelta(hours=5)
+            return pytz.utc.localize(dt)
 
         except ValueError:
             raise ValueError(f"Unable to parse date string: {date_str}")
@@ -81,31 +83,38 @@ def parse_datetime(date_str, pub_date=None):
 
 def is_similar_event(event_data):
     """
-    Check if a similar event already exists in the database, considering start and end times only if they are present.
+    Check if a similar event exists using timezone-aware datetime comparison.
     """
     try:
+        # Try to parse the times, using pub_date as reference for time-only formats
         pub_date = parse_datetime(event_data.get("pub_date"))
         start_time = parse_datetime(event_data.get("starttime"), pub_date)
         end_time = parse_datetime(event_data.get("endtime"), pub_date)
 
-        # Start with filtering only by title similarity if times are missing
+        # Build query dynamically based on available times
+        query = Q()
+        if start_time is not None:
+            query &= Q(start_time=start_time)
+        if end_time is not None:
+            query &= Q(end_time=end_time)
+
+        # Get similar events
         similar_events = Event.objects.all()
+        if query:
+            similar_events = similar_events.filter(query)
 
-        # If start_time and end_time are provided, filter events by these times
-        if start_time and end_time:
-            similar_events = similar_events.filter(
-                Q(start_time=start_time) & Q(end_time=end_time)
-            )
-
-        # Check title similarity
+        # Check title similarity for matching events
         for event in similar_events:
             title_similarity = difflib.SequenceMatcher(
-                None, event_data["title"], event.title
+                None, 
+                event_data.get("title", "").lower(),
+                event.title.lower()
             ).ratio()
             if title_similarity > 0.8:
                 return True
 
         return False
+
     except Exception as e:
         print(f"Error checking for similar events: {e}")
         return False

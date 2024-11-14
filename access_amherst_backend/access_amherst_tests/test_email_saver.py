@@ -1,6 +1,7 @@
 import pytest
+import pytz
 from unittest.mock import patch, mock_open, MagicMock
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.utils import timezone
 import json
 import os
@@ -173,36 +174,71 @@ def test_process_email_events_error_handling(
 
 
 def test_parse_datetime_full_date():
-    """Test parsing of a full date string."""
+    """Test parsing of a full date string with EST conversion."""
     result = parse_datetime("2024-11-07")
-    assert result.date() == datetime(2024, 11, 7).date()
+    expected = datetime(2024, 11, 7) - timedelta(hours=5)
+    expected = pytz.utc.localize(expected)
+    
+    assert result.date() == expected.date()
+    assert result.tzinfo is not None  # Check timezone awareness
 
 
 def test_parse_datetime_iso_format():
-    """Test parsing of an ISO format datetime string."""
+    """Test parsing of an ISO format datetime string with EST conversion."""
     result = parse_datetime("2024-11-07T09:00:00")
-    assert result.date() == datetime(2024, 11, 7).date()
-    assert result.time() == datetime.strptime("09:00:00", "%H:%M:%S").time()
+    expected = datetime(2024, 11, 7, 9) - timedelta(hours=5)
+    expected = pytz.utc.localize(expected)
+    
+    assert result.date() == expected.date()
+    assert result.time() == expected.time()
+    assert result.tzinfo is not None  # Check timezone awareness
 
 
 def test_parse_datetime_rfc_format():
-    """Test parsing of an RFC format datetime string."""
+    """Test parsing of an RFC format datetime string with EST conversion."""
     result = parse_datetime("Thu, 07 Nov 2024 09:00:00 GMT")
-    assert result.date() == datetime(2024, 11, 7).date()
+    # 9am GMT - 5 hours = 4am EST
+    expected = datetime(2024, 11, 7, 9) - timedelta(hours=5)
+    expected = pytz.utc.localize(expected)
+    
+    assert result.date() == expected.date()
+    assert result.time() == expected.time()
+    assert result.tzinfo is not None
 
 
 def test_parse_datetime_time_only_with_pub_date():
-    """Test parsing of time-only string with pub_date."""
+    """Test parsing of time-only string with pub_date and EST conversion."""
     pub_date = "2024-11-07"
     result = parse_datetime("09:00:00", pub_date)
-    assert result.date() == datetime(2024, 11, 7).date()
-    assert result.time() == datetime.strptime("09:00:00", "%H:%M:%S").time()
+    
+    # First parse pub_date to match function behavior
+    pub_date_parsed = datetime(2024, 11, 7) - timedelta(hours=5)
+    pub_date_parsed = pytz.utc.localize(pub_date_parsed)
+    
+    # Then create expected time using pub_date as base
+    expected = datetime.combine(pub_date_parsed.date(), 
+                              datetime.strptime("09:00:00", "%H:%M:%S").time())
+    expected = expected - timedelta(hours=5)
+    expected = pytz.utc.localize(expected)
+    
+    assert result.date() == expected.date()
+    assert result.time() == expected.time()
+    assert result.tzinfo is not None
 
 
 def test_parse_datetime_time_only_without_pub_date():
-    """Test parsing of time-only string without pub_date."""
+    """Test parsing of time-only string without pub_date using current date."""
     result = parse_datetime("09:00:00")
-    assert result.date() == timezone.now().date()
+    
+    current_date = timezone.now().date()
+    expected = datetime.combine(current_date, 
+                              datetime.strptime("09:00:00", "%H:%M:%S").time())
+    expected = expected - timedelta(hours=5)
+    expected = pytz.utc.localize(expected)
+    
+    assert result.date() == expected.date()
+    assert result.time() == expected.time()
+    assert result.tzinfo is not None
 
 
 @patch("os.listdir")

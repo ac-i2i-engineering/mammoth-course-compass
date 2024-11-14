@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from access_amherst_algo.models import Event  # Import the Event model
 from bs4 import BeautifulSoup
 import random
@@ -10,6 +10,8 @@ from dotenv import load_dotenv
 from django.utils import timezone
 from django.db.models import Q
 import difflib
+from zoneinfo import ZoneInfo
+import pytz
 
 load_dotenv()
 
@@ -334,19 +336,32 @@ def save_event_to_db(event_data):
         datetime.strptime(event_data["pub_date"], pub_date_format)
     )
 
-    # Parse start and end times with multiple format handling
     try:
+        # Parse ISO format
         iso_format = "%Y-%m-%dT%H:%M:%S"
         start_time = datetime.strptime(event_data["starttime"], iso_format)
         end_time = datetime.strptime(event_data["endtime"], iso_format)
+        
+        # Subtract 5 hours to convert from UTC+0 to EST/EDT
+        start_time = start_time - timedelta(hours=5)
+        end_time = end_time - timedelta(hours=5)
+        
+        # Make timezone aware in UTC
+        start_time = pytz.utc.localize(start_time)
+        end_time = pytz.utc.localize(end_time)
     except ValueError:
+        # Parse RFC format
         rfc_format = "%a, %d %b %Y %H:%M:%S %Z"
         start_time = datetime.strptime(event_data["starttime"], rfc_format)
         end_time = datetime.strptime(event_data["endtime"], rfc_format)
-
-    start_time, end_time = timezone.make_aware(
-        start_time
-    ), timezone.make_aware(end_time)
+        
+        # Subtract 5 hours to convert from UTC+0 to EST/EDT
+        start_time = start_time - timedelta(hours=5)
+        end_time = end_time - timedelta(hours=5)
+        
+        # Make timezone aware in UTC
+        start_time = pytz.utc.localize(start_time)
+        end_time = pytz.utc.localize(end_time)
 
     # get map location
     event_data["map_location"] = categorize_location(event_data["location"])
@@ -458,35 +473,40 @@ def save_json():
 # detect if an event already exists in database
 def is_similar_event(event_data):
     try:
-        # Attempt to parse start and end times in ISO format first
+        # Parse ISO format and apply 5-hour offset
         iso_format = "%Y-%m-%dT%H:%M:%S"
-        start_time = timezone.make_aware(
-            datetime.strptime(event_data["starttime"], iso_format)
-        )
-        end_time = timezone.make_aware(
-            datetime.strptime(event_data["endtime"], iso_format)
-        )
+        start_time = datetime.strptime(event_data["starttime"], iso_format)
+        end_time = datetime.strptime(event_data["endtime"], iso_format)
+        
+        # Apply same 5-hour offset as save_event_to_db
+        start_time = start_time - timedelta(hours=5)
+        end_time = end_time - timedelta(hours=5)
+        
+        # Make timezone aware in UTC
+        start_time = pytz.utc.localize(start_time)
+        end_time = pytz.utc.localize(end_time)
     except ValueError:
-        # If ISO format fails, fall back to RFC format
+        # Parse RFC format and apply 5-hour offset
         rfc_format = "%a, %d %b %Y %H:%M:%S %Z"
-        start_time = timezone.make_aware(
-            datetime.strptime(event_data["starttime"], rfc_format)
-        )
-        end_time = timezone.make_aware(
-            datetime.strptime(event_data["endtime"], rfc_format)
-        )
+        start_time = datetime.strptime(event_data["starttime"], rfc_format)
+        end_time = datetime.strptime(event_data["endtime"], rfc_format)
+        
+        start_time = start_time - timedelta(hours=5)
+        end_time = end_time - timedelta(hours=5)
+        
+        start_time = pytz.utc.localize(start_time)
+        end_time = pytz.utc.localize(end_time)
 
-    # Filter for events with matching start and end times
+    # Rest of function stays the same
     similar_events = Event.objects.filter(
         Q(start_time=start_time) & Q(end_time=end_time)
     )
 
-    # Check title similarity with filtered events
     for event in similar_events:
         title_similarity = difflib.SequenceMatcher(
             None, event_data["title"], event.title
         ).ratio()
-        if title_similarity > 0.8:  # Adjust threshold for desired strictness
+        if title_similarity > 0.8:
             return True
 
     return False
