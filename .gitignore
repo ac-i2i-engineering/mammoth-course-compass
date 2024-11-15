@@ -167,3 +167,6 @@ docs/build
 json_outputs
 cleaned_json_outputs
 rss_files
+
+# Auto-generated database
+db.sqlite3
