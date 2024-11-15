@@ -9,6 +9,7 @@ backoff==2.2.1
 billiard==4.2.1
 black==24.10.0
 branca==0.8.0
+bs4==0.0.2
 cachetools==5.5.0
 celery==5.4.0
 cfgv==3.4.0
