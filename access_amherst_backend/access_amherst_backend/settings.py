@@ -28,9 +28,9 @@ load_dotenv()
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["access-amherst-jbqe.onrender.com"]
+ALLOWED_HOSTS = ["access-amherst-jbqe.onrender.com", "127.0.0.1"]
 
 # Application definition
 
@@ -68,6 +68,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                'django.template.context_processors.tz',
             ],
         },
     },
@@ -112,8 +113,6 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
-
-USE_I18N = True
 
 USE_TZ = True
 

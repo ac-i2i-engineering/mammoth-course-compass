@@ -3,6 +3,8 @@ import folium
 from folium.plugins import HeatMap
 from django.db.models.functions import ExtractHour
 import urllib.parse
+from datetime import datetime
+import pytz
 
 
 def create_map(center_coords, zoom_start=17):
@@ -137,6 +139,10 @@ def generate_heatmap(events, timezone, min_hour=None, max_hour=None):
     >>> folium_map.save("events_heatmap.html")  # Saves the map with heatmap to an HTML file
     """
     if min_hour is not None and max_hour is not None:
+        # Convert user-specified hours to UTC for database query
+        min_hour = datetime(1970, 1, 1, min_hour, 0, tzinfo=timezone).astimezone(pytz.utc).hour
+        max_hour = datetime(1970, 1, 1, max_hour, 59, tzinfo=timezone).astimezone(pytz.utc).hour
+
         events = events.annotate(event_hour=ExtractHour("start_time")).filter(
             event_hour__gte=min_hour, event_hour__lte=max_hour
         )

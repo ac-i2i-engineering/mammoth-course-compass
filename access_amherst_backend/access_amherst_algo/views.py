@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.management import call_command
-from django.utils.timezone import localtime
-from django.utils.dateparse import parse_date
+from django.utils import timezone
+from dateutil import parser
 from datetime import date, datetime, timedelta
 import json
 import pytz
@@ -25,14 +25,37 @@ def home(request):
     locations = request.GET.getlist("locations")
     categories = request.GET.getlist("categories")
 
-    # Calculate default start and end dates for the next week
-    today = date.today()
+    # Set local time to est
+    est = pytz.timezone("America/New_York")
+    timezone.activate(est)
+
+    # Calculate default start and end dates for the next week in est time
+    today = timezone.now().astimezone(est).date()
     default_start_date = today
     default_end_date = today + timedelta(days=7)
 
-    # Use user-provided dates or default values
-    start_date = parse_date(request.GET.get("start_date")) if request.GET.get("start_date") else default_start_date
-    end_date = parse_date(request.GET.get("end_date")) if request.GET.get("end_date") else default_end_date
+    # Use user-provided dates or default values and convert to UTC for database query
+    if request.GET.get("start_date"):
+        start_time = parser.parse(request.GET.get("start_date"))
+    else:
+        start_time = default_start_date
+    
+    start_time = datetime(
+        start_time.year, start_time.month, start_time.day, 0, 0, 0, tzinfo=pytz.timezone("America/New_York")
+    )
+    start_time = start_time.astimezone(pytz.UTC)
+    start_date = start_time.date()
+    
+    if request.GET.get("end_date"):
+        end_time = parser.parse(request.GET.get("end_date"))
+    else:
+        end_time = default_end_date
+        
+    end_time = datetime(
+        end_time.year, end_time.month, end_time.day, 23, 59, 59, tzinfo=pytz.timezone("America/New_York")
+    )
+    end_time = end_time.astimezone(pytz.UTC)
+    end_date = end_time.date()
 
     # Filter events
     events = filter_events(
@@ -51,8 +74,8 @@ def home(request):
             "query": query,
             "selected_locations": locations,
             "selected_categories": categories,
-            "start_date": start_date.isoformat(),
-            "end_date": end_date.isoformat(),
+            "start_date": start_time.date().isoformat(),
+            "end_date": end_time.date().isoformat(),
             "unique_locations": get_unique_locations(),
             "unique_categories": get_unique_categories(),
         },
@@ -112,12 +135,16 @@ def update_heatmap(request):
 
 
 def calendar_view(request):
-    today = localtime().date()
+    est = pytz.timezone("America/New_York")
+    timezone.activate(est)
+    today = timezone.now().astimezone(est).date()
     days_of_week = [(today + timedelta(days=i)) for i in range(7)]
     times = [datetime.strptime(f"{hour}:00", "%H:%M").time() for hour in range(5, 23)]
 
-    start_date = days_of_week[0]
-    end_date = days_of_week[-1]
+    start_date = datetime(days_of_week[0].year, days_of_week[0].month, days_of_week[0].day, 0, 0, 0, 
+                          tzinfo=pytz.timezone("America/New_York")).astimezone(pytz.UTC).date()
+    end_date = datetime(days_of_week[-1].year, days_of_week[-1].month, days_of_week[-1].day, 23, 59, 59,
+                        tzinfo=pytz.timezone("America/New_York")).astimezone(pytz.UTC).date()
     events = filter_events(start_date=start_date, end_date=end_date)
 
     events_by_day = {}
@@ -126,17 +153,20 @@ def calendar_view(request):
     
     # Group events by day and calculate overlaps
     for event in events:
-        event_date = event.start_time.date()
+        start_time_est = event.start_time.astimezone(pytz.timezone("America/New_York"))
+        end_time_est = event.end_time.astimezone(pytz.timezone("America/New_York"))
+
+        event_date = start_time_est.date()
         event_date_str = event_date.strftime('%Y-%m-%d')
         if event_date_str in events_by_day:
             event_obj = {
                 "title": event.title,
                 "location": event.location,
-                "start_time": event.start_time,
-                "end_time": event.end_time,
-                "top": (event.start_time.hour - 7) * 60 + event.start_time.minute,
-                "height": ((event.end_time.hour - event.start_time.hour) * 60 + 
-                          (event.end_time.minute - event.start_time.minute)),
+                "start_time": start_time_est,
+                "end_time": end_time_est,
+                "top": (start_time_est.hour - 7) * 60 + start_time_est.minute,
+                "height": ((end_time_est.hour - start_time_est.hour) * 60 + 
+                          (end_time_est.minute - start_time_est.minute)),
                 "column": 0,  # Will be set during overlap detection
                 "columns": 1  # Will be set during overlap detection
             }
@@ -148,7 +178,7 @@ def calendar_view(request):
             continue
             
         # Sort events by start time
-        events.sort(key=lambda x: x['start_time'])
+        events.sort(key=lambda x: x['start_time'].astimezone(pytz.timezone("America/New_York")))
         
         # Find overlapping groups
         for i, event in enumerate(events):

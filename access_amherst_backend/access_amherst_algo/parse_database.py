@@ -119,9 +119,9 @@ def get_events_by_hour(events, timezone):
     # Convert to local time
     for event in events_by_hour:
         if event["hour"] is not None:  # Handle None values
-            start_time_utc = datetime.combine(
-                datetime.now(), time(event["hour"])
-            ).replace(tzinfo=pytz.utc)
+            # Create a datetime object for the event hour in UTC
+            start_time_utc = datetime(1970, 1, 1, event["hour"], tzinfo=pytz.utc)
+            # Convert to the specified timezone
             event["hour"] = start_time_utc.astimezone(timezone).hour
         else:
             event["hour"] = (
