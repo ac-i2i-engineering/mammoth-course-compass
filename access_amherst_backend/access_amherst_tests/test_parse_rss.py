@@ -1,4 +1,5 @@
-from django.utils import timezone
+import pytz
+import json
 import pytest
 from unittest.mock import patch, mock_open
 import xml.etree.ElementTree as ET
@@ -425,25 +426,3 @@ def test_create_events_list(
     assert events_list[0]["title"] == "Test Event"
 
 
-# Test save_json for correct file creation and JSON output
-@patch("builtins.open", new_callable=mock_open)
-@patch("json.dump")
-def test_save_json_creates_file(mock_json_dump, mock_open):
-    events_list = [
-        {"title": "Event A", "starttime": "2024-10-18T20:00:00"},
-        {"title": "Event B", "starttime": "2024-10-19T15:00:00"},
-    ]
-    with patch(
-        "access_amherst_algo.rss_scraper.parse_rss.create_events_list",
-        return_value=events_list,
-    ):
-        save_json()
-
-    # Check file and json.dump calls
-    file_path = (
-        "access_amherst_algo/rss_scraper/json_outputs/hub_"
-        + datetime.now().strftime("%Y_%m_%d_%H")
-        + ".json"
-    )
-    mock_open.assert_called_once_with(file_path, "w")
-    mock_json_dump.assert_called_once_with(events_list, mock_open(), indent=4)

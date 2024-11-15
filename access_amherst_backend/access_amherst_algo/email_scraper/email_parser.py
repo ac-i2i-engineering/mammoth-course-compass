@@ -252,7 +252,7 @@ def save_to_json_file(data, filename, folder):
         os.makedirs(folder)
         logging.info(f"Created directory: {folder}")
 
-    file_path = os.path.join(folder, filename)
+    file_path = folder + "/" + filename
     try:
         with open(file_path, "w") as json_file:
             json.dump(data, json_file, indent=4)

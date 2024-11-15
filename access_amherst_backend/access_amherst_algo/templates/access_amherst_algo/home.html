@@ -174,22 +174,24 @@
     <div class="event-grid">
         {% for event in events %}
         <div class="event-item">
+            {% load tz %}
             <div class="event-item">
                 {% if event.picture_link %}
                     <img src="{{ event.picture_link }}" alt="Event image">
                 {% else %}
-                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.logolynx.com%2Fimages%2Flogolynx%2Fs_6a%2F6a523fd65ce2d0d9514dbe09730f8c47.png&f=1&nofb=1&ipt=aecd0db4e989c2d957cbef72cead1797407138565ff2648e20787d23b4cb62f6&ipo=images" alt="Default event image">
+                    <img src="https://logodix.com/logo/1182384.png" alt="Default event image">
                 {% endif %}
             </div>
         
             <div class="event-title">{{ event.title }}</div>
-            <div class="event-info"><strong>Date:</strong> {{ event.start_time|date:"M d, Y" }}</div>
+            <div class="event-info"><strong>Date:</strong>
+                {{ event.start_time|localtime }}</div>
             <div class="event-info"><strong>Location:</strong> {{ event.location }}</div>
             <a href="{{ event.link }}" class="event-link">More info</a>
     
             <!-- Add to Google Calendar Button at the bottom -->
-            <a 
-                href="https://www.google.com/calendar/render?action=TEMPLATE&text={{ event.title|urlencode }}&dates={{ event.start_time|date:"Ymd\\THis" }}Z/{{ event.end_time|date:"Ymd\\THis" }}Z&details={{ event.description|urlencode }}&location={{ event.location|urlencode }}" 
+            <a
+                href="https://www.google.com/calendar/render?action=TEMPLATE&text={{ event.title|urlencode }}&dates={{ event.start_time|localtime|date:"Ymd\\THis" }}/{{ event.end_time|localtime|date:"Ymd\\THis" }}&details={{ event.description|urlencode }}&location={{ event.location|urlencode }}" 
                 target="_blank" 
                 class="calendar-button">
                 Add to Google Calendar

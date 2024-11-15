@@ -102,7 +102,7 @@ def test_save_to_json_file(mock_makedirs, mock_exists, mock_open):
     """Test saving extracted events to a JSON file."""
     filename = "test_events.json"
     folder = "json_outputs"
-    file_path = os.path.join(folder, filename)
+    file_path = folder + "/" + filename
 
     # Call the function to save data to a JSON file
     save_to_json_file(mock_response_json, filename, folder)
@@ -227,6 +227,50 @@ def test_parse_email_connect_exception(mock_connect_and_fetch_latest_email):
     with pytest.raises(Exception):
         parse_email("Test Subject")
 
+@patch("access_amherst_algo.email_scraper.email_parser.requests.post")
+def test_extract_event_info_using_llama_success(mock_post, setup_mock_env_vars):
+    """Test successful extraction of event information using the LLaMA API."""
+    mock_post.return_value.status_code = 200
+    mock_post.return_value.json.return_value = {
+        "choices": [{"message": {"content": json.dumps(mock_response_json)}}]
+    }
+
+    extracted_events = extract_event_info_using_llama(email_content)
+    assert extracted_events == mock_response_json
+
+
+@patch("access_amherst_algo.email_scraper.email_parser.requests.post")
+def test_extract_event_info_using_llama_api_failure(mock_post, setup_mock_env_vars):
+    """Test API failure in extract_event_info_using_llama."""
+    mock_post.return_value.status_code = 500
+    mock_post.return_value.json.return_value = {}
+
+    extracted_events = extract_event_info_using_llama(email_content)
+    assert extracted_events == []
+
+
+@patch("access_amherst_algo.email_scraper.email_parser.requests.post")
+def test_extract_event_info_using_llama_invalid_json(mock_post, setup_mock_env_vars):
+    """Test invalid JSON response handling in extract_event_info_using_llama."""
+    mock_post.return_value.status_code = 200
+    mock_post.return_value.json.return_value = {
+        "choices": [{"message": {"content": "invalid json"}}]
+    }
+
+    extracted_events = extract_event_info_using_llama(email_content)
+    assert extracted_events == []
+
+
+@patch("access_amherst_algo.email_scraper.email_parser.requests.post")
+def test_extract_event_info_using_llama_key_error(mock_post, setup_mock_env_vars):
+    """Test KeyError handling in extract_event_info_using_llama."""
+    mock_post.return_value.status_code = 200
+    mock_post.return_value.json.return_value = {
+        "choices": [{"message": {}}]
+    }
+
+    extracted_events = extract_event_info_using_llama(email_content)
+    assert extracted_events == []
 
 if __name__ == "__main__":
     pytest.main()

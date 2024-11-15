@@ -49,9 +49,10 @@ def test_clean_hub_data(
     assert cleaned_events[0]["author_name"] == "Amherst College Cricket Club"
     assert cleaned_events[0]["author_email"] == "dmavani25@amherst.edu"
 
-    mock_open.assert_called_once_with(
+    expected_filename = (
         "access_amherst_algo/rss_scraper/cleaned_json_outputs/hub_"
         + datetime.now().strftime("%Y_%m_%d_%H")
-        + ".json",
-        "w",
+        + ".json"
     )
+
+    mock_open.assert_called_once_with(expected_filename, "w")

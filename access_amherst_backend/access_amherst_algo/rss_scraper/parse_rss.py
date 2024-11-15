@@ -7,10 +7,9 @@ import random
 import re
 import os
 from dotenv import load_dotenv
-from django.utils import timezone
 from django.db.models import Q
 import difflib
-from zoneinfo import ZoneInfo
+from dateutil import parser
 import pytz
 
 load_dotenv()
@@ -331,37 +330,22 @@ def save_event_to_db(event_data):
     ... }
     >>> save_event_to_db(event_data)
     """
-    pub_date_format = "%a, %d %b %Y %H:%M:%S %Z"
-    pub_date = timezone.make_aware(
-        datetime.strptime(event_data["pub_date"], pub_date_format)
-    )
 
-    try:
-        # Parse ISO format
-        iso_format = "%Y-%m-%dT%H:%M:%S"
-        start_time = datetime.strptime(event_data["starttime"], iso_format)
-        end_time = datetime.strptime(event_data["endtime"], iso_format)
-        
-        # Subtract 5 hours to convert from UTC+0 to EST/EDT
-        start_time = start_time - timedelta(hours=5)
-        end_time = end_time - timedelta(hours=5)
-        
-        # Make timezone aware in UTC
-        start_time = pytz.utc.localize(start_time)
-        end_time = pytz.utc.localize(end_time)
-    except ValueError:
-        # Parse RFC format
-        rfc_format = "%a, %d %b %Y %H:%M:%S %Z"
-        start_time = datetime.strptime(event_data["starttime"], rfc_format)
-        end_time = datetime.strptime(event_data["endtime"], rfc_format)
-        
-        # Subtract 5 hours to convert from UTC+0 to EST/EDT
-        start_time = start_time - timedelta(hours=5)
-        end_time = end_time - timedelta(hours=5)
-        
-        # Make timezone aware in UTC
-        start_time = pytz.utc.localize(start_time)
-        end_time = pytz.utc.localize(end_time)
+    # Parse dates and times
+    pub_date = parser.parse(event_data["pub_date"])
+    start_time = parser.parse(event_data["starttime"])
+    end_time = parser.parse(event_data["endtime"])
+    
+    # Check if the dates are in UTC, if not, convert them to UTC
+    # NOTE: It best practice to store all dates in UTC in the database
+    if pub_date.tzinfo is None or pub_date.tzinfo.utcoffset(pub_date) != pytz.UTC.utcoffset(pub_date):
+        pub_date = pub_date.astimezone(pytz.UTC)
+
+    if start_time.tzinfo is None or start_time.tzinfo.utcoffset(start_time) != pytz.UTC.utcoffset(start_time):
+        start_time = start_time.astimezone(pytz.UTC)
+
+    if end_time.tzinfo is None or end_time.tzinfo.utcoffset(end_time) != pytz.UTC.utcoffset(end_time):
+        end_time = end_time.astimezone(pytz.UTC)
 
     # get map location
     event_data["map_location"] = categorize_location(event_data["location"])
@@ -461,9 +445,7 @@ def save_json():
     os.makedirs(
         directory, exist_ok=True
     )  # Create the directory if it doesn't exist
-    output_file_name = os.path.join(
-        directory, "hub_" + datetime.now().strftime("%Y_%m_%d_%H") + ".json"
-    )
+    output_file_name = directory + "/hub_" + datetime.now().strftime("%Y_%m_%d_%H") + ".json"
 
     # Save the events list to a JSON file
     with open(output_file_name, "w") as f:
@@ -472,30 +454,16 @@ def save_json():
 
 # detect if an event already exists in database
 def is_similar_event(event_data):
-    try:
-        # Parse ISO format and apply 5-hour offset
-        iso_format = "%Y-%m-%dT%H:%M:%S"
-        start_time = datetime.strptime(event_data["starttime"], iso_format)
-        end_time = datetime.strptime(event_data["endtime"], iso_format)
-        
-        # Apply same 5-hour offset as save_event_to_db
-        start_time = start_time - timedelta(hours=5)
-        end_time = end_time - timedelta(hours=5)
-        
-        # Make timezone aware in UTC
-        start_time = pytz.utc.localize(start_time)
-        end_time = pytz.utc.localize(end_time)
-    except ValueError:
-        # Parse RFC format and apply 5-hour offset
-        rfc_format = "%a, %d %b %Y %H:%M:%S %Z"
-        start_time = datetime.strptime(event_data["starttime"], rfc_format)
-        end_time = datetime.strptime(event_data["endtime"], rfc_format)
-        
-        start_time = start_time - timedelta(hours=5)
-        end_time = end_time - timedelta(hours=5)
-        
-        start_time = pytz.utc.localize(start_time)
-        end_time = pytz.utc.localize(end_time)
+    # Parse RFC format and apply 5-hour offset
+    start_time = parser.parse(event_data["starttime"])
+    end_time = parser.parse(event_data["endtime"])
+    
+    # Check if the dates are in UTC, if not, convert them to UTC
+    if start_time.tzinfo is None or start_time.tzinfo.utcoffset(start_time) != pytz.UTC.utcoffset(start_time):
+        start_time = start_time.astimezone(pytz.UTC)
+    
+    if end_time.tzinfo is None or end_time.tzinfo.utcoffset(end_time) != pytz.UTC.utcoffset(end_time):
+        end_time = end_time.astimezone(pytz.UTC)
 
     # Rest of function stays the same
     similar_events = Event.objects.filter(

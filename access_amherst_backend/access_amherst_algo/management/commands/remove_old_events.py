@@ -10,6 +10,7 @@ class Command(BaseCommand):
         est = pytz.timezone('America/New_York')
         current_time_est = timezone.now().astimezone(est)
         threshold_time = current_time_est - timezone.timedelta(hours=1)
+        threshold_time = threshold_time.astimezone(pytz.utc)
         old_events = Event.objects.filter(start_time__lt=threshold_time)
         
         # Log each event that will be deleted
