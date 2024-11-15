@@ -67,9 +67,7 @@ def clean_hub_data(events_list=None):
     # Define the directory and output file name
     directory = "access_amherst_algo/rss_scraper/cleaned_json_outputs"
     os.makedirs(directory, exist_ok=True)  # Ensure the directory exists
-    output_file_name = os.path.join(
-        directory, "hub_" + datetime.now().strftime("%Y_%m_%d_%H") + ".json"
-    )
+    output_file_name = directory + "/hub_" + datetime.now().strftime("%Y_%m_%d_%H") + ".json"
 
     # Save the cleaned data to a JSON file
     with open(output_file_name, "w") as f:
