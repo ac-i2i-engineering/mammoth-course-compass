@@ -26,12 +26,16 @@ logger = logging.getLogger(__name__)
 
 def fetch_page(url):
     logger.info(f"Fetching URL: {url}")
-    session = requests.Session()
-    response = session.get(url, headers=headers)
-    if response.status_code != 200:
-        logger.error(f"Failed to fetch URL {url}. Status code: {response.status_code}")
+    try:
+        session = requests.Session()
+        response = session.get(url, headers=headers)
+        if response.status_code != 200:
+            logger.error(f"Failed to fetch URL {url}. Status code: {response.status_code}")
+            return None
+        return response.content
+    except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+        logger.error(f"Error fetching {url}: {str(e)}")
         return None
-    return response.content
 
 def scrape_page(url):
     logger.info(f"Scraping page: {url}")

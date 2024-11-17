@@ -163,11 +163,3 @@ def process_calendar_events():
             logger.error(
                 f"Error processing event '{event.get('title', 'Unknown')}': {e}"
             )
-
-
-if __name__ == "__main__":
-    logger.info("Starting the calendar events processing script")
-    try:
-        process_calendar_events()
-    except Exception as e:
-        logger.exception(f"An unexpected error occurred: {e}")
