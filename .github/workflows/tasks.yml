@@ -26,6 +26,7 @@ jobs:
       working-directory: ./access_amherst_backend
       run: |
         python manage.py hub_workflow
+        python manage.py calendar_workflow
         python manage.py remove_old_events
     - name: Commit and Push Changes
       run: |
