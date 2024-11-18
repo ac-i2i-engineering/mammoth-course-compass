@@ -25,12 +25,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+SECRET_KEY = 'django-insecure-g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["access-amherst-jbqe.onrender.com"]
+ALLOWED_HOSTS = ["access-amherst-jbqe.onrender.com", "8000-aci2iengine-accessamher-iqedhqa4a2e.ws-us116.gitpod.io"]
 
 # Application definition
 

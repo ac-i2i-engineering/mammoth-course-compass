@@ -5,211 +5,384 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Access Amherst</title>
+    <link href="https://cdn.jsdelivr.net/npm/slim-select@2.8.1/dist/slimselect.css" rel="stylesheet" />
     <style>
-        /* Page styling */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f3e5f5; /* Light purple color */
+        :root {
+            --primary-color: #800080;
+            --background-color: #f3e5f5;
+            --header-height: 60px;
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        h1 {
-            color: #800080;
-            text-align: center;
-            font-size: 2.5em;
-            margin: 20px 0;
         }
 
-        /* Button styling */
-        .map-button-container {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 10px 0;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--background-color);
+            min-height: 100vh;
         }
-        
-        .map-button {
-            background-color: #800080;
+
+        /* Fixed Header */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background-color: var(--primary-color);
+            color: white;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .site-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-button {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        /* Filter Section */
+        .filter-section {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 999;
+        }
+
+        .filter-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Dynamic column sizing */
+            gap: 15px; /* Space between filter groups */
+            align-items: center; /* Vertical alignment */
+            overflow: hidden; /* Prevents overflow */
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px; /* Space between label and input */
+        }
+
+        .filter-label {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #666;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .date-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .date-input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .filter-button {
+            background-color: var(--primary-color);
             color: white;
             padding: 10px 20px;
-            font-size: 1em;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
-            text-decoration: none;
-            margin-bottom: 20px;
+            font-size: 1rem;
+            grid-column: span 1; /* Button occupies one grid cell */
+            justify-self: end; /* Aligns button to the right */
+            transition: opacity 0.2s;
         }
 
-        /* Search bar styling */
-        .search-filter-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 20px 0;
-            gap: 10px;
+        .filter-button:hover {
+            opacity: 0.9;
         }
-        
-        .search-bar,
-        .dropdown,
-        .date-picker {
-            padding: 10px;
-            width: 300px;
-            font-size: 1em;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            margin-bottom: 10px;
+
+        /* Content Area */
+        .content-area {
+            margin-top: calc(var(--header-height) + 140px);
+            padding: 20px;
         }
-        
-        /* Event grid styling */
+
         .event-grid {
+            max-width: 1200px;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
-            max-width: 1000px;
-            width: 100%;
-            margin-top: 20px;
         }
 
         .event-item {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
             background-color: white;
-            padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border: 1px solid #ddd; /* Adds a light border */
-            margin-bottom: 20px; /* Adds vertical spacing */
-            height: 100%;
-            transition: transform 0.2s ease; /* Adds a subtle hover effect */
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column; /* Ensure all cards stretch vertically */
+            justify-content: space-between;
         }
 
         .event-item:hover {
-            transform: scale(1.02); /* Slightly enlarges on hover */
+            transform: translateY(-2px);
         }
 
-        .calendar-button {
-            background-color: #800080;
-            color: white;
-            padding: 10px 15px;
-            font-size: 1em;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            margin-top: 10px;
-        }
-
-        .event-item img {
+        .event-image {
             width: 100%;
-            border-radius: 5px;
-            margin-bottom: 10px;
+            height: 150px;
+            object-fit: contain; /* Changed from cover to show the entire image */
+            background-color: #f0f0f0; /* Optional: Adds a background to indicate image boundaries */
+        }
+
+        .event-content {
+            padding: 15px;
+            display: flex;
+            flex-direction: column; /* Stack content */
+            justify-content: space-between; /* Distribute space evenly */
+            flex-grow: 1; /* Ensures the content stretches to fill the card */
         }
 
         .event-title {
-            font-size: 1.2em;
+            font-size: 1.1rem;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            color: var(--primary-color);
         }
 
         .event-info {
-            font-size: 0.9em;
-            color: #555;
-            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .event-links {
+            margin-top: auto; /* Push buttons to the bottom of the card */
+            display: flex;
+            gap: 10px;
+        }
+
+        .event-link, .calendar-link {
+            padding: 8px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            flex: 1;
+            text-align: center;
         }
 
         .event-link {
-            color: #800080;
-            text-decoration: none;
-            font-weight: bold;
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .calendar-link {
+            background-color: #007bff; /* Blue background */
+            color: white;
+            transition: background-color 0.2s;
+        }
+
+        .calendar-link:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 10px;
+            }
+
+            .site-title {
+                font-size: 1.2rem;
+            }
+
+            .nav-buttons {
+                gap: 5px;
+            }
+
+            .nav-button {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+
+            .filter-group {
+                min-width: 100%;
+            }
+
+            .date-group {
+                flex-direction: column;
+            }
+
+            .content-area {
+                margin-top: calc(var(--header-height) + 280px);
+            }
+
+            .filter-container {
+                grid-template-columns: 1fr; /* Single-column layout for smaller screens */
+                gap: 10px;
+            }
+
+            .filter-button {
+                width: 100%; /* Full width for smaller screens */
+                grid-column: span 1; /* Take its own row */
+                justify-self: center; /* Center the button */
+            }
+        }
+
+        /* SlimSelect Customization */
+        .ss-main {
+            width: 100%;
+        }
+
+        .ss-main .ss-multi-selected {
+            padding: 4px 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-height: 35px;
+        }
+
+        .ss-main .ss-multi-selected .ss-values .ss-value {
+            background-color: var(--primary-color);
+            color: white;
         }
     </style>
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L00WJ9XVMH"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-L00WJ9XVMH');
-    </script>
 </head>
 <body>
+    <!-- Fixed Header -->
+    <header class="main-header">
+        <div class="site-title">Access Amherst</div>
+        <nav class="nav-buttons">
+            <a href="{% url 'map' %}" class="nav-button">Map</a>
+            <a href="{% url 'dashboard' %}" class="nav-button">Dashboard</a>
+            <a href="{% url 'calendar' %}" class="nav-button">Calendar</a>
+        </nav>
+    </header>
 
-    <h1>Access Amherst</h1>
-
-    <!-- Navigation buttons at the top -->
-    <div class="map-button-container">
-        <a href="{% url 'map' %}" class="map-button">View Map</a>
-        <a href="{% url 'dashboard' %}" class="map-button">View Dashboard</a>
-        <a href="{% url 'calendar' %}" class="map-button">View Calendar</a>
-    </div>
-
-    <form method="GET" action="" class="search-filter-container">
-        <!-- Search bar -->
-        <input type="text" class="search-bar" name="query" placeholder="Search events..." value="{{ query }}" />
-    
-        <!-- Location dropdown filter (multi-select) -->
-        <select class="dropdown" name="locations" multiple>
-            {% for location in unique_locations %}
-                <option value="{{ location }}" {% if location in selected_locations %}selected{% endif %}>
-                    {{ location }}
-                </option>
-            {% endfor %}
-        </select>
-    
-        <!-- Category dropdown filter (multi-select) -->
-        <select class="dropdown" name="categories" multiple>
-            {% for category in unique_categories %}
-                <option value="{{ category }}" {% if category in selected_categories %}selected{% endif %}>
-                    {{ category }}
-                </option>
-            {% endfor %}
-        </select>
-    
-        <!-- Date filter -->
-        <input type="date" class="date-picker" name="start_date" value="{{ start_date }}">
-        <input type="date" class="date-picker" name="end_date" value="{{ end_date }}">
-    
-        <!-- Submit button for filters -->
-        <button type="submit" class="map-button">Filter Events</button>
-    </form>    
-
-    <div class="event-grid">
-        {% for event in events %}
-        <div class="event-item">
-            {% load tz %}
-            <div class="event-item">
-                {% if event.picture_link %}
-                    <img src="{{ event.picture_link }}" alt="Event image">
-                {% else %}
-                    <img src="https://logodix.com/logo/1182384.png" alt="Default event image">
-                {% endif %}
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <form method="GET" action="" class="filter-container">
+            <div class="filter-group">
+                <label class="filter-label">Search Events</label>
+                <input type="text" class="search-input" name="query" placeholder="Search..." value="{{ query }}">
             </div>
-        
-            <div class="event-title">{{ event.title }}</div>
-            <div class="event-info"><strong>Date:</strong>
-                {{ event.start_time|localtime }}</div>
-            <div class="event-info"><strong>Location:</strong> {{ event.location }}</div>
-            <a href="{{ event.link }}" class="event-link">More info</a>
-    
-            <!-- Add to Google Calendar Button at the bottom -->
-            <a
-                href="https://www.google.com/calendar/render?action=TEMPLATE&text={{ event.title|urlencode }}&dates={{ event.start_time|localtime|date:"Ymd\\THis" }}/{{ event.end_time|localtime|date:"Ymd\\THis" }}&details={{ event.description|urlencode }}%0A%0AMore information: {{ event.link|urlencode }}&location={{ event.location|urlencode }}" 
-                target="_blank" 
-                class="calendar-button">
-                Add to Google Calendar
-            </a>
+
+            <div class="filter-group">
+                <label class="filter-label">Location</label>
+                <select id="location-select" name="locations" multiple>
+                    {% for location in unique_locations %}
+                        <option value="{{ location }}" {% if location in selected_locations %}selected{% endif %}>
+                            {{ location }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label class="filter-label">Category</label>
+                <select id="category-select" name="categories" multiple>
+                    {% for category in unique_categories %}
+                        <option value="{{ category }}" {% if category in selected_categories %}selected{% endif %}>
+                            {{ category }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label class="filter-label">Date Range</label>
+                <div class="date-group">
+                    <input type="date" class="date-input" name="start_date" value="{{ start_date }}" placeholder="Start Date">
+                    <input type="date" class="date-input" name="end_date" value="{{ end_date }}" placeholder="End Date">
+                </div>
+            </div>
+
+            <button type="submit" class="filter-button">Apply Filters</button>
+        </form>
+    </section>
+
+    <!-- Content Area -->
+    <main class="content-area">
+        <div class="event-grid">
+            {% for event in events %}
+            <article class="event-item">
+                {% load tz %}
+                <img class="event-image" src="{% if event.picture_link %}{{ event.picture_link }}{% else %}https://logodix.com/logo/1182384.png{% endif %}" alt="Event image">
+                <div class="event-content">
+                    <h2 class="event-title">{{ event.title }}</h2>
+                    <div class="event-info"><strong>Date:</strong> {{ event.start_time|localtime }}</div>
+                    <div class="event-info"><strong>Location:</strong> {{ event.location }}</div>
+                    <div class="event-links">
+                        <a href="{{ event.link }}" class="event-link">More Info</a>
+                        <a href="https://www.google.com/calendar/render?action=TEMPLATE&text={{ event.title|urlencode }}&dates={{ event.start_time|localtime|date:"Ymd\\THis" }}/{{ event.end_time|localtime|date:"Ymd\\THis" }}&details={{ event.description|urlencode }}%0A%0AMore information: {{ event.link|urlencode }}&location={{ event.location|urlencode }}" 
+                           target="_blank" 
+                           class="calendar-link">
+                            Add to Calendar
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+                <p>No events found.</p>
+            {% endfor %}
         </div>
-        {% empty %}
-            <p>No events found.</p>
-        {% endfor %}
-    </div>    
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/slim-select@2.8.1/dist/slimselect.min.js"></script>
+    <script>
+        // Initialize SlimSelect for better multi-select dropdowns
+        new SlimSelect({
+            select: '#location-select',
+            settings: {
+                placeholderText: 'Select locations...',
+                allowDeselect: true
+            }
+        });
+
+        new SlimSelect({
+            select: '#category-select',
+            settings: {
+                placeholderText: 'Select categories...',
+                allowDeselect: true
+            }
+        });
+    </script>
 </body>
 </html>
