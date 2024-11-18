@@ -234,8 +234,8 @@ def scrape_page(url):
                 event["event_description"] = description_tag.get_text(strip=True)
 
             picture_tag = article.find("img", itemprop="image")
-            if picture_tag and "src" in picture_tag.attrs:
-                event["picture_link"] = picture_tag["src"]
+            if picture_tag and "data-src" in picture_tag.attrs:
+                event["picture_link"] = "https://www.amherst.edu" + picture_tag["data-src"]
 
             events.append(event)
 
