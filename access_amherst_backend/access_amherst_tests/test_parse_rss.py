@@ -1,8 +1,10 @@
 import pytz
 import json
 import pytest
-from unittest.mock import patch, mock_open
+from unittest.mock import patch, mock_open, MagicMock
 import xml.etree.ElementTree as ET
+from dateutil import parser
+import pytz
 from access_amherst_algo.rss_scraper.parse_rss import (
     create_events_list,
     save_json,
@@ -377,20 +379,29 @@ def test_add_random_offset():
 
 # Test is_similar_event for exact match and close title match
 @pytest.mark.django_db
-def test_is_similar_event(sample_cleaned_data):
-    # Add author_name and author_email to sample_cleaned_data if missing
-    sample_cleaned_data[0]["author_name"] = sample_cleaned_data[0].get(
-        "author_name", "Historical European Martial Arts Club"
-    )
-    sample_cleaned_data[0]["author_email"] = sample_cleaned_data[0].get(
-        "author_email", None
-    )
+def test_is_similar_event():
+    """Test similar event detection with same start time and similar title"""
+    # Prepare test event data
+    event_data = {
+        "id": "90363344",
+        "title": "Regular HEMAC Meeting",
+        "starttime": "2024-10-20T20:30:00Z",  # Use ISO format
+        "endtime": "2024-10-20T22:00:00Z",
+        "author_name": "Historical European Martial Arts Club",
+        "author_email": None,
+        "categories": ["Social", "Meeting"],
+        "location": "In front of Alumni Gym",
+        "event_description": "<p>Test description</p>",
+        "host": ["HEMAC"],
+        "link": "https://test.com",
+        "picture_link": None,
+        "pub_date": "2024-10-20T18:50:18Z"
+    }
 
-    # Save initial event to database
-    event_data = sample_cleaned_data[0]
+    # Save initial event
     save_event_to_db(event_data)
 
-    # Create a similar event with a slightly different title but same start/end times
+    # Create similar event with slightly different title
     similar_data = event_data.copy()
     similar_data["title"] = "Regular HEMAC Meet"  # Similar title
     assert is_similar_event(similar_data) == True  # Expecting a match
