@@ -36,7 +36,7 @@ def load_calendar_json(folder_path):
         file_path = os.path.join(folder_path, latest_file)
         logger.info(f"Loading JSON file: {file_path}")
 
-        with open(file_path, "r") as file:
+        with open(file_path, "r", encoding="utf-8") as file:
             return json.load(file)
     except Exception as e:
         logger.error(f"Error loading JSON file: {e}")
