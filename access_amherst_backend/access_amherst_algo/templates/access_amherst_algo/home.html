@@ -191,7 +191,7 @@
     
             <!-- Add to Google Calendar Button at the bottom -->
             <a
-                href="https://www.google.com/calendar/render?action=TEMPLATE&text={{ event.title|urlencode }}&dates={{ event.start_time|localtime|date:"Ymd\\THis" }}/{{ event.end_time|localtime|date:"Ymd\\THis" }}&details={{ event.description|urlencode }}&location={{ event.location|urlencode }}" 
+                href="https://www.google.com/calendar/render?action=TEMPLATE&text={{ event.title|urlencode }}&dates={{ event.start_time|localtime|date:"Ymd\\THis" }}/{{ event.end_time|localtime|date:"Ymd\\THis" }}&details={{ event.description|urlencode }}%0A%0AMore information: {{ event.link|urlencode }}&location={{ event.location|urlencode }}" 
                 target="_blank" 
                 class="calendar-button">
                 Add to Google Calendar
