@@ -11,6 +11,10 @@ from django.db.models import Q
 import difflib
 from dateutil import parser
 import pytz
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+import logging
 
 load_dotenv()
 
@@ -108,6 +112,12 @@ location_buckets = {
     },
 }
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 # Update categorize_location to use new dictionary structure
 def categorize_location(location):
@@ -452,32 +462,87 @@ def save_json():
         json.dump(events_list, f, indent=4)
 
 
-# detect if an event already exists in database
+def preprocess_title(title):
+    """Preprocess title for comparison"""
+    if not isinstance(title, str):
+        return ""
+    # Convert to lowercase and remove special characters
+    title = re.sub(r'[^\w\s]', '', title.lower())
+    # Remove extra whitespace
+    return " ".join(title.split())
+
+
 def is_similar_event(event_data):
-    # Parse RFC format and apply 5-hour offset
-    start_time = parser.parse(event_data["starttime"])
-    end_time = parser.parse(event_data["endtime"])
-    
-    # Check if the dates are in UTC, if not, convert them to UTC
-    if start_time.tzinfo is None or start_time.tzinfo.utcoffset(start_time) != pytz.UTC.utcoffset(start_time):
-        start_time = start_time.astimezone(pytz.UTC)
-    
-    if end_time.tzinfo is None or end_time.tzinfo.utcoffset(end_time) != pytz.UTC.utcoffset(end_time):
-        end_time = end_time.astimezone(pytz.UTC)
+    """
+    Check if a similar event exists using start time and title similarity.
+    """
+    try:
+        # Validate title
+        new_title = event_data.get("title", "")
+        if not new_title:
+            logger.warning("Empty title provided")
+            return False
 
-    # Rest of function stays the same
-    similar_events = Event.objects.filter(
-        Q(start_time=start_time) & Q(end_time=end_time)
-    )
+        # Parse and validate start time only
+        start_time = parser.parse(event_data["starttime"])
+        
+        # Convert to UTC if needed
+        if start_time.tzinfo is None or start_time.tzinfo.utcoffset(start_time) != pytz.UTC.utcoffset(start_time):
+            start_time = start_time.astimezone(pytz.UTC)
 
-    for event in similar_events:
-        title_similarity = difflib.SequenceMatcher(
-            None, event_data["title"], event.title
-        ).ratio()
-        if title_similarity > 0.8:
+        # Query events with same start time only
+        similar_events = list(Event.objects.filter(start_time=start_time))
+        
+        if not similar_events:
+            return False
+
+        # Preprocess titles
+        existing_titles = [preprocess_title(event.title) for event in similar_events]
+        new_title_processed = preprocess_title(new_title)
+
+        # Remove empty titles
+        existing_titles = [title for title in existing_titles if title]
+        if not existing_titles:
+            return False
+
+        # Configure vectorizer
+        vectorizer = TfidfVectorizer(
+            min_df=1,
+            ngram_range=(1, 2),
+            strip_accents='unicode',
+            lowercase=True
+        )
+
+        # Calculate TF-IDF matrices
+        try:
+            all_titles = existing_titles + [new_title_processed]
+            tfidf_matrix = vectorizer.fit_transform(all_titles)
+        except ValueError as e:
+            logger.error(f"Vectorizer error: {e}")
+            return False
+
+        # Calculate similarities
+        new_vector = tfidf_matrix[-1:]
+        existing_matrix = tfidf_matrix[:-1]
+        similarities = cosine_similarity(new_vector, existing_matrix)[0]
+
+        # Check similarity threshold
+        SIMILARITY_THRESHOLD = 0.65
+        if similarities.size > 0 and np.max(similarities) > SIMILARITY_THRESHOLD:
+            similar_index = int(np.argmax(similarities))
+            most_similar_event = similar_events[similar_index]
+            
+            logger.info(
+                f"Similar event found: '{most_similar_event.title}' "
+                f"(similarity: {similarities[similar_index]:.2f})"
+            )
             return True
 
-    return False
+        return False
+
+    except Exception as e:
+        logger.error(f"Error in similarity check for '{event_data.get('title', 'Unknown')}': {e}")
+        return False
 
 
 # Function to clean and save events to the database

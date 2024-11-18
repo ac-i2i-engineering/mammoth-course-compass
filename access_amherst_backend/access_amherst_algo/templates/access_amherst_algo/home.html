@@ -55,9 +55,9 @@
             border-radius: 4px;
             cursor: pointer;
         }
-
+        
         .content-area {
-            margin-top: calc(var(--header-height) + var(--filter-height) + 20px); /* Added 20px buffer */
+            margin-top: calc(var(--header-height) + var(--filter-height) + 40px); /* Increased from 20px to 40px */
             padding: 0 20px;
         }
         
@@ -100,12 +100,12 @@
     <section class="filter-section">
         <form method="GET" action="" class="filter-container">
             <div class="filter-group">
-                <label class="filter-label">Search Events</label>
+                <label class="filter-label"><b>Search Events</b></label>
                 <input type="text" class="search-input" name="query" placeholder="Search..." value="{{ query }}">
             </div>
 
             <div class="filter-group">
-                <label class="filter-label">Location</label>
+                <label class="filter-label"><b>Location</b></label>
                 <select id="location-select" name="locations" multiple>
                     {% for location in unique_locations %}
                         <option value="{{ location }}" {% if location in selected_locations %}selected{% endif %}>
@@ -116,7 +116,7 @@
             </div>
 
             <div class="filter-group">
-                <label class="filter-label">Category</label>
+                <label class="filter-label"><b>Category</b></label>
                 <select id="category-select" name="categories" multiple>
                     {% for category in unique_categories %}
                         <option value="{{ category }}" {% if category in selected_categories %}selected{% endif %}>
@@ -127,7 +127,7 @@
             </div>
 
             <div class="filter-group">
-                <label class="filter-label">Date Range</label>
+                <label class="filter-label"><b>Date Range</b></label>
                 <div class="date-group">
                     <input type="date" class="date-input" name="start_date" value="{{ start_date }}" placeholder="Start Date">
                     <input type="date" class="date-input" name="end_date" value="{{ end_date }}" placeholder="End Date">

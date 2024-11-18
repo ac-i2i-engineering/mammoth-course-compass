@@ -11,6 +11,7 @@ import pytz
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+import re
 
 # Configure logging
 logging.basicConfig(
@@ -68,54 +69,86 @@ def parse_calendar_datetime(date_str, pub_date=None):
         return None
 
 
+def preprocess_title(title):
+    """Preprocess title for better comparison"""
+    if not isinstance(title, str):
+        return ""
+    # Convert to lowercase and remove special characters
+    title = re.sub(r'[^\w\s]', '', title.lower())
+    # Remove extra whitespace
+    return " ".join(title.split())
+
+
 def is_calendar_event_similar(event_data):
     """
-    Check if a similar event exists using cosine similarity of titles.
+    Check if a similar event exists using start time and title similarity.
+    Returns True if a similar event is found, False otherwise.
     """
     try:
+        # Get and validate new title
+        new_title = event_data.get("title", "")
+        if not new_title:
+            logger.warning("Empty title provided")
+            return False
+
+        # Get start time only
         pub_date = parse_calendar_datetime(event_data.get("pub_date"))
         start_time = parse_calendar_datetime(event_data.get("start_time"), pub_date)
-        end_time = parse_calendar_datetime(event_data.get("end_time"), pub_date)
 
-        query = Q()
-        if start_time:
-            query &= Q(start_time=start_time)
-        if end_time:
-            query &= Q(end_time=end_time)
+        if not start_time:
+            logger.warning("No valid start time provided")
+            return False
 
-        # Convert QuerySet to list early to avoid indexing issues
-        similar_events = list(Event.objects.all())
-        if query:
-            similar_events = [event for event in similar_events if event in Event.objects.filter(query)]
-        
-        # Get all event titles
-        existing_titles = [event.title for event in similar_events]
-        new_title = event_data.get("title", "")
-        
+        # Query events with same start time only
+        similar_events = list(Event.objects.filter(start_time=start_time))
+        if not similar_events:
+            return False
+
+        # Preprocess all titles
+        existing_titles = [preprocess_title(event.title) for event in similar_events]
+        new_title_processed = preprocess_title(new_title)
+
+        # Remove empty titles
+        existing_titles = [title for title in existing_titles if title]
         if not existing_titles:
             return False
-            
-        # Create TF-IDF vectors
-        vectorizer = TfidfVectorizer()
-        all_titles = existing_titles + [new_title]
-        tfidf_matrix = vectorizer.fit_transform(all_titles)
-        
-        # Calculate cosine similarity between new title and existing titles
-        new_title_vector = tfidf_matrix[-1:]
-        existing_titles_matrix = tfidf_matrix[:-1]
-        similarities = cosine_similarity(new_title_vector, existing_titles_matrix)[0]
-        
-        # Check if any similarity exceeds threshold
-        if len(similarities) > 0 and np.max(similarities) > 0.6:
-            similar_index = int(np.argmax(similarities))  # Convert to standard Python int
+
+        # Create and configure TF-IDF vectorizer
+        vectorizer = TfidfVectorizer(
+            min_df=1,
+            ngram_range=(1, 2),
+            strip_accents='unicode',
+            lowercase=True
+        )
+
+        # Calculate TF-IDF matrices
+        try:
+            all_titles = existing_titles + [new_title_processed]
+            tfidf_matrix = vectorizer.fit_transform(all_titles)
+        except ValueError as e:
+            logger.error(f"Vectorizer error: {e}")
+            return False
+
+        # Calculate similarities
+        new_vector = tfidf_matrix[-1:]
+        existing_matrix = tfidf_matrix[:-1]
+        similarities = cosine_similarity(new_vector, existing_matrix)[0]
+
+        # Check similarity threshold
+        SIMILARITY_THRESHOLD = 0.6
+        if similarities.size > 0 and np.max(similarities) > SIMILARITY_THRESHOLD:
+            similar_index = int(np.argmax(similarities))
             most_similar_event = similar_events[similar_index]
-            logger.info(f"Found similar event: {most_similar_event.title}")
+            logger.info(
+                f"Similar event found: '{most_similar_event.title}' "
+                f"(similarity: {similarities[similar_index]:.2f})"
+            )
             return True
 
         return False
 
     except Exception as e:
-        logger.error(f"Error checking for similar events: {e}")
+        logger.error(f"Error in similarity check for '{event_data.get('title', 'Unknown')}': {e}")
         return False
 
 
