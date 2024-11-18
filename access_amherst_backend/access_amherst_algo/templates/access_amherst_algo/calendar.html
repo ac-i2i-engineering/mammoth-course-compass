@@ -1,57 +1,16 @@
 {% load custom_filters %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weekly Calendar View</title>
+    <link rel="stylesheet" href="{% static 'access_amherst_algo/css/styles.css' %}">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f3e5f5;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        h1 {
-            color: #800080;
-            text-align: center;
-            font-size: 2.5em;
-            margin: 20px 0;
-        }
-
-        .map-button-container {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 10px 0;
-        }
-        
-        .map-button {
-            background-color: #800080;
-            color: white;
-            padding: 10px 20px;
-            font-size: 1em;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            margin-bottom: 20px;
-        }
-
-        /* Calendar specific styles */
-        :root {
-            --primary-color: #800080;
-            --bg-color: #f3e5f5;
-            --border-color: #ddd;
-            --event-text: #fff;
-            --time-column-width: 80px;
-        }
-
+        /* Calendar-specific styles only */
         .calendar-container {
+            margin-top: calc(var(--header-height) + 20px);
             display: grid;
             grid-template-columns: var(--time-column-width) repeat(7, 1fr);
             gap: 1px;
@@ -64,46 +23,9 @@
             border-radius: 8px;
             overflow: hidden;
         }
-
-        :root {
-            --primary-color: #800080;
-            --bg-color: #f3e5f5;
-            --border-color: #ddd;
-            --event-text: #fff;
-            --time-column-width: 80px;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.4;
-            color: #333;
-        }
-
-        .calendar-header {
-            text-align: center;
-            padding: 20px;
-            background: var(--bg-color);
-        }
-
-        .calendar-container {
-            display: grid;
-            grid-template-columns: var(--time-column-width) repeat(7, 1fr);
-            gap: 1px;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            border: 1px solid var(--border-color);
-            background: var(--border-color);
-        }
-
+    
         .day-header {
-            background: var(--bg-color);
+            background: var(--background-color);
             padding: 15px 10px;
             text-align: center;
             font-weight: 600;
@@ -112,31 +34,31 @@
             top: 0;
             z-index: 3;
         }
-
+    
         .time-column {
-            background: var(--bg-color);
+            background: var(--background-color);
             position: sticky;
             left: 0;
             z-index: 2;
         }
-
+    
         .time-slot {
             height: 60px;
             padding: 5px;
             text-align: center;
             font-size: 0.8rem;
             color: #666;
-            background: var(--bg-color);
+            background: var(--background-color);
             border-bottom: 1px solid var(--border-color);
         }
-
+    
         .day-column {
             position: relative;
             background: white;
             min-height: 60px;
             border-bottom: 1px solid var(--border-color);
         }
-
+    
         .event-block {
             position: absolute;
             padding: 8px;
@@ -151,36 +73,14 @@
             opacity: 0.9;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-
+    
         .event-block:hover {
             opacity: 1;
             z-index: 4;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             transform: scale(1.02);
         }
-
-        .event-title {
-            font-weight: 600;
-            margin-bottom: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .event-time {
-            font-size: 0.75rem;
-            opacity: 0.9;
-            margin-bottom: 2px;
-        }
-
-        .event-location {
-            font-size: 0.75rem;
-            opacity: 0.9;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
+    
         @media (max-width: 768px) {
             .calendar-container {
                 grid-template-columns: var(--time-column-width) repeat(3, 1fr);
@@ -208,14 +108,15 @@
     </script>    
 </head>
 <body>
-    <h1>Events Calendar</h1>
-
     <!-- Navigation buttons -->
-    <div class="map-button-container">
-        <a href="{% url 'home' %}" class="map-button">View Events</a>
-        <a href="{% url 'map' %}" class="map-button">View Map</a>
-        <a href="{% url 'dashboard' %}" class="map-button">View Dashboard</a>
-    </div>
+    <header class="main-header">
+        <div class="site-title">Access Amherst</div>
+        <nav class="nav-buttons">
+            <a href="{% url 'home' %}" class="nav-button">Events</a>
+            <a href="{% url 'map' %}" class="nav-button">Map</a>
+            <a href="{% url 'dashboard' %}" class="nav-button">Dashboard</a>
+        </nav>
+    </header>
 
     <main class="calendar-container">
         <div class="time-column" aria-hidden="true"></div>

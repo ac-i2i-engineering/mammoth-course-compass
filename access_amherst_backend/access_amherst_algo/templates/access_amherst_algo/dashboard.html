@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,106 +7,99 @@
     <title>Access Amherst - Dashboard</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <link rel="stylesheet" href="{% static 'access_amherst_algo/css/styles.css' %}">
     <style>
-        /* Page styling */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f3e5f5;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        h1 {
-            color: #800080;
-            text-align: center;
-            font-size: 2.5em;
-            margin: 20px 0;
-        }
-
-        /* Dashboard grid styling */
+        /* Dashboard-specific styles only */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Force 2 columns */
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-areas: 
+                "hourly category"
+                "gantt gantt"
+                "heatmap heatmap";
             gap: 20px;
-            max-width: 1600px; /* Increased max-width to accommodate larger cards */
-            width: 95%;
-            margin: 20px auto;
-        }
-
-        .dashboard-card {
-            background-color: white;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            min-width: 0; /* Prevents cards from overflowing */
+            margin-top: calc(var(--header-height) + 20px);
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
         }
-
-        .chart-container {
-            position: relative;
-            height: 300px;
-            width: 100%;
-            overflow: hidden; /* Prevent overflow */
-        }
-
+    
         .chart-title {
-            color: #800080;
-            font-size: 1.2em;
+            font-size: 1.1rem;
             font-weight: bold;
+            color: var(--primary-color);
             margin-bottom: 15px;
-            text-align: center;
         }
-
-        /* Map container styling */
-        .map-container {
-            width: 95%;
-            max-width: 1600px;
-            margin: 20px auto;
-        }
-
-        #heatmap {
-            width: 100%;
-            height: 300px; /* Match container height */
-            position: relative; /* Change from absolute to relative */
-            top: 0;
-            left: 0;
-        }
-
-        /* Button styling */
-        .button-container {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin: 20px 0;
-        }
-
-        .map-button {
-            background-color: #800080;
-            color: white;
-            padding: 10px 20px;
-            font-size: 1em;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-
-        .map-button:hover {
-            background-color: #660066;
-        }
-
-        /* Range slider styling */
+    
         .slider-container {
-            margin: 10px 0;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
         }
-        
+    
         .slider-label {
-            font-size: 1em;
-            font-weight: bold;
+            font-size: 0.9rem;
+            color: #666;
+            min-width: 50px;
+        }
+    
+        input[type="range"] {
+            flex: 1;
+        }
+    
+        input[type="date"],
+        input[type="time"] {
+            padding: 5px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+    
+        .dashboard-card:nth-child(1) { grid-area: hourly; }
+        .dashboard-card:nth-child(2) { grid-area: category; }
+        .dashboard-card:nth-child(3) { grid-area: gantt; }
+        .dashboard-card:nth-child(4) { grid-area: heatmap; }
+    
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                grid-template-areas: 
+                    "hourly"
+                    "category"
+                    "gantt"
+                    "heatmap";
+                padding: 15px;
+            }
+    
+            .chart-container {
+                height: 250px;
+            }
+        }
+    
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                gap: 15px;
+            }
+    
+            .chart-container {
+                height: 200px;
+            }
+    
+            .dashboard-card:nth-child(3) .chart-container,
+            .dashboard-card:nth-child(4) .chart-container {
+                height: 300px;
+            }
+    
+            .slider-container {
+                flex-wrap: wrap;
+            }
+    
+            input[type="date"],
+            input[type="time"] {
+                width: 100%;
+                margin: 5px 0;
+            }
         }
     </style>
     
@@ -120,13 +114,14 @@
     </script>
 </head>
 <body>
-    <h1>Access Amherst Dashboard</h1>
-
-    <div class="button-container">
-        <a href="{% url 'map' %}" class="map-button">Go to Event Map</a>
-        <a href="{% url 'home' %}" class="map-button">Back to Events</a>
-        <a href="{% url 'calendar' %}" class="map-button">View Calendar</a>
-    </div>
+    <header class="main-header">
+        <div class="site-title">Access Amherst</div>
+        <nav class="nav-buttons">
+            <a href="{% url 'map' %}" class="nav-button">Map</a>
+            <a href="{% url 'home' %}" class="nav-button">Events</a>
+            <a href="{% url 'calendar' %}" class="nav-button">Calendar</a>
+        </nav>
+    </header>
 
     <div class="dashboard-grid">
         <!-- Events by Hour Chart -->

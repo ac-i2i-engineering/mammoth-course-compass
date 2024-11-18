@@ -6,282 +6,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Access Amherst</title>
     <link href="https://cdn.jsdelivr.net/npm/slim-select@2.8.1/dist/slimselect.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'access_amherst_algo/css/styles.css' %}">
     <style>
-        :root {
-            --primary-color: #800080;
-            --background-color: #f3e5f5;
-            --header-height: 60px;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: var(--background-color);
-            min-height: 100vh;
-        }
-
-        /* Fixed Header */
-        .main-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: var(--header-height);
-            background-color: var(--primary-color);
-            color: white;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .site-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .nav-button {
-            background-color: rgba(255,255,255,0.1);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: background-color 0.2s;
-        }
-
-        .nav-button:hover {
-            background-color: rgba(255,255,255,0.2);
-        }
-
-        /* Filter Section */
-        .filter-section {
-            position: fixed;
-            top: var(--header-height);
-            left: 0;
-            right: 0;
-            background-color: white;
-            padding: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            z-index: 999;
-        }
-
+        /* Add to styles.css */
         .filter-container {
-            max-width: 1200px;
-            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Dynamic column sizing */
-            gap: 15px; /* Space between filter groups */
-            align-items: center; /* Vertical alignment */
-            overflow: hidden; /* Prevents overflow */
+            grid-template-columns: 1fr 1fr 1fr auto auto;
+            gap: 15px;
+            align-items: center;
+            padding: 10px;
         }
 
         .filter-group {
             display: flex;
             flex-direction: column;
-            gap: 5px; /* Space between label and input */
+            gap: 5px;
         }
 
         .filter-label {
             font-size: 0.8rem;
-            font-weight: bold;
             color: #666;
+            margin-bottom: 2px;
         }
 
-        .search-input {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 0.9rem;
+        .search-input,
+        .ss-main {  /* SlimSelect container class */
+            height: 36px;
         }
 
         .date-group {
             display: flex;
-            gap: 10px;
+            gap: 5px;
         }
 
         .date-input {
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 0.9rem;
+            width: 130px;
+            height: 36px;
+            padding: 5px;
         }
 
         .filter-button {
-            background-color: var(--primary-color);
+            height: 36px;
+            align-self: flex-end;
+            padding: 0 20px;
+            background: var(--primary-color);
             color: white;
-            padding: 10px 20px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 1rem;
-            grid-column: span 1; /* Button occupies one grid cell */
-            justify-self: end; /* Aligns button to the right */
-            transition: opacity 0.2s;
         }
 
-        .filter-button:hover {
-            opacity: 0.9;
-        }
-
-        /* Content Area */
         .content-area {
-            margin-top: calc(var(--header-height) + 140px);
-            padding: 20px;
+            margin-top: calc(var(--header-height) + var(--filter-height) + 20px); /* Added 20px buffer */
+            padding: 0 20px;
+        }
+        
+        .filter-section {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            right: 0;
+            background-color: transparent;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 999;
+            height: var(--filter-height);
         }
 
-        .event-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .event-item {
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
-            display: flex;
-            flex-direction: column; /* Ensure all cards stretch vertically */
-            justify-content: space-between;
-        }
-
-        .event-item:hover {
-            transform: translateY(-2px);
-        }
-
-        .event-image {
-            width: 100%;
-            height: 150px;
-            object-fit: contain; /* Changed from cover to show the entire image */
-            background-color: #f0f0f0; /* Optional: Adds a background to indicate image boundaries */
-        }
-
-        .event-content {
-            padding: 15px;
-            display: flex;
-            flex-direction: column; /* Stack content */
-            justify-content: space-between; /* Distribute space evenly */
-            flex-grow: 1; /* Ensures the content stretches to fill the card */
-        }
-
-        .event-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: var(--primary-color);
-        }
-
-        .event-info {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 5px;
-        }
-
-        .event-links {
-            margin-top: auto; /* Push buttons to the bottom of the card */
-            display: flex;
-            gap: 10px;
-        }
-
-        .event-link, .calendar-link {
-            padding: 8px 12px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            flex: 1;
-            text-align: center;
-        }
-
-        .event-link {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .calendar-link {
-            background-color: #007bff; /* Blue background */
-            color: white;
-            transition: background-color 0.2s;
-        }
-
-        .calendar-link:hover {
-            background-color: #0056b3; /* Darker blue on hover */
-        }
-
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .main-header {
-                padding: 10px;
-            }
-
-            .site-title {
-                font-size: 1.2rem;
-            }
-
-            .nav-buttons {
-                gap: 5px;
-            }
-
-            .nav-button {
-                padding: 6px 10px;
-                font-size: 0.8rem;
-            }
-
-            .filter-group {
-                min-width: 100%;
-            }
-
-            .date-group {
-                flex-direction: column;
-            }
-
-            .content-area {
-                margin-top: calc(var(--header-height) + 280px);
-            }
-
+        @media (max-width: 1024px) {
             .filter-container {
-                grid-template-columns: 1fr; /* Single-column layout for smaller screens */
+                grid-template-columns: 1fr 1fr;
                 gap: 10px;
             }
-
+            
             .filter-button {
-                width: 100%; /* Full width for smaller screens */
-                grid-column: span 1; /* Take its own row */
-                justify-self: center; /* Center the button */
+                grid-column: span 2;
             }
-        }
-
-        /* SlimSelect Customization */
-        .ss-main {
-            width: 100%;
-        }
-
-        .ss-main .ss-multi-selected {
-            padding: 4px 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            min-height: 35px;
-        }
-
-        .ss-main .ss-multi-selected .ss-values .ss-value {
-            background-color: var(--primary-color);
-            color: white;
         }
     </style>
 </head>
