@@ -128,6 +128,44 @@ def update_heatmap(request):
 
         map_html = folium_map._repr_html_()  # Convert to HTML here
         return JsonResponse({"map_html": map_html})
+    
+@csrf_exempt
+def update_gantt(request):
+    """Fetch events within a specified date and time range for the Gantt chart."""
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        date_str = data.get('date')
+        start_time_str = data.get('start_time')
+        end_time_str = data.get('end_time')
+
+        # Parse the date and times
+        selected_date = parser.parse(date_str).date()
+        start_time = parser.parse(start_time_str).time()
+        end_time = parser.parse(end_time_str).time()
+
+        # Combine date and time to create datetime objects
+        start_datetime = datetime.combine(selected_date, start_time, tzinfo=pytz.timezone('America/New_York'))
+        end_datetime = datetime.combine(selected_date, end_time, tzinfo=pytz.timezone('America/New_York'))
+
+        # Convert the datetime objects to UTC for database query
+        start_datetime = start_datetime.astimezone(pytz.UTC)
+        end_datetime = end_datetime.astimezone(pytz.UTC)
+
+        # Filter events within the specified date and time range
+        events = Event.objects.filter(
+            start_time__gte=start_datetime,
+            end_time__lte=end_datetime
+        )
+
+        # Prepare event data for the response
+        event_data = [{
+            'name': event.title,
+            'start_time': event.start_time.astimezone(pytz.timezone('America/New_York')).isoformat(),
+            'end_time': event.end_time.astimezone(pytz.timezone('America/New_York')).isoformat(),
+        } for event in events]
+
+        return JsonResponse({'events': event_data})
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 
 
