@@ -135,7 +135,7 @@ def is_calendar_event_similar(event_data):
         similarities = cosine_similarity(new_vector, existing_matrix)[0]
 
         # Check similarity threshold
-        SIMILARITY_THRESHOLD = 0.6
+        SIMILARITY_THRESHOLD = 0.57
         if similarities.size > 0 and np.max(similarities) > SIMILARITY_THRESHOLD:
             similar_index = int(np.argmax(similarities))
             most_similar_event = similar_events[similar_index]

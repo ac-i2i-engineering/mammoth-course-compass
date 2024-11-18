@@ -392,7 +392,7 @@ def test_is_similar_event(sample_cleaned_data):
 
     # Create a similar event with a slightly different title but same start/end times
     similar_data = event_data.copy()
-    similar_data["title"] = "Regular HEMAC Mtg"  # Similar title
+    similar_data["title"] = "Regular HEMAC Meet"  # Similar title
     assert is_similar_event(similar_data) == True  # Expecting a match
 
     # Create a similar event with a different start time

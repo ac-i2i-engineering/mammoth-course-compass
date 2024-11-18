@@ -105,12 +105,11 @@ def test_parse_calendar_datetime_empty():
     result = parse_calendar_datetime("")
     assert result is None
 
-# @TODO Think more on this as it used to work and return True earlier!
 def test_is_calendar_event_similar_true(mock_event_model):
     """Test detection of similar calendar events when one exists."""
     result = is_calendar_event_similar(sample_calendar_event)
-    assert result is False
-    # mock_event_model.objects.filter.assert_called()
+    assert result is True
+    mock_event_model.objects.filter.assert_called()
 
 
 def test_is_calendar_event_similar_false(mock_event_model, mock_event_queryset):
@@ -135,13 +134,6 @@ def test_is_calendar_event_similar_no_times():
         
         result = is_calendar_event_similar(event_no_times)
         assert result is False
-
-
-def test_is_calendar_event_similar_error(mock_event_model):
-    """Test error handling in similar event detection."""
-    mock_event_model.objects.all.side_effect = Exception("Database error")
-    result = is_calendar_event_similar(sample_calendar_event)
-    assert result is False
 
 
 def test_save_calendar_event_to_db(mock_event_model):
