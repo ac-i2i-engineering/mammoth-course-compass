@@ -25,44 +25,41 @@ def home(request):
     locations = request.GET.getlist("locations")
     categories = request.GET.getlist("categories")
 
-    # Set local time to est
+    # Set local time to EST
     est = pytz.timezone("America/New_York")
     timezone.activate(est)
 
-    # Calculate default start and end dates for the next week in est time
+    # Calculate default start and end dates (1-week range)
     today = timezone.now().astimezone(est).date()
     default_start_date = today
     default_end_date = today + timedelta(days=7)
 
-    # Use user-provided dates or default values and convert to UTC for database query
-    if request.GET.get("start_date"):
-        start_time = parser.parse(request.GET.get("start_date"))
-    else:
-        start_time = default_start_date
-    
+    # Use user-provided dates or defaults
+    start_date = (
+        parser.parse(request.GET.get("start_date")).date()
+        if request.GET.get("start_date")
+        else default_start_date
+    )
+    end_date = (
+        parser.parse(request.GET.get("end_date")).date()
+        if request.GET.get("end_date")
+        else default_end_date
+    )
+
+    # Convert dates to UTC for database query
     start_time = datetime(
-        start_time.year, start_time.month, start_time.day, 0, 0, 0, tzinfo=pytz.timezone("America/New_York")
-    )
-    start_time = start_time.astimezone(pytz.UTC)
-    start_date = start_time.date()
-    
-    if request.GET.get("end_date"):
-        end_time = parser.parse(request.GET.get("end_date"))
-    else:
-        end_time = default_end_date
-        
+        start_date.year, start_date.month, start_date.day, 0, 0, 0, tzinfo=est
+    ).astimezone(pytz.UTC)
     end_time = datetime(
-        end_time.year, end_time.month, end_time.day, 23, 59, 59, tzinfo=pytz.timezone("America/New_York")
-    )
-    end_time = end_time.astimezone(pytz.UTC)
-    end_date = end_time.date()
+        end_date.year, end_date.month, end_date.day, 23, 59, 59, tzinfo=est
+    ).astimezone(pytz.UTC)
 
     # Filter events
     events = filter_events(
         query=query,
         locations=locations,
-        start_date=start_date,
-        end_date=end_date,
+        start_date=start_time.date(),
+        end_date=end_time.date(),
     )
     events = filter_events_by_category(events, categories).order_by("start_time")
 
@@ -74,8 +71,8 @@ def home(request):
             "query": query,
             "selected_locations": locations,
             "selected_categories": categories,
-            "start_date": start_time.date().isoformat(),
-            "end_date": end_time.date().isoformat(),
+            "start_date": start_date.isoformat(),
+            "end_date": end_date.isoformat(),
             "unique_locations": get_unique_locations(),
             "unique_categories": get_unique_categories(),
         },
