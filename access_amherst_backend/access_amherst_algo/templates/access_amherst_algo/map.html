@@ -1,60 +1,19 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Access Amherst - Event Map</title>
+    <link rel="stylesheet" href="{% static 'access_amherst_algo/css/styles.css' %}">
     <style>
-        /* Page styling */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f3e5f5;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        h1 {
-            color: #800080;
-            text-align: center;
-            font-size: 2.5em;
-            margin: 20px 0;
-        }
-
-        /* Map container styling */
+        /* Keep only map-specific styles */
         #map {
-            width: 85vw;
-            height: 70vh;
-            margin: 20px auto;
+            flex: 1;
+            margin-top: var(--header-height);
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             overflow: hidden;
-        }
-
-        /* Button styling */
-        .button-container {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        
-        .map-button {
-            background-color: #800080;
-            color: white;
-            padding: 10px 20px;
-            font-size: 1em;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-        
-        .map-button:hover {
-            background-color: #660066;
         }
     </style>
 
@@ -64,22 +23,20 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-L00WJ9XVMH');
     </script>
 </head>
 <body>
-    <h1>Event Map</h1>
-
-    <!-- Navigation buttons -->
-    <div class="button-container">
-        <a href="{% url 'dashboard' %}" class="map-button">Back to Dashboard</a>
-        <a href="{% url 'home' %}" class="map-button">Back to Events</a>
-        <a href="{% url 'calendar' %}" class="map-button">View Calendar</a>
-    </div>
+    <header class="main-header">
+        <div class="site-title">Access Amherst</div>
+        <nav class="nav-buttons">
+            <a href="{% url 'home' %}" class="nav-button">Events</a>
+            <a href="{% url 'dashboard' %}" class="nav-button">Dashboard</a>
+            <a href="{% url 'calendar' %}" class="nav-button">Calendar</a>
+        </nav>
+    </header>
 
     <div id="map">
-        <!-- Folium map rendering -->
         {{ map_html|safe }}
     </div>
 </body>
