@@ -8,6 +8,9 @@ import logging
 from access_amherst_algo.models import Event
 from django.db.models import Q
 import pytz
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 
 # Configure logging
 logging.basicConfig(
@@ -67,7 +70,7 @@ def parse_calendar_datetime(date_str, pub_date=None):
 
 def is_calendar_event_similar(event_data):
     """
-    Check if a similar event exists using timezone-aware datetime comparison.
+    Check if a similar event exists using cosine similarity of titles.
     """
     try:
         pub_date = parse_calendar_datetime(event_data.get("pub_date"))
@@ -80,17 +83,34 @@ def is_calendar_event_similar(event_data):
         if end_time:
             query &= Q(end_time=end_time)
 
-        similar_events = Event.objects.all()
+        # Convert QuerySet to list early to avoid indexing issues
+        similar_events = list(Event.objects.all())
         if query:
-            similar_events = similar_events.filter(query)
-
-        for event in similar_events:
-            title_similarity = difflib.SequenceMatcher(
-                None, event_data.get("title", "").lower(), event.title.lower()
-            ).ratio()
-            if title_similarity > 0.8:
-                logger.info(f"Found similar event: {event.title}")
-                return True
+            similar_events = [event for event in similar_events if event in Event.objects.filter(query)]
+        
+        # Get all event titles
+        existing_titles = [event.title for event in similar_events]
+        new_title = event_data.get("title", "")
+        
+        if not existing_titles:
+            return False
+            
+        # Create TF-IDF vectors
+        vectorizer = TfidfVectorizer()
+        all_titles = existing_titles + [new_title]
+        tfidf_matrix = vectorizer.fit_transform(all_titles)
+        
+        # Calculate cosine similarity between new title and existing titles
+        new_title_vector = tfidf_matrix[-1:]
+        existing_titles_matrix = tfidf_matrix[:-1]
+        similarities = cosine_similarity(new_title_vector, existing_titles_matrix)[0]
+        
+        # Check if any similarity exceeds threshold
+        if len(similarities) > 0 and np.max(similarities) > 0.6:
+            similar_index = int(np.argmax(similarities))  # Convert to standard Python int
+            most_similar_event = similar_events[similar_index]
+            logger.info(f"Found similar event: {most_similar_event.title}")
+            return True
 
         return False
 

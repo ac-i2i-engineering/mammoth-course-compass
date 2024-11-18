@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Access Amherst - Dashboard</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <style>
         /* Page styling */
         body {
@@ -27,10 +28,10 @@
         /* Dashboard grid styling */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(2, 1fr); /* Force 2 columns */
             gap: 20px;
-            max-width: 1200px;
-            width: 90%;
+            max-width: 1600px; /* Increased max-width to accommodate larger cards */
+            width: 95%;
             margin: 20px auto;
         }
 
@@ -39,12 +40,14 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            min-width: 0; /* Prevents cards from overflowing */
         }
 
         .chart-container {
             position: relative;
             height: 300px;
             width: 100%;
+            overflow: hidden; /* Prevent overflow */
         }
 
         .chart-title {
@@ -57,18 +60,17 @@
 
         /* Map container styling */
         .map-container {
-            position: relative;
-            width: 35%;           /* Set a fixed width to control the map's size */
-            height: 25px;         /* Reduced height */
-            padding: 0;
-            margin: 0 auto;       /* Centers the container horizontally */
+            width: 95%;
+            max-width: 1600px;
+            margin: 20px auto;
         }
 
         #heatmap {
             width: 100%;
-            height: 100%;
-            padding: 0;
-            margin: 0;
+            height: 300px; /* Match container height */
+            position: relative; /* Change from absolute to relative */
+            top: 0;
+            left: 0;
         }
 
         /* Button styling */
@@ -134,7 +136,7 @@
                 <canvas id="hourlyChart"></canvas>
             </div>
         </div>
-
+    
         <!-- Events by Category Chart -->
         <div class="dashboard-card">
             <div class="chart-title">Events by Category</div>
@@ -148,19 +150,37 @@
                 <canvas id="categoryChart"></canvas>
             </div>
         </div>
-    </div>
-
-    <!-- Heatmap Container with Slider -->
-    <div class="dashboard-card map-container">
-        <div class="chart-title">Event Heatmap</div>
-        <div class="slider-container">
-            <span class="slider-label">7 AM</span>
-            <input type="range" id="heatmapRangeMin" min="7" max="22" value="7">
-            <input type="range" id="heatmapRangeMax" min="7" max="22" value="22">
-            <span class="slider-label">10 PM</span>
+    
+        <!-- Overlapping Events Gantt Chart -->
+        <div class="dashboard-card">
+            <div class="chart-title">Overlapping Events</div>
+            <div class="slider-container">
+                <span class="slider-label">Date</span>
+                <input type="date" id="ganttDate" value="{{ timezone.now|date:'Y-m-d' }}">
+                <span class="slider-label">Start Time</span>
+                <input type="time" id="ganttRangeStart" value="07:00">
+                <span class="slider-label">End Time</span>
+                <input type="time" id="ganttRangeEnd" value="22:00">
+            </div>
+            <div class="chart-container">
+                <canvas id="ganttChart"></canvas>
+            </div>
         </div>
-        <div id="heatmap">
-            {{ map_html|safe }}
+    
+        <!-- Heatmap -->
+        <div class="dashboard-card">
+            <div class="chart-title">Event Heatmap</div>
+            <div class="slider-container">
+                <span class="slider-label">7 AM</span>
+                <input type="range" id="heatmapRangeMin" min="7" max="22" value="7">
+                <input type="range" id="heatmapRangeMax" min="7" max="22" value="22">
+                <span class="slider-label">10 PM</span>
+            </div>
+            <div class="chart-container">
+                <div id="heatmap">
+                    {{ map_html|safe }}
+                </div>
+            </div>
         </div>
     </div>
 
@@ -327,6 +347,136 @@
 
         // Initialize category chart
         updateCategoryChart();
+
+        // Function to fetch event data and create Gantt chart data
+        function fetchGanttData(date, startTime, endTime) {
+            // Format date if it's not already formatted
+            const formattedDate = date instanceof Date ? 
+                date.toISOString().split('T')[0] : 
+                date;
+
+            fetch("{% url 'update_gantt' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                body: JSON.stringify({
+                    date: formattedDate,
+                    start_time: startTime,
+                    end_time: endTime
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                console.log('Raw response:', response);
+                return response.json();
+            })
+            .then(data => {
+                if (!data.events || !Array.isArray(data.events)) {
+                    console.error('Invalid data format received');
+                    return;
+                }
+
+                const ganttData = [{
+                    label: 'Events',
+                    data: data.events.map(event => ({
+                        x: [new Date(event.start_time), new Date(event.end_time)],
+                        y: event.name
+                    })),
+                    backgroundColor: 'rgba(128, 0, 128, 0.2)',
+                    borderColor: 'rgba(128, 0, 128, 1)',
+                    borderWidth: 1,
+                    borderSkipped: false,
+                    barPercentage: 0.8
+                }];
+
+                ganttChart.data.datasets = ganttData;
+    
+                // Ensure time range is set correctly
+                const date = document.getElementById('ganttDate').value;
+                const startTime = document.getElementById('ganttRangeStart').value;
+                const endTime = document.getElementById('ganttRangeEnd').value;
+                
+                ganttChart.options.scales.x.min = new Date(`${date}T${startTime}`);
+                ganttChart.options.scales.x.max = new Date(`${date}T${endTime}`);
+                
+                ganttChart.update();
+            })
+            .catch(error => {
+                console.error('Error fetching Gantt data:', error);
+                // Optional: Display error to user
+            });
+        }
+
+        // Add initial load of Gantt data
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('ganttDate').value = today;
+            updateGanttChart();
+        });
+
+        // Initialize Gantt chart
+        const ganttChart = new Chart(document.getElementById('ganttChart'), {
+            type: 'bar',
+            data: {
+                datasets: []
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'hour',
+                            displayFormats: {
+                                hour: 'HH:mm'
+                            }
+                        },
+                        position: 'top',
+                        // Remove hardcoded min/max here
+                    },
+                    y: {
+                        beginAtZero: true,
+                        reverse: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // Function to update Gantt chart
+        function updateGanttChart() {
+            const date = document.getElementById('ganttDate').value;
+            const startTime = document.getElementById('ganttRangeStart').value;
+            const endTime = document.getElementById('ganttRangeEnd').value;
+
+            // Update chart time range
+            ganttChart.options.scales.x.min = new Date(`${date}T${startTime}`);
+            ganttChart.options.scales.x.max = new Date(`${date}T${endTime}`);
+            
+            fetchGanttData(date, startTime, endTime);
+        }
+
+        // Add event listeners for Gantt chart inputs
+        const ganttInputs = ['ganttDate', 'ganttRangeStart', 'ganttRangeEnd'];
+        ganttInputs.forEach(inputId => {
+            const input = document.getElementById(inputId);
+            ['input', 'change'].forEach(eventType => {
+                input.addEventListener(eventType, updateGanttChart);
+            });
+        });
+
+        // Initialize Gantt chart
+        updateGanttChart();
     </script>    
 </body>
 </html>
