@@ -7,5 +7,5 @@ urlpatterns = [
     path("map/", views.map_view, name="map"),
     path("update_heatmap/", views.update_heatmap, name="update_heatmap"),
     path('update_gantt/', views.update_gantt, name='update_gantt'),
-    path("calendar/", views.calendar_view, name="calendar")
+    path("calendar/", views.calendar_view, name="calendar"),
 ]

@@ -12,7 +12,7 @@
         .calendar-container {
             margin-top: calc(var(--header-height) + 20px);
             display: grid;
-            grid-template-columns: var(--time-column-width) repeat(7, 1fr);
+            grid-template-columns: var(--time-column-width) repeat(3, 1fr);
             gap: 1px;
             width: 100%;
             max-width: 1200px;
@@ -79,6 +79,14 @@
             z-index: 4;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             transform: scale(1.02);
+        }
+
+        .event-block,
+        .event-block *,
+        .event-title,
+        .event-time,
+        .event-location {
+            color: white !important;
         }
     
         @media (max-width: 768px) {

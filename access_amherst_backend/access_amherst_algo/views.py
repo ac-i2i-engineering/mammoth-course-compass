@@ -173,7 +173,7 @@ def calendar_view(request):
     est = pytz.timezone("America/New_York")
     timezone.activate(est)
     today = timezone.now().astimezone(est).date()
-    days_of_week = [(today + timedelta(days=i)) for i in range(7)]
+    days_of_week = [(today + timedelta(days=i)) for i in range(3)]
     times = [datetime.strptime(f"{hour}:00", "%H:%M").time() for hour in range(5, 23)]
 
     start_date = datetime(days_of_week[0].year, days_of_week[0].month, days_of_week[0].day, 0, 0, 0, 

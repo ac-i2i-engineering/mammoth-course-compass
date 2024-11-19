@@ -160,10 +160,10 @@ body {
 }
 
 .event-title {
-    font-size: 1.1rem; /* Reduced from 1.25rem */
+    font-size: 0.85rem; /* Reduced from 1.25rem */
     font-weight: 600;
     margin-bottom: 8px; /* Reduced from 12px */
-    color: #333;
+    color: #FFF;
     line-height: 1.3;
 }
 
