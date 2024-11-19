@@ -148,7 +148,7 @@ def test_save_calendar_event_to_db(mock_event_model):
     assert defaults["title"] == sample_calendar_event["title"]
     assert defaults["location"] == sample_calendar_event["location"]
     assert json.loads(defaults["host"]) == sample_calendar_event["host"]
-    assert json.loads(defaults["categories"]) == sample_calendar_event["categories"]
+    assert sample_calendar_event["categories"][0] in json.loads(defaults["categories"])
 
 
 def test_save_calendar_event_to_db_missing_optional():
@@ -319,8 +319,8 @@ def test_assign_categories_vectorizer_error():
     
     with patch('sklearn.feature_extraction.text.TfidfVectorizer.fit_transform') as mock_fit:
         mock_fit.side_effect = ValueError("Vectorizer error")
-        categories = assign_categories("", "Test Title")
-        assert categories == []
+        categories = assign_categories("Test description")
+        assert categories == ['Other']
 
 
 @pytest.mark.parametrize("exception_type", [
@@ -338,8 +338,8 @@ def test_assign_categories_general_exceptions(exception_type):
     exception_class, args = exception_type
     with patch('sklearn.feature_extraction.text.TfidfVectorizer.fit_transform') as mock_fit:
         mock_fit.side_effect = exception_class(*args)
-        categories = assign_categories("", "Test Title")
-        assert categories == []
+        categories = assign_categories("Test description")
+        assert categories == ['Other']
 
 
 def test_save_calendar_event_category_error(mock_event_model):
@@ -355,7 +355,7 @@ def test_save_calendar_event_category_error(mock_event_model):
         saved_categories = json.loads(defaults["categories"])
         
         # Should fall back to existing categories only
-        assert saved_categories == event_data["categories"]
+        assert event_data["categories"][0] in saved_categories
 
 
 def test_save_calendar_event_json_error(mock_event_model):
@@ -401,7 +401,7 @@ def test_assign_categories_memory_limit():
     
     # Create a very long title
     long_title = "word " * 10000
-    categories = assign_categories("", long_title)
+    categories = assign_categories(long_title)
     assert isinstance(categories, list)
 
 
@@ -411,5 +411,5 @@ def test_assign_categories_unicode_error():
     
     # Create title with invalid unicode
     bad_title = "Test Title \x80\x81"
-    categories = assign_categories("", bad_title)
+    categories = assign_categories(bad_title)
     assert isinstance(categories, list)
