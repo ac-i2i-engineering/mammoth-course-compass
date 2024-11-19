@@ -12,17 +12,27 @@
         /* Dashboard-specific styles only */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-areas: 
+            grid-template-areas:
                 "hourly category"
                 "gantt gantt"
                 "heatmap heatmap";
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto 600px;
             gap: 20px;
             padding: 20px;
-            margin-top: calc(var(--header-height) + 20px);
-            max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
+            padding-bottom: 40px; /* Add bottom padding */
+            margin-top: var(--header-height);
+            margin-bottom: 20px; /* Add bottom margin */
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: auto;
         }
     
         .chart-title {
@@ -50,7 +60,7 @@
             height: 300px;
             width: 100%;
             background: white;
-            margin-bottom: 20px;
+            margin-bottom: 0; /* Remove bottom margin */
         }
 
         .chart-container canvas {
@@ -59,8 +69,19 @@
         }
 
         #heatmap {
-            height: 100%;
+            position: relative; /* Change from absolute to relative */
             width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #heatmap iframe {
+            width: 100%;
+            height: calc(100% - 20px); /* Subtract padding from iframe height */
+            border: none;
+            display: block;
+            margin-bottom: 20px; /* Add margin to iframe directly */
         }
     
         input[type="range"] {
@@ -77,46 +98,38 @@
         .dashboard-card:nth-child(1) { grid-area: hourly; }
         .dashboard-card:nth-child(2) { grid-area: category; }
         .dashboard-card:nth-child(3) { grid-area: gantt; }
-        .dashboard-card:nth-child(4) { grid-area: heatmap; }
+        .dashboard-card:nth-child(4) {
+            grid-area: heatmap;
+            height: 600px; /* Fixed height */
+            max-height: 600px; /* Maximum height */
+            overflow: hidden; /* Prevent card overflow */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dashboard-card:nth-child(4) .chart-container {
+            flex: 1;
+            min-height: 0;
+            position: relative;
+            margin-bottom: 20px; /* Change from padding to margin */
+        }
     
         @media (max-width: 1024px) {
             .dashboard-grid {
-                grid-template-columns: 1fr;
-                grid-template-areas: 
+                grid-template-areas:
                     "hourly"
                     "category"
                     "gantt"
                     "heatmap";
-                padding: 15px;
-            }
-    
-            .chart-container {
-                height: 250px;
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto auto;
             }
         }
     
         @media (max-width: 768px) {
             .dashboard-grid {
-                gap: 15px;
-            }
-    
-            .chart-container {
-                height: 200px;
-            }
-    
-            .dashboard-card:nth-child(3) .chart-container,
-            .dashboard-card:nth-child(4) .chart-container {
-                height: 300px;
-            }
-    
-            .slider-container {
-                flex-wrap: wrap;
-            }
-    
-            input[type="date"],
-            input[type="time"] {
-                width: 100%;
-                margin: 5px 0;
+                padding-bottom: 60px; /* Increase bottom padding for mobile */
             }
         }
 
