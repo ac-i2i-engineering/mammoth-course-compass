@@ -2,7 +2,7 @@ name: Periodic Django Management Commands
 
 on:
   schedule:
-    - cron: "*/60 * * * *"  # Runs every 45 minutes
+    - cron: "*/120 * * * *"  # Runs every 120 minutes
   workflow_dispatch:
 
 jobs:
