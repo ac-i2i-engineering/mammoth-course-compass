@@ -287,37 +287,58 @@ def add_random_offset(lat, lng):
     return lat, lng
 
 
-def assign_categories(event_description, title):
+def assign_categories(event_data):
     """
-    Assign categories based only on event title matching
-    """
-    if not isinstance(title, str) or not title:
-        return []
+    Assign single best-matching category based on full event content.
     
-    try:
-        # Use only title for matching
-        texts = [title.lower()] + list(CATEGORY_DESCRIPTIONS.values())
+    Args:
+        event_data (dict): Complete event JSON data
         
+    Returns:
+        list: Single-item list containing best matching category
+    """
+    try:
+        # Combine relevant event fields into single text
+        event_text = ' '.join(filter(None, [
+            event_data.get('title', ''),
+            event_data.get('event_description', ''),
+            event_data.get('host', ''),
+            event_data.get('location', '')
+        ])).lower()
+
+        if not event_text.strip():
+            logger.warning("Empty event text, returning default category")
+            return ['Other']
+
+        # Prepare texts for comparison
+        texts = [event_text] + list(CATEGORY_DESCRIPTIONS.values())
+        
+        # Calculate TF-IDF similarity
         vectorizer = TfidfVectorizer(stop_words='english')
         try:
             tfidf_matrix = vectorizer.fit_transform(texts)
+            similarities = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:])[0]
+            
+            # Get category with highest similarity
+            if len(similarities) > 0:
+                best_match_idx = similarities.argmax()
+                best_match_score = similarities[best_match_idx]
+                
+                if best_match_score > 0.02:  # Minimum similarity threshold
+                    best_category = list(CATEGORY_DESCRIPTIONS.keys())[best_match_idx]
+                    logger.info(f"Assigned category '{best_category}' with score {best_match_score:.3f}")
+                    return [best_category]
+            
+            logger.info("No category met similarity threshold")
+            return ['Other']
+            
         except Exception as e:
             logger.error(f"Vectorizer error: {e}")
-            return []
-
-        # Lower threshold since using only title
-        SIMILARITY_THRESHOLD = 0.08  
-        similarities = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:])
-        
-        assigned_categories = []
-        for idx, score in enumerate(similarities[0]):
-            if score > SIMILARITY_THRESHOLD:
-                assigned_categories.append(list(CATEGORY_DESCRIPTIONS.keys())[idx])
-        
-        return assigned_categories
+            return ['Other']
+            
     except Exception as e:
         logger.error(f"Category assignment error: {e}")
-        return []
+        return ['Other']
 
 
 # Modify save_calendar_event_to_db:
@@ -346,13 +367,14 @@ def save_calendar_event_to_db(event_data):
 
         # Get categories using similarity
         try:
-            auto_categories = assign_categories(
-                event_data.get("event_description", ""),
-                title
-            )
+            auto_categories = assign_categories(event_data)
         except Exception as e:
             logger.error(f"Category assignment error: {e}")
             auto_categories = []
+
+                # Ensure at least one category
+        if not auto_categories:
+            auto_categories = ["Other"]
 
         existing_categories = event_data.get("categories", [])
         all_categories = list(set(existing_categories + auto_categories))
