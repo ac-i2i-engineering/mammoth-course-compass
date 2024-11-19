@@ -44,6 +44,24 @@
             color: #666;
             min-width: 50px;
         }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            background: white;
+            margin-bottom: 20px;
+        }
+
+        .chart-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        #heatmap {
+            height: 100%;
+            width: 100%;
+        }
     
         input[type="range"] {
             flex: 1;
@@ -101,6 +119,69 @@
                 margin: 5px 0;
             }
         }
+
+        .dual-slider-container {
+            flex: 1;
+            position: relative;
+            padding: 0 10px;
+        }
+
+        .dual-slider-values {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+        }
+
+        .dual-slider {
+            position: relative;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+        }
+
+        .dual-slider-input {
+            position: absolute;
+            width: 100%;
+            pointer-events: none;
+            appearance: none;
+            height: 100%;
+            background: none;
+            z-index: 2;
+        }
+
+        .dual-slider-track {
+            position: absolute;
+            height: 100%;
+            background: var(--primary-color);
+            border-radius: 10px;
+            z-index: 1;
+        }
+
+        .dual-slider-input::-webkit-slider-thumb {
+            pointer-events: all;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid var(--primary-color);
+            cursor: pointer;
+            z-index: 3;
+        }
+
+        .dual-slider-input::-moz-range-thumb {
+            pointer-events: all;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid var(--primary-color);
+            cursor: pointer;
+            z-index: 3;
+        }
     </style>
     
     <!-- Google tag (gtag.js) -->
@@ -136,10 +217,17 @@
         <div class="dashboard-card">
             <div class="chart-title">Events by Category</div>
             <div class="slider-container">
-                <span class="slider-label">7 AM</span>
-                <input type="range" id="categoryRangeMin" min="7" max="22" value="7">
-                <input type="range" id="categoryRangeMax" min="7" max="22" value="22">
-                <span class="slider-label">10 PM</span>
+                <span class="slider-label">Time Range:</span>
+                <div class="dual-slider-container">
+                    <div class="dual-slider-values">
+                        <span id="categoryMinValue">7 AM</span>
+                        <span id="categoryMaxValue">10 PM</span>
+                    </div>
+                    <div class="dual-slider">
+                        <input type="range" id="categoryRangeMin" min="7" max="22" value="7" class="dual-slider-input min">
+                        <input type="range" id="categoryRangeMax" min="7" max="22" value="22" class="dual-slider-input max">
+                    </div>
+                </div>
             </div>
             <div class="chart-container">
                 <canvas id="categoryChart"></canvas>
@@ -166,10 +254,17 @@
         <div class="dashboard-card">
             <div class="chart-title">Event Heatmap</div>
             <div class="slider-container">
-                <span class="slider-label">7 AM</span>
-                <input type="range" id="heatmapRangeMin" min="7" max="22" value="7">
-                <input type="range" id="heatmapRangeMax" min="7" max="22" value="22">
-                <span class="slider-label">10 PM</span>
+                <span class="slider-label">Time Range:</span>
+                <div class="dual-slider-container">
+                    <div class="dual-slider-values">
+                        <span id="heatmapMinValue">7 AM</span>
+                        <span id="heatmapMaxValue">10 PM</span>
+                    </div>
+                    <div class="dual-slider">
+                        <input type="range" id="heatmapRangeMin" min="7" max="22" value="7" class="dual-slider-input min">
+                        <input type="range" id="heatmapRangeMax" min="7" max="22" value="22" class="dual-slider-input max">
+                    </div>
+                </div>
             </div>
             <div class="chart-container">
                 <div id="heatmap">
@@ -287,15 +382,49 @@
                 max: Math.max(minVal, maxVal)
             };
         }
+
+        function formatTime(hour) {
+            const period = hour >= 12 ? 'PM' : 'AM';
+            const displayHour = hour > 12 ? hour - 12 : hour;
+            return `${displayHour}:00 ${period}`;
+        }
+
+        function updateSliderTrack(minSlider, maxSlider, trackId) {
+            let track = minSlider.parentElement.querySelector('.dual-slider-track');
+            
+            // Create track if it doesn't exist
+            if (!track) {
+                track = document.createElement('div');
+                track.className = 'dual-slider-track';
+                track.id = trackId;
+                minSlider.parentElement.appendChild(track);
+            }
+            
+            const min = parseInt(minSlider.value);
+            const max = parseInt(maxSlider.value);
+            const range = maxSlider.max - maxSlider.min;
+            const start = ((min - maxSlider.min) / range) * 100;
+            const end = ((max - maxSlider.min) / range) * 100;
+            
+            track.style.left = start + '%';
+            track.style.width = (end - start) + '%';
+        }
     
         function updateCategoryChart() {
             const minSlider = document.getElementById('categoryRangeMin');
             const maxSlider = document.getElementById('categoryRangeMax');
             const range = validateSliderValues(minSlider, maxSlider);
             
+            // Update labels
+            document.getElementById('categoryMinValue').textContent = formatTime(range.min);
+            document.getElementById('categoryMaxValue').textContent = formatTime(range.max);
+            
+            // Update slider track
+            updateSliderTrack(minSlider, maxSlider, 'categoryTrack');
+            
+            // Update chart
             const categoryCounts = getCategoryCounts(range.min, range.max);
             const newData = createCategoryChartData(categoryCounts);
-            
             categoryChart.data = newData;
             categoryChart.update();
         }
@@ -304,7 +433,15 @@
             const minSlider = document.getElementById('heatmapRangeMin');
             const maxSlider = document.getElementById('heatmapRangeMax');
             const range = validateSliderValues(minSlider, maxSlider);
-
+            
+            // Update labels
+            document.getElementById('heatmapMinValue').textContent = formatTime(range.min);
+            document.getElementById('heatmapMaxValue').textContent = formatTime(range.max);
+            
+            // Update slider track
+            updateSliderTrack(minSlider, maxSlider, 'heatmapTrack');
+            
+            // Update heatmap
             fetch("{% url 'update_heatmap' %}", {
                 method: "POST",
                 headers: {
@@ -322,6 +459,91 @@
             })
             .catch(error => console.error('Error updating heatmap:', error));
         }
+
+        // Initialize sliders on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                // Initialize hourly chart
+                const hourlyCtx = document.getElementById('hourlyChart');
+                if (!hourlyCtx) {
+                    console.error('Hourly chart canvas not found');
+                    return;
+                }
+                
+                const hourlyChart = new Chart(hourlyCtx, {
+                    type: 'bar',
+                    data: {...originalHourlyData},
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                        }
+                    }
+                });
+
+                // Initialize category chart
+                const categoryCtx = document.getElementById('categoryChart');
+                if (!categoryCtx) {
+                    console.error('Category chart canvas not found');
+                    return;
+                }
+                
+                const categoryChart = new Chart(categoryCtx, {
+                    type: 'pie',
+                    data: createCategoryChartData(getCategoryCounts(7, 22)),
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'right' } }
+                    }
+                });
+
+                // Initialize Gantt chart
+                const ganttCtx = document.getElementById('ganttChart');
+                if (!ganttCtx) {
+                    console.error('Gantt chart canvas not found');
+                    return;
+                }
+                
+                const ganttChart = new Chart(ganttCtx, {
+                    type: 'bar',
+                    data: { datasets: [] },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        indexAxis: 'y',
+                        scales: {
+                            x: {
+                                type: 'time',
+                                time: {
+                                    unit: 'hour',
+                                    displayFormats: {
+                                        hour: 'HH:mm'
+                                    }
+                                },
+                                position: 'top'
+                            },
+                            y: {
+                                beginAtZero: true,
+                                reverse: true
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+
+                // Initialize sliders and charts
+                updateCategoryChart();
+                updateHeatmap();
+                updateGanttChart();
+
+            } catch (error) {
+                console.error('Error initializing charts:', error);
+            }
+        });
     
         // Add event listeners
         const categorySliders = ['categoryRangeMin', 'categoryRangeMax'];
@@ -350,7 +572,7 @@
                 date.toISOString().split('T')[0] : 
                 date;
 
-            fetch("{% url 'update_gantt' %}", {
+            return fetch("{% url 'update_gantt' %}", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -364,17 +586,16 @@
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                console.log('Raw response:', response);
                 return response.json();
             })
             .then(data => {
-                if (!data.events || !Array.isArray(data.events)) {
-                    console.error('Invalid data format received');
-                    return;
+                if (!data || !data.events || !Array.isArray(data.events)) {
+                    throw new Error('Invalid data format received');
                 }
 
+                // Update chart data
                 const ganttData = [{
                     label: 'Events',
                     data: data.events.map(event => ({
@@ -388,21 +609,20 @@
                     barPercentage: 0.8
                 }];
 
-                ganttChart.data.datasets = ganttData;
-    
-                // Ensure time range is set correctly
-                const date = document.getElementById('ganttDate').value;
-                const startTime = document.getElementById('ganttRangeStart').value;
-                const endTime = document.getElementById('ganttRangeEnd').value;
-                
-                ganttChart.options.scales.x.min = new Date(`${date}T${startTime}`);
-                ganttChart.options.scales.x.max = new Date(`${date}T${endTime}`);
-                
-                ganttChart.update();
+                // Update chart
+                if (ganttChart) {
+                    ganttChart.data.datasets = ganttData;
+                    ganttChart.options.scales.x.min = new Date(`${date}T${startTime}`);
+                    ganttChart.options.scales.x.max = new Date(`${date}T${endTime}`);
+                    ganttChart.update('none'); // Use 'none' to prevent animation
+                }
+
+                return true; // Indicate successful completion
             })
             .catch(error => {
-                console.error('Error fetching Gantt data:', error);
-                // Optional: Display error to user
+                console.error('Error in Gantt chart update:', error);
+                // Optionally show user-friendly error message
+                return false; // Indicate failure
             });
         }
 
@@ -449,29 +669,59 @@
         });
 
         // Function to update Gantt chart
-        function updateGanttChart() {
-            const date = document.getElementById('ganttDate').value;
-            const startTime = document.getElementById('ganttRangeStart').value;
-            const endTime = document.getElementById('ganttRangeEnd').value;
+        async function updateGanttChart() {
+            try {
+                const date = document.getElementById('ganttDate').value;
+                const startTime = document.getElementById('ganttRangeStart').value;
+                const endTime = document.getElementById('ganttRangeEnd').value;
 
-            // Update chart time range
-            ganttChart.options.scales.x.min = new Date(`${date}T${startTime}`);
-            ganttChart.options.scales.x.max = new Date(`${date}T${endTime}`);
-            
-            fetchGanttData(date, startTime, endTime);
+                // Validate inputs
+                if (!date || !startTime || !endTime) {
+                    throw new Error('Missing required input values');
+                }
+
+                const success = await fetchGanttData(date, startTime, endTime);
+                if (!success) {
+                    console.warn('Failed to update Gantt chart');
+                }
+            } catch (error) {
+                console.error('Error in updateGanttChart:', error);
+            }
         }
 
-        // Add event listeners for Gantt chart inputs
-        const ganttInputs = ['ganttDate', 'ganttRangeStart', 'ganttRangeEnd'];
-        ganttInputs.forEach(inputId => {
-            const input = document.getElementById(inputId);
-            ['input', 'change'].forEach(eventType => {
-                input.addEventListener(eventType, updateGanttChart);
-            });
-        });
+        // Update event listeners with debouncing
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
 
-        // Initialize Gantt chart
-        updateGanttChart();
+        // Add debounced event listeners
+        const debouncedUpdate = debounce(updateGanttChart, 250);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const ganttInputs = ['ganttDate', 'ganttRangeStart', 'ganttRangeEnd'];
+            ganttInputs.forEach(inputId => {
+                const input = document.getElementById(inputId);
+                if (input) {
+                    input.addEventListener('change', debouncedUpdate);
+                }
+            });
+
+            // Initial load
+            const today = new Date().toISOString().split('T')[0];
+            const dateInput = document.getElementById('ganttDate');
+            if (dateInput) {
+                dateInput.value = today;
+                updateGanttChart();
+            }
+        });
     </script>    
 </body>
 </html>
