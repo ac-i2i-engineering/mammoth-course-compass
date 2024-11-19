@@ -202,42 +202,6 @@ def test_empty_event_cleaning():
     assert "categories" not in cleaned_event
     assert cleaned_event["title"] == "Test"
 
-@pytest.mark.parametrize(
-    "location, expected",
-    [
-        ("Keefe Campus Center", "Keefe Campus Center"),
-        ("Ford Hall", "Ford Hall"),
-        ("Random Location", "Other"),
-    ],
-)
-def test_categorize_location(location, expected):
-    """Test the location categorization."""
-    from access_amherst_algo.calendar_scraper.calendar_parser import categorize_location
-    assert categorize_location(location) == expected
-
-@pytest.mark.parametrize(
-    "location, expected_lat_lng",
-    [
-        ("Keefe Campus Center", (42.37141504481807, -72.51479991450528)),
-        ("Science Center", (42.37105378715133, -72.51334790776447)),
-        ("Unknown Location", (None, None)),
-    ],
-)
-def test_get_lat_lng(location, expected_lat_lng):
-    """Test latitude and longitude retrieval."""
-    from access_amherst_algo.calendar_scraper.calendar_parser import get_lat_lng
-    assert get_lat_lng(location) == expected_lat_lng
-
-def test_add_random_offset():
-    """Test adding random offsets to coordinates."""
-    from access_amherst_algo.calendar_scraper.calendar_parser import add_random_offset
-    original_lat, original_lng = 42.0, -72.0
-    offset_lat, offset_lng = add_random_offset(original_lat, original_lng)
-
-    # Assert that the offset values are within the expected range
-    assert abs(offset_lat - original_lat) <= 0.00015
-    assert abs(offset_lng - original_lng) <= 0.00015
-
 @patch('access_amherst_algo.calendar_scraper.calendar_parser.fetch_page')
 def test_scrape_page_exception_handling(mock_fetch_page):
     """Test exception handling in scrape_page."""

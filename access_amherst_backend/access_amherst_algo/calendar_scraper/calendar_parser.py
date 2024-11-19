@@ -4,8 +4,6 @@ import os
 import logging
 from bs4 import BeautifulSoup
 from datetime import datetime
-import random
-import re
 
 BASE_URL = "https://www.amherst.edu/news/events/calendar"
 headers = {
@@ -13,100 +11,6 @@ headers = {
     "Referer": "https://www.amherst.edu/",
     "Accept-Language": "en-US,en;q=0.9",
     "Connection": "keep-alive",
-}
-
-# Define location buckets with keywords as keys and dictionaries containing full names, latitude, and longitude as values
-location_buckets = {
-    "Keefe": {
-        "name": "Keefe Campus Center",
-        "latitude": 42.37141504481807,
-        "longitude": -72.51479991450528,
-    },
-    "Queer": {
-        "name": "Keefe Campus Center",
-        "latitude": 42.37141504481807,
-        "longitude": -72.51479991450528,
-    },
-    "Multicultural": {
-        "name": "Keefe Campus Center",
-        "latitude": 42.37141504481807,
-        "longitude": -72.51479991450528,
-    },
-    "Friedmann": {
-        "name": "Keefe Campus Center",
-        "latitude": 42.37141504481807,
-        "longitude": -72.51479991450528,
-    },
-    "Ford": {
-        "name": "Ford Hall",
-        "latitude": 42.36923506234738,
-        "longitude": -72.51529130962976,
-    },
-    "SCCE": {
-        "name": "Science Center",
-        "latitude": 42.37105378715133,
-        "longitude": -72.51334790776447,
-    },
-    "Science Center": {
-        "name": "Science Center",
-        "latitude": 42.37105378715133,
-        "longitude": -72.51334790776447,
-    },
-    "Chapin": {
-        "name": "Chapin Hall",
-        "latitude": 42.371771820543486,
-        "longitude": -72.51572746604714,
-    },
-    "Gym": {
-        "name": "Alumni Gymnasium",
-        "latitude": 42.368819594097864,
-        "longitude": -72.5188658145099,
-    },
-    "Cage": {
-        "name": "Alumni Gymnasium",
-        "latitude": 42.368819594097864,
-        "longitude": -72.5188658145099,
-    },
-    "Lefrak": {
-        "name": "Alumni Gymnasium",
-        "latitude": 42.368819594097864,
-        "longitude": -72.5188658145099,
-    },
-    "Middleton Gym": {
-        "name": "Alumni Gym",
-        "latitude": 42.368819594097864,
-        "longitude": -72.5188658145099,
-    },
-    "Frost": {
-        "name": "Frost Library",
-        "latitude": 42.37183195277655,
-        "longitude": -72.51699336789369,
-    },
-    "Paino": {
-        "name": "Beneski Museum of Natural History",
-        "latitude": 42.37209277500926,
-        "longitude": -72.51422459549485,
-    },
-    "Powerhouse": {
-        "name": "Powerhouse",
-        "latitude": 42.372109655195466,
-        "longitude": -72.51309270030836,
-    },
-    "Converse": {
-        "name": "Converse Hall",
-        "latitude": 42.37243680844771,
-        "longitude": -72.518433147017,
-    },
-    "Assembly Room": {
-        "name": "Converse Hall",
-        "latitude": 42.37243680844771,
-        "longitude": -72.518433147017,
-    },
-    "Red Room": {
-        "name": "Converse Hall",
-        "latitude": 42.37243680844771,
-        "longitude": -72.518433147017,
-    },
 }
 
 # Configure logging
@@ -119,34 +23,6 @@ logging.basicConfig(
     ]
 )
 logger = logging.getLogger(__name__)
-
-def categorize_location(location):
-    """
-    Categorize a location based on keywords in the location_buckets dictionary.
-    Returns the full location name if matched, otherwise returns "Other".
-    """
-    for keyword, info in location_buckets.items():
-        if re.search(rf"\b{keyword}\b", location, re.IGNORECASE):
-            return info["name"]
-    return "Other"
-
-def get_lat_lng(location):
-    """
-    Get the latitude and longitude for a location based on the location_buckets dictionary.
-    """
-    for keyword, info in location_buckets.items():
-        if re.search(rf"\b{keyword}\b", location, re.IGNORECASE):
-            return info["latitude"], info["longitude"]
-    return None, None
-
-def add_random_offset(lat, lng):
-    """
-    Add a small random offset to latitude and longitude coordinates.
-    """
-    offset_range = 0.00015
-    lat += random.uniform(-offset_range, offset_range)
-    lng += random.uniform(-offset_range, offset_range)
-    return lat, lng
 
 def fetch_page(url):
     logger.info(f"Fetching URL: {url}")
@@ -192,11 +68,7 @@ def scrape_page(url):
                 "event_description": None,
                 "start_time": None,
                 "end_time": None,
-                "location": None,
-                "categories": None,
-                "map_location": None,
-                "latitude": None,
-                "longitude": None
+                "location": None
             }
 
             # Extract basic event information
@@ -217,17 +89,7 @@ def scrape_page(url):
 
             location_tag = article.find("p", class_="mm-event-listing-location")
             if location_tag:
-                location = location_tag.get_text(strip=True)
-                event["location"] = location
-                # Add map location categorization
-                event["map_location"] = categorize_location(location)
-
-                # Add latitude and longitude
-                lat, lng = get_lat_lng(location)
-                if lat is not None and lng is not None:
-                    lat, lng = add_random_offset(lat, lng)
-                    event["latitude"] = lat
-                    event["longitude"] = lng
+                event["location"] = location_tag.get_text(strip=True)
 
             description_tag = article.find("div", class_="mm-event-listing-description")
             if description_tag:
