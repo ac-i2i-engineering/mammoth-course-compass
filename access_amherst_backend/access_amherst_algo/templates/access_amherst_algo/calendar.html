@@ -8,33 +8,51 @@
     <title>Weekly Calendar View</title>
     <link rel="stylesheet" href="{% static 'access_amherst_algo/css/styles.css' %}">
     <style>
-        /* Calendar-specific styles only */
+        /* Grid Layout */
         .calendar-container {
-            margin-top: calc(var(--header-height) + 20px);
+            margin: calc(var(--header-height) + 10px) auto 0;
             display: grid;
+            grid-template-rows: auto 1fr;
             grid-template-columns: var(--time-column-width) repeat(3, 1fr);
             gap: 1px;
             width: 100%;
-            max-width: 1200px;
-            margin: 20px auto;
+            max-width: 98vw;
+            height: calc(100vh - var(--header-height) - 20px);
+            padding: 0 10px;
             border: 1px solid var(--border-color);
             background: var(--border-color);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            overflow: hidden;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
     
+        /* Header Styles */
         .day-header {
             background: var(--background-color);
-            padding: 15px 10px;
+            padding: 10px;
             text-align: center;
             font-weight: 600;
-            font-size: 0.9rem;
+            border-bottom: 2px solid var(--border-color);
             position: sticky;
             top: 0;
             z-index: 3;
+            height: fit-content;
         }
     
+        .day-name {
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 4px;
+            color: var(--primary-color);
+        }
+    
+        .day-date {
+            font-size: 0.9rem;
+            color: #666;
+        }
+    
+        /* Time Column */
         .time-column {
             background: var(--background-color);
             position: sticky;
@@ -42,45 +60,70 @@
             z-index: 2;
         }
     
+        .time-column[aria-hidden="true"] {
+            border-bottom: 2px solid var(--border-color);
+        }
+    
         .time-slot {
-            height: 60px;
-            padding: 5px;
-            text-align: center;
-            font-size: 0.8rem;
+            height: 45px;
+            padding: 2px 8px;
+            text-align: right;
+            font-size: 0.75rem;
             color: #666;
             background: var(--background-color);
             border-bottom: 1px solid var(--border-color);
+            position: relative;
         }
     
+        /* Day Column */
         .day-column {
             position: relative;
             background: white;
-            min-height: 60px;
+            min-height: 45px;
             border-bottom: 1px solid var(--border-color);
         }
     
+        /* Event Blocks */
         .event-block {
             position: absolute;
-            padding: 8px;
+            padding: 4px 6px;
             background-color: var(--primary-color);
             color: var(--event-text);
             border-radius: 4px;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
+            line-height: 1.2;
             overflow: hidden;
             transition: all 0.2s ease;
             width: calc((100% - 4px) / var(--columns));
             left: calc(var(--column) * (100% / var(--columns)));
             opacity: 0.9;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1;
         }
     
-        .event-block:hover {
-            opacity: 1;
-            z-index: 4;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            transform: scale(1.02);
+        /* Event Colors */
+        .event-block:nth-child(7n+1) { background-color: #4CAF50; }
+        .event-block:nth-child(7n+2) { background-color: #2196F3; }
+        .event-block:nth-child(7n+3) { background-color: #9C27B0; }
+        .event-block:nth-child(7n+4) { background-color: #FF9800; }
+        .event-block:nth-child(7n+5) { background-color: #E91E63; }
+        .event-block:nth-child(7n+6) { background-color: #00BCD4; }
+        .event-block:nth-child(7n+7) { background-color: #FF5722; }
+    
+        /* Event Content */
+        .event-title {
+            font-weight: 600;
+            font-size: 0.8rem;
         }
-
+    
+        .event-time, 
+        .event-location {
+            font-size: 0.7rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    
         .event-block,
         .event-block *,
         .event-title,
@@ -89,12 +132,38 @@
             color: white !important;
         }
     
+        /* Event Hover Effects */
+        .event-block:hover {
+            opacity: 1;
+            z-index: 1000;
+            transform: scale(1.05);
+            width: 250px;
+            height: auto !important;
+            min-height: var(--original-height);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border: 2px solid #fff;
+            padding: 8px;
+        }
+    
+        .event-block:hover .event-title,
+        .event-block:hover .event-time,
+        .event-block:hover .event-location {
+            white-space: normal;
+            overflow: visible;
+            text-overflow: unset;
+            margin-bottom: 4px;
+        }
+    
+        /* Responsive Design */
         @media (max-width: 768px) {
             .calendar-container {
-                grid-template-columns: var(--time-column-width) repeat(3, 1fr);
+                max-width: 98vw;
+                padding: 0 5px;
+                margin: 10px auto;
             }
             
-            .day-header, .day-column {
+            .day-header, 
+            .day-column {
                 display: none;
             }
             
@@ -127,10 +196,12 @@
     </header>
 
     <main class="calendar-container">
-        <div class="time-column" aria-hidden="true"></div>
+        <!-- Add specific class for the empty corner cell -->
+        <div class="time-column corner-cell" aria-hidden="true"></div>
         {% for day in days_of_week %}
             <div class="day-header" role="columnheader">
-                {{ day|date:"l, M d" }}
+                <span class="day-name">{{ day|date:"l" }}</span>
+                <span class="day-date">{{ day|date:"M d" }}</span>
             </div>
         {% endfor %}
 

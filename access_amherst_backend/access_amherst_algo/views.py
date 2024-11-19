@@ -168,12 +168,13 @@ def update_gantt(request):
     return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 
-
 def calendar_view(request):
     est = pytz.timezone("America/New_York")
     timezone.activate(est)
     today = timezone.now().astimezone(est).date()
     days_of_week = [(today + timedelta(days=i)) for i in range(3)]
+    
+    # Generate times from 5:00 AM to 11:00 PM
     times = [datetime.strptime(f"{hour}:00", "%H:%M").time() for hour in range(5, 23)]
 
     start_date = datetime(days_of_week[0].year, days_of_week[0].month, days_of_week[0].day, 0, 0, 0, 
@@ -186,7 +187,7 @@ def calendar_view(request):
     for day in days_of_week:
         events_by_day[day.strftime('%Y-%m-%d')] = []
     
-    # Group events by day and calculate overlaps
+    # Update the event positioning calculation
     for event in events:
         start_time_est = event.start_time.astimezone(pytz.timezone("America/New_York"))
         end_time_est = event.end_time.astimezone(pytz.timezone("America/New_York"))
@@ -194,52 +195,56 @@ def calendar_view(request):
         event_date = start_time_est.date()
         event_date_str = event_date.strftime('%Y-%m-%d')
         if event_date_str in events_by_day:
+            # Calculate position and height
+            top = (start_time_est.hour - 5) * 45 + (start_time_est.minute / 60) * 45
+            height = ((end_time_est.hour - start_time_est.hour) * 45 + 
+                     ((end_time_est.minute - start_time_est.minute) / 60) * 45)
+            
             event_obj = {
                 "title": event.title,
                 "location": event.location,
                 "start_time": start_time_est,
                 "end_time": end_time_est,
-                "top": (start_time_est.hour - 7) * 60 + start_time_est.minute,
-                "height": ((end_time_est.hour - start_time_est.hour) * 60 + 
-                          (end_time_est.minute - start_time_est.minute)),
-                "column": 0,  # Will be set during overlap detection
-                "columns": 1  # Will be set during overlap detection
+                "top": top,
+                "height": max(height, 30),  # Minimum height for visibility
+                "column": 0,
+                "columns": 1
             }
             events_by_day[event_date_str].append(event_obj)
 
     # Calculate overlaps for each day
-    for day, events in events_by_day.items():
-        if not events:
-            continue
+    for day, day_events in events_by_day.items():
+        if day_events:  # Only process if there are events
+            # Sort events by start time
+            day_events.sort(key=lambda x: x['start_time'])
             
-        # Sort events by start time
-        events.sort(key=lambda x: x['start_time'].astimezone(pytz.timezone("America/New_York")))
-        
-        # Find overlapping groups
-        for i, event in enumerate(events):
-            overlapping = []
-            for other in events:
-                if event != other and is_overlapping(event, other):
-                    overlapping.append(other)
+            # Find overlapping groups and assign columns
+            current_group = []
+            max_columns = 1
             
-            if overlapping:
-                # Calculate total columns needed
-                max_columns = len(overlapping) + 1
-                taken_columns = set()
-                for e in overlapping:
-                    if 'column' in e:
-                        taken_columns.add(e['column'])
+            for event in day_events:
+                # Remove events from current group that don't overlap with current event
+                current_group = [e for e in current_group if is_overlapping(e, event)]
                 
-                # Find first available column
-                for col in range(max_columns):
-                    if col not in taken_columns:
-                        event['column'] = col
-                        break
+                # Add current event to group
+                current_group.append(event)
                 
-                # Update columns count for all overlapping events
+                # Update columns for current group
+                column = 0
+                used_columns = set()
+                
+                for e in current_group:
+                    if column in used_columns:
+                        column += 1
+                    e['column'] = column
+                    used_columns.add(column)
+                
+                # Update max columns for the group
+                max_columns = max(max_columns, len(current_group))
+            
+            # Set number of columns for all events in the day
+            for event in day_events:
                 event['columns'] = max_columns
-                for e in overlapping:
-                    e['columns'] = max_columns
 
     return render(
         request,
