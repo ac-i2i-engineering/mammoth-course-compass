@@ -11,7 +11,118 @@ import pytz
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+import random
 import re
+
+# Define location buckets with keywords as keys and dictionaries containing full names, latitude, and longitude as values
+location_buckets = {
+    "Keefe": {
+        "name": "Keefe Campus Center",
+        "latitude": 42.37141504481807,
+        "longitude": -72.51479991450528,
+    },
+    "Queer": {
+        "name": "Keefe Campus Center",
+        "latitude": 42.37141504481807,
+        "longitude": -72.51479991450528,
+    },
+    "Multicultural": {
+        "name": "Keefe Campus Center",
+        "latitude": 42.37141504481807,
+        "longitude": -72.51479991450528,
+    },
+    "Friedmann": {
+        "name": "Keefe Campus Center",
+        "latitude": 42.37141504481807,
+        "longitude": -72.51479991450528,
+    },
+    "Ford": {
+        "name": "Ford Hall",
+        "latitude": 42.36923506234738,
+        "longitude": -72.51529130962976,
+    },
+    "SCCE": {
+        "name": "Science Center",
+        "latitude": 42.37105378715133,
+        "longitude": -72.51334790776447,
+    },
+    "Science Center": {
+        "name": "Science Center",
+        "latitude": 42.37105378715133,
+        "longitude": -72.51334790776447,
+    },
+    "Chapin": {
+        "name": "Chapin Hall",
+        "latitude": 42.371771820543486,
+        "longitude": -72.51572746604714,
+    },
+    "Gym": {
+        "name": "Alumni Gymnasium",
+        "latitude": 42.368819594097864,
+        "longitude": -72.5188658145099,
+    },
+    "Cage": {
+        "name": "Alumni Gymnasium",
+        "latitude": 42.368819594097864,
+        "longitude": -72.5188658145099,
+    },
+    "Lefrak": {
+        "name": "Alumni Gymnasium",
+        "latitude": 42.368819594097864,
+        "longitude": -72.5188658145099,
+    },
+    "Middleton Gym": {
+        "name": "Alumni Gym",
+        "latitude": 42.368819594097864,
+        "longitude": -72.5188658145099,
+    },
+    "Frost": {
+        "name": "Frost Library",
+        "latitude": 42.37183195277655,
+        "longitude": -72.51699336789369,
+    },
+    "Paino": {
+        "name": "Beneski Museum of Natural History",
+        "latitude": 42.37209277500926,
+        "longitude": -72.51422459549485,
+    },
+    "Powerhouse": {
+        "name": "Powerhouse",
+        "latitude": 42.372109655195466,
+        "longitude": -72.51309270030836,
+    },
+    "Converse": {
+        "name": "Converse Hall",
+        "latitude": 42.37243680844771,
+        "longitude": -72.518433147017,
+    },
+    "Assembly Room": {
+        "name": "Converse Hall",
+        "latitude": 42.37243680844771,
+        "longitude": -72.518433147017,
+    },
+    "Red Room": {
+        "name": "Converse Hall",
+        "latitude": 42.37243680844771,
+        "longitude": -72.518433147017,
+    },
+}
+
+# Define categories
+CATEGORY_DESCRIPTIONS = {
+    'social': 'social gathering party meetup networking friendship community hangout celebration',
+    'groupbusiness': 'business meeting organization planning committee board administrative professional',
+    'athletics': 'sports game match competition athletic fitness exercise tournament physical team',
+    'meeting': 'meeting discussion forum gathering assembly conference consultation',
+    'communityservice': 'volunteer service community help charity outreach support donation drive',
+    'arts': 'art exhibition gallery creative visual performance theater theatre display',
+    'concert': 'music concert performance band orchestra choir singing musical live',
+    'arts and crafts': 'crafts making creating DIY hands-on artistic craft project workshop art supplies',
+    'workshop': 'workshop training seminar learning skills development hands-on practical education',
+    'cultural': 'cultural diversity international multicultural heritage tradition celebration ethnic',
+    'thoughtfullearning': 'lecture academic learning educational intellectual discussion research scholarly',
+    'spirituality': 'spiritual religious meditation faith worship prayer mindfulness wellness'
+}
 
 # Configure logging
 logging.basicConfig(
@@ -152,21 +263,103 @@ def is_calendar_event_similar(event_data):
         return False
 
 
-def save_calendar_event_to_db(event_data):
+def categorize_location(location):
+    """Maps location string to predefined location bucket"""
+    for keyword, info in location_buckets.items():
+        if re.search(rf"\b{keyword}\b", location, re.IGNORECASE):
+            return info["name"]
+    return "Other"
+
+
+def get_lat_lng(location):
+    """Gets coordinates for a location"""
+    for keyword, info in location_buckets.items():
+        if re.search(rf"\b{keyword}\b", location, re.IGNORECASE):
+            return info["latitude"], info["longitude"]
+    return None, None
+
+
+def add_random_offset(lat, lng):
+    """Adds small random offset to coordinates"""
+    offset_range = 0.00015
+    lat += random.uniform(-offset_range, offset_range)
+    lng += random.uniform(-offset_range, offset_range) 
+    return lat, lng
+
+
+def assign_categories(event_description, title):
     """
-    Save a calendar event to the database, allowing nullable fields.
+    Assign categories based only on event title matching
     """
+    if not isinstance(title, str) or not title:
+        return []
+    
     try:
-        event_id = str(
-            700_000_000 + hash(str(event_data["title"])) % 100_000_000
-        )
+        # Use only title for matching
+        texts = [title.lower()] + list(CATEGORY_DESCRIPTIONS.values())
+        
+        vectorizer = TfidfVectorizer(stop_words='english')
+        try:
+            tfidf_matrix = vectorizer.fit_transform(texts)
+        except Exception as e:
+            logger.error(f"Vectorizer error: {e}")
+            return []
+
+        # Lower threshold since using only title
+        SIMILARITY_THRESHOLD = 0.08  
+        similarities = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:])
+        
+        assigned_categories = []
+        for idx, score in enumerate(similarities[0]):
+            if score > SIMILARITY_THRESHOLD:
+                assigned_categories.append(list(CATEGORY_DESCRIPTIONS.keys())[idx])
+        
+        return assigned_categories
+    except Exception as e:
+        logger.error(f"Category assignment error: {e}")
+        return []
+
+
+# Modify save_calendar_event_to_db:
+def save_calendar_event_to_db(event_data):
+    """Save calendar event to database with validation"""
+    try:
+        if not isinstance(event_data, dict):
+            raise ValueError("Event data must be a dictionary")
+            
+        title = event_data.get("title")
+        if not isinstance(title, str) or not title.strip():
+            raise ValueError("Event must have a non-empty title string")
+
+        event_id = str(700_000_000 + hash(str(title)) % 100_000_000)
+
+        # Get coordinates
+        location = event_data.get("location", "")
+        map_location = categorize_location(location)
+        lat, lng = get_lat_lng(location)
+        if lat and lng:
+            lat, lng = add_random_offset(lat, lng)
 
         pub_date = parse_calendar_datetime(event_data.get("pub_date")) or timezone.now()
         start_time = parse_calendar_datetime(event_data.get("start_time"), pub_date)
         end_time = parse_calendar_datetime(event_data.get("end_time"), pub_date)
 
-        link = event_data.get("link", "https://www.amherst.edu")
-        description = event_data.get("event_description", "")
+        # Get categories using similarity
+        try:
+            auto_categories = assign_categories(
+                event_data.get("event_description", ""),
+                title
+            )
+        except Exception as e:
+            logger.error(f"Category assignment error: {e}")
+            auto_categories = []
+
+        existing_categories = event_data.get("categories", [])
+        all_categories = list(set(existing_categories + auto_categories))
+        
+        # Combine with any existing categories
+        existing_categories = event_data.get("categories", [])
+        all_categories = list(set(existing_categories + auto_categories))
 
         Event.objects.update_or_create(
             id=event_id,
@@ -175,19 +368,19 @@ def save_calendar_event_to_db(event_data):
                 "author_name": event_data.get("author_name", ""),
                 "pub_date": pub_date,
                 "host": json.dumps(event_data.get("host", [])),
-                "link": link,
+                "link": event_data.get("link", "https://www.amherst.edu"),
                 "picture_link": event_data.get("picture_link", ""),
-                "event_description": description,
+                "event_description": event_data.get("event_description", ""),
                 "start_time": start_time,
                 "end_time": end_time,
-                "location": event_data.get("location", "TBD"),
-                "categories": json.dumps(event_data.get("categories", [])),
-                "latitude": None,
-                "longitude": None,
-                "map_location": "Other",
+                "location": location,
+                "categories": json.dumps(all_categories),
+                "latitude": lat,
+                "longitude": lng,
+                "map_location": map_location,
             },
         )
-        logger.info(f"Successfully saved event: {event_data['title']}")
+        logger.info(f"Successfully saved event: {event_data['title']} with categories {all_categories}")
         
     except Exception as e:
         logger.error(f"Error saving event '{event_data.get('title', 'Unknown')}': {e}")

@@ -212,3 +212,204 @@ def test_process_calendar_events_error_handling(mock_save, mock_is_similar, mock
     mock_load.assert_called_once()
     mock_is_similar.assert_called_once()
     mock_save.assert_called_once()
+
+
+@pytest.mark.parametrize("location,expected", [
+    ("Keefe", "Keefe Campus Center"),
+    ("Science Center", "Science Center"),
+    ("Unknown Place", "Other"),
+    ("Frost Library", "Frost Library"),
+    ("Queer Resource Center", "Keefe Campus Center"),
+])
+
+
+def test_categorize_location(location, expected):
+    """Test location categorization logic."""
+    from access_amherst_algo.calendar_scraper.calendar_saver import categorize_location
+    assert categorize_location(location) == expected
+
+
+@pytest.mark.parametrize("location,expected_coords", [
+    ("Keefe", (42.37141504481807, -72.51479991450528)),
+    ("Science Center", (42.37105378715133, -72.51334790776447)), 
+    ("Unknown Place", (None, None)),
+    ("Frost", (42.37183195277655, -72.51699336789369))
+])
+
+
+def test_get_lat_lng(location, expected_coords):
+    """Test coordinate lookup for locations."""
+    from access_amherst_algo.calendar_scraper.calendar_saver import get_lat_lng
+    assert get_lat_lng(location) == expected_coords
+
+
+def test_add_random_offset():
+    """Test random coordinate offset generation."""
+    from access_amherst_algo.calendar_scraper.calendar_saver import add_random_offset
+    lat, lng = 42.0, -72.0
+    new_lat, new_lng = add_random_offset(lat, lng)
+    
+    assert isinstance(new_lat, float)
+    assert isinstance(new_lng, float)
+    assert abs(new_lat - lat) <= 0.00015
+    assert abs(new_lng - lng) <= 0.00015
+
+
+def test_save_calendar_event_with_coordinates(mock_event_model):
+    """Test saving event with location coordinates."""
+    event_data = sample_calendar_event.copy()
+    event_data["location"] = "Keefe Campus Center"
+    
+    save_calendar_event_to_db(event_data)
+    
+    call_args = mock_event_model.objects.update_or_create.call_args[1]
+    defaults = call_args["defaults"]
+    
+    assert defaults["map_location"] == "Keefe Campus Center"
+    assert abs(defaults["latitude"] - 42.37141504481807) <= 0.00015
+    assert abs(defaults["longitude"] - -72.51479991450528) <= 0.00015
+
+
+def test_save_calendar_event_unknown_location(mock_event_model):
+    """Test saving event with unknown location."""
+    event_data = sample_calendar_event.copy()
+    event_data["location"] = "Unknown Building"
+    
+    save_calendar_event_to_db(event_data)
+    
+    call_args = mock_event_model.objects.update_or_create.call_args[1]
+    defaults = call_args["defaults"]
+    
+    assert defaults["map_location"] == "Other"
+    assert defaults["latitude"] is None
+    assert defaults["longitude"] is None
+    
+    
+def assign_categories(event_description, title):
+    """
+    Assign categories based only on event title matching
+    """
+    if not title:
+        return []
+    
+    # Use only title for matching
+    texts = [title.lower()] + list(CATEGORY_DESCRIPTIONS.values())
+    
+    vectorizer = TfidfVectorizer(stop_words='english')
+    try:
+        tfidf_matrix = vectorizer.fit_transform(texts)
+    except ValueError:
+        return []
+
+    # Lower threshold since using only title
+    SIMILARITY_THRESHOLD = 0.08  
+    similarities = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:])
+    
+    assigned_categories = []
+    for idx, score in enumerate(similarities[0]):
+        if score > SIMILARITY_THRESHOLD:
+            assigned_categories.append(list(CATEGORY_DESCRIPTIONS.keys())[idx])
+    
+    return assigned_categories
+
+
+def test_assign_categories_vectorizer_error():
+    """Test handling of TF-IDF vectorizer errors."""
+    from access_amherst_algo.calendar_scraper.calendar_saver import assign_categories
+    
+    with patch('sklearn.feature_extraction.text.TfidfVectorizer.fit_transform') as mock_fit:
+        mock_fit.side_effect = ValueError("Vectorizer error")
+        categories = assign_categories("", "Test Title")
+        assert categories == []
+
+
+@pytest.mark.parametrize("exception_type", [
+    (UnicodeDecodeError, ("utf-8", b"", 0, 1, "Test error")),  # Proper args for UnicodeDecodeError
+    (MemoryError, ("Test error",)),
+    (RuntimeError, ("Test error",)),
+    (Exception, ("Test error",))
+])
+
+
+def test_assign_categories_general_exceptions(exception_type):
+    """Test handling of various exceptions during category assignment."""
+    from access_amherst_algo.calendar_scraper.calendar_saver import assign_categories
+    
+    exception_class, args = exception_type
+    with patch('sklearn.feature_extraction.text.TfidfVectorizer.fit_transform') as mock_fit:
+        mock_fit.side_effect = exception_class(*args)
+        categories = assign_categories("", "Test Title")
+        assert categories == []
+
+
+def test_save_calendar_event_category_error(mock_event_model):
+    """Test handling of category assignment errors during event save."""
+    event_data = sample_calendar_event.copy()
+    
+    with patch('access_amherst_algo.calendar_scraper.calendar_saver.assign_categories') as mock_assign:
+        mock_assign.side_effect = Exception("Category assignment error")
+        save_calendar_event_to_db(event_data)
+        
+        call_args = mock_event_model.objects.update_or_create.call_args[1]
+        defaults = call_args["defaults"]
+        saved_categories = json.loads(defaults["categories"])
+        
+        # Should fall back to existing categories only
+        assert saved_categories == event_data["categories"]
+
+
+def test_save_calendar_event_json_error(mock_event_model):
+    """Test handling of JSON serialization errors."""
+    event_data = sample_calendar_event.copy()
+    event_data["host"] = object()  # Unserializable object
+    
+    with pytest.raises(Exception):
+        save_calendar_event_to_db(event_data)
+
+
+@pytest.mark.parametrize("bad_input", [
+    {"title": object()},  # Unhashable type
+    {"title": None},  # None title
+    {"title": ""},  # Empty title
+])
+
+
+def test_save_calendar_event_bad_input(bad_input, mock_event_model):
+    """Test handling of invalid input data."""
+    with pytest.raises(Exception):
+        save_calendar_event_to_db(bad_input)
+
+
+def test_process_calendar_events_category_error():
+    """Test handling of category assignment errors during event processing."""
+    from access_amherst_algo.calendar_scraper.calendar_saver import process_calendar_events
+    
+    with patch('access_amherst_algo.calendar_scraper.calendar_saver.load_calendar_json') as mock_load, \
+         patch('access_amherst_algo.calendar_scraper.calendar_saver.assign_categories') as mock_assign, \
+         patch('access_amherst_algo.calendar_scraper.calendar_saver.save_calendar_event_to_db') as mock_save:
+        
+        mock_load.return_value = [sample_calendar_event]
+        mock_assign.side_effect = Exception("Category error")
+        
+        process_calendar_events()
+        mock_save.assert_called_once()
+
+
+def test_assign_categories_memory_limit():
+    """Test handling of large input that could cause memory issues."""
+    from access_amherst_algo.calendar_scraper.calendar_saver import assign_categories
+    
+    # Create a very long title
+    long_title = "word " * 10000
+    categories = assign_categories("", long_title)
+    assert isinstance(categories, list)
+
+
+def test_assign_categories_unicode_error():
+    """Test handling of unicode errors in title."""
+    from access_amherst_algo.calendar_scraper.calendar_saver import assign_categories
+    
+    # Create title with invalid unicode
+    bad_title = "Test Title \x80\x81"
+    categories = assign_categories("", bad_title)
+    assert isinstance(categories, list)
