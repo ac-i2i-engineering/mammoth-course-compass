@@ -1,6 +1,6 @@
 /* styles.css */
 :root {
-    --primary-color: #800080;
+    --primary-color: #3f1f69;
     --background-color: #f3e5f5;
     --header-height: 60px;
     --border-color: #ddd;
@@ -193,12 +193,12 @@ body {
 }
 
 .event-link {
-    background-color: #a503c0;
+    background-color: #5d3c81;
     color: white;
 }
 
 .calendar-link {
-    background-color: #0e4c92;
+    background-color: #0072b1;
     color: white;
 }
 
