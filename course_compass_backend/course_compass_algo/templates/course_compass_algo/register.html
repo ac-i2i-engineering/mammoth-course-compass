@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <style>
+        .navbar {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'index' %}">Home</a>
+        <a href="{% url 'register' %}">Register</a>
+        <a href="{% url 'login' %}">Login</a>
+    </div>
+    <h2>Register</h2>
+
+    <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+        <label for="username">Username: </label><br>
+        <input type="text" id="username" name="username"><br>
+        <label for="password1">Password: </label><br>
+        <input type="password" id="password1" name="password1"><br>
+        <label for="password2">Confirm Password: </label><br>
+        <input type="password" id="password2" name="password2"><br>
+        <input type="submit" value="Submit">
+    </form>
+
+</body>
+</html>
