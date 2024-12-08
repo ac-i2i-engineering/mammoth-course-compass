@@ -22,7 +22,7 @@ class Course(models.Model):
     Parameters
     ----------
     code : str
-        The course code identifier (e.g., "COSC-111")
+        The course code identifier (e.g., "COSC111")
     title : str  
         The full title of the course
     description : str
@@ -252,6 +252,7 @@ class CourseRating(models.Model):
         adjusted_workload = 6 - self.workload
         adjusted_difficulty = 6 - self.difficulty
         
+        # adjust weights of different categories (currently all even)
         weights = {
             'quality_of_teaching': 0.20,
             'course_content': 0.20,

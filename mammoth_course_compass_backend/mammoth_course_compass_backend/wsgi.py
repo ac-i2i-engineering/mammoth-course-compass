@@ -1,5 +1,5 @@
 """
-WSGI config for mammoth_course_compass_backend  project.
+WSGI config for mammoth_course_compass_backend project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
