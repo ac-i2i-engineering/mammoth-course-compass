@@ -6,9 +6,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "Access Amherst"
-copyright = "2024, Dhyey Mavani, Liam Davis, Ryan Ji, Shreya Hegde, Thu Hoang"
-author = "Dhyey Mavani, Liam Davis, Ryan Ji, Shreya Hegde, Thu Hoang"
+project = "Mammoth Course Compass"
+copyright = "2024, Dhyey Mavani, Liam Davis, Ryan Ji, Megan Li, Brendan Shen, Michael Ubarri-Sosa"
+author = "Dhyey Mavani, Liam Davis, Ryan Ji, Megan Li, Brendan Shen, Michael Ubarri-Sosa"
 release = "0.0.0"
 
 # -- General configuration ---------------------------------------------------
@@ -30,13 +30,13 @@ language = "python"
 extensions.append("sphinx_wagtail_theme")
 html_theme = "sphinx_wagtail_theme"
 html_theme_options = dict(
-    project_name = "Access Amherst",
+    project_name = "Mammoth Course Compass",
     logo = "",
     logo_alt = "",
     logo_height = 50,
     logo_url = "/",
     logo_width = 50,
-    github_url = "https://github.com/ac-i2i-engineering/access-amherst/",
+    github_url = "https://github.com/ac-i2i-engineering/mammoth-course-compass/",
 )
 
 html_static_path = ["_static"]
@@ -51,6 +51,6 @@ import os
 import sys
 import django
 
-sys.path.insert(0, os.path.abspath("../../access_amherst_backend"))
-os.environ["DJANGO_SETTINGS_MODULE"] = "access_amherst_backend.settings"
+sys.path.insert(0, os.path.abspath("../../mammoth_course_compass_backend"))
+os.environ["DJANGO_SETTINGS_MODULE"] = "mammoth_course_compass_backend.settings"
 django.setup()
