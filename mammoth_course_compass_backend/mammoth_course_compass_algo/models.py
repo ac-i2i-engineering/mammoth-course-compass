@@ -15,9 +15,8 @@ These models work together to provide a comprehensive course rating and review s
 
 class Course(models.Model):
     """
-    Course model representing an academic course at Amherst College with details about the course 
-    and aggregated rating statistics. This class stores course information and provides methods 
-    for managing and retrieving rating data.
+    Course model representing an academic course at Amherst College with details about the course. 
+    This class stores course information and provides methods for retrieving rating data.
 
     Parameters
     ----------
@@ -29,33 +28,15 @@ class Course(models.Model):
         A detailed description of the course content
     department : str
         The 4-letter department code (e.g., "COSC", "BCBP")
-    credits : int
-        Number of credits for the course
+    professor : str
+        Professor of the course
     keywords : str, optional
         Course keywords used for content-based filtering
     prerequisites : ManyToManyField
         Related Course objects that are prerequisites for this course
-    avg_overall : float, optional
-        Average overall rating on a 1-5 scale
-    avg_quality_of_teaching : float, optional
-        Average rating for teaching quality on a 1-5 scale
-    avg_course_content : float, optional
-        Average rating for course content on a 1-5 scale
-    avg_workload : float, optional
-        Average rating for course workload on a 1-5 scale
-    avg_difficulty : float, optional
-        Average rating for course difficulty on a 1-5 scale
-    avg_engagement : float, optional
-        Average rating for student engagement on a 1-5 scale
-    total_ratings : int
-        Total number of ratings submitted for this course
-    would_take_again_percentage : float, optional
-        Percentage of students who would take the course again
 
     Methods
     -------
-    update_rating_statistics()
-        Updates all aggregated rating fields based on submitted ratings
     get_rating_statistics()
         Returns a dictionary containing current rating statistics
     __str__()
@@ -66,67 +47,30 @@ class Course(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     department = models.CharField(max_length=4) # Use 4-letter department code, e.g., "COSC", "BCBP"
-    credits = models.IntegerField()
+    professor = models.CharField(max_length=100)
     # Add fields that will be used for content-based filtering (currently implementing a content-based filtering recommendation system)
     keywords = models.TextField(blank=True)  # store course keywords
     prerequisites = models.ManyToManyField('self', blank=True)
-    # Rating fields
-    avg_overall = models.FloatField(null=True, blank=True)
-    avg_quality_of_teaching = models.FloatField(null=True, blank=True)
-    avg_course_content = models.FloatField(null=True, blank=True)
-    avg_workload = models.FloatField(null=True, blank=True)
-    avg_difficulty = models.FloatField(null=True, blank=True)
-    avg_engagement = models.FloatField(null=True, blank=True)
-    total_ratings = models.IntegerField(default=0)
-    would_take_again_percentage = models.FloatField(null=True, blank=True)
 
-    def update_rating_statistics(self):
-        """
-        Updates all rating statistics for the course
-        Should be called whenever a rating is added, modified, or deleted
-        """
-        ratings = self.courserating_set.all()
-        count = ratings.count()
-        
-        if count > 0:
-            self.avg_quality_of_teaching = ratings.aggregate(Avg('quality_of_teaching'))['quality_of_teaching__avg']
-            self.avg_course_content = ratings.aggregate(Avg('course_content'))['course_content__avg']
-            self.avg_workload = ratings.aggregate(Avg('workload'))['workload__avg']
-            self.avg_difficulty = ratings.aggregate(Avg('difficulty'))['difficulty__avg']
-            self.avg_engagement = ratings.aggregate(Avg('engagement'))['engagement__avg']
-            self.avg_overall = ratings.aggregate(Avg('overall'))['overall__avg']
-            self.total_ratings = count
-            self.would_take_again_percentage = (
-                ratings.filter(would_take_again=True).count() / count * 100
-            )
-        else:
-            self.avg_quality_of_teaching = None
-            self.avg_course_content = None
-            self.avg_workload = None
-            self.avg_difficulty = None
-            self.avg_engagement = None
-            self.avg_overall = None
-            self.total_ratings = 0
-            self.would_take_again_percentage = None
-        
-        self.save()
-
+    # Rating statistics
     def get_rating_statistics(self):
         """
         Returns a dictionary of all rating statistics
-        Now uses stored values instead of calculating them
+        Calculates the values directly from courseRating
         """
+        ratings = CourseRating.objects.filter(course=self)
+        count = ratings.count()
+
         return {
-            'quality_of_teaching': round(self.avg_quality_of_teaching, 2) if self.avg_quality_of_teaching else None,
-            'course_content': round(self.avg_course_content, 2) if self.avg_course_content else None,
-            'workload': round(self.avg_workload, 2) if self.avg_workload else None,
-            'difficulty': round(self.avg_difficulty, 2) if self.avg_difficulty else None,
-            'engagement': round(self.avg_engagement, 2) if self.avg_engagement else None,
-            'overall': round(self.avg_overall, 2) if self.avg_overall else None,
-            'total_ratings': self.total_ratings,
-            'would_take_again_percentage': round(self.would_take_again_percentage, 2) if self.would_take_again_percentage else None
+            'materials': round(ratings.aggregate(Avg('materials'))['materials__avg'], 2) if count > 0 else None,
+            'course_content': round(ratings.aggregate(Avg('course_content'))['course_content__avg'], 2) if count > 0 else None,
+            'workload': round(ratings.aggregate(Avg('workload'))['workload__avg'], 2) if count > 0 else None,
+            'difficulty': round(ratings.aggregate(Avg('difficulty'))['difficulty__avg'], 2) if count > 0 else None,
+            'professor': round(ratings.aggregate(Avg('professor'))['professor__avg'], 2) if count > 0 else None,
+            'overall': round(ratings.aggregate(Avg('overall'))['overall__avg'], 2) if count > 0 else None,
+            'total_ratings': count,
+            'would_take_again_percentage': round(ratings.filter(would_take_again=True).count() / count * 100, 2) if count > 0 else None
         }
-    
 
     def __str__(self):
         return f"{self.code}: {self.title}"
@@ -149,16 +93,16 @@ class CourseRating(models.Model):
         Text review of the course
     overall : float, optional
         Calculated overall rating based on category ratings
-    quality_of_teaching : int
-        Rating for teaching quality on a 1-5 scale
+    materials : int
+        Rating for relevancy/usefulness of materials on a 1-5 scale
     course_content : int
         Rating for course content quality on a 1-5 scale
     workload : int
         Rating for course workload (1=easy, 5=difficult)
     difficulty : int
         Rating for course difficulty (1=easy, 5=difficult)
-    engagement : int
-        Rating for how engaging the course was on a 1-5 scale
+    professor : int
+        Rating of the professor on a 1-5 scale
     would_take_again : bool, optional
         Whether the student would take the course again
     attendance_mandatory : bool, optional
@@ -166,10 +110,6 @@ class CourseRating(models.Model):
 
     Methods
     -------
-    save()
-        Saves the rating and updates course statistics
-    delete()
-        Deletes the rating and updates course statistics
     calculate_overall_rating()
         Calculates weighted average rating across all categories
     get_category_averages()
@@ -190,7 +130,7 @@ class CourseRating(models.Model):
     overall = models.FloatField(null=True, blank=True)
 
     # Rating categories (all on 1-5 scale)
-    quality_of_teaching = models.IntegerField(
+    materials = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)],
         help_text="Rate the quality of instruction and teaching effectiveness"
     )
@@ -210,9 +150,9 @@ class CourseRating(models.Model):
         help_text="Rate the difficulty level (1 = very easy, 5 = very difficult)"
     )
     
-    engagement = models.IntegerField(
+    professor = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)],
-        help_text="Rate how engaging and interesting the course was"
+        help_text="Rate how engaging, helpful the professor was"
     )
     
     # Optional fields that might be useful
@@ -231,17 +171,6 @@ class CourseRating(models.Model):
     class Meta:
         unique_together = ['user', 'course']
     
-    def save(self, *args, **kwargs):
-        self.overall = self.calculate_overall_rating()
-        super().save(*args, **kwargs)
-        self.course.update_rating_statistics()  # Update course statistics after saving
-
-    def delete(self, *args, **kwargs):
-        course = self.course  # Store reference to course before deletion
-        super().delete(*args, **kwargs)
-        course.update_rating_statistics()  # Update course statistics after deletion
-
-    
     def calculate_overall_rating(self):
         """
         Calculate overall rating using weighted average of categories.
@@ -254,19 +183,19 @@ class CourseRating(models.Model):
         
         # adjust weights of different categories (currently all even)
         weights = {
-            'quality_of_teaching': 0.20,
+            'materials': 0.20,
             'course_content': 0.20,
             'workload': 0.20,
             'difficulty': 0.20,
-            'engagement': 0.20,
+            'professor': 0.20,
         }
         
         overall = (
-            self.quality_of_teaching * weights['quality_of_teaching'] +
+            self.materials * weights['materials'] +
             self.course_content * weights['course_content'] +
             adjusted_workload * weights['workload'] +
             adjusted_difficulty * weights['difficulty'] +
-            self.engagement * weights['engagement']
+            self.professor * weights['professor']
         )
         
         return round(overall, 2)
@@ -276,11 +205,11 @@ class CourseRating(models.Model):
         Returns a dictionary of average ratings for each category
         """
         return {
-            'quality_of_teaching': self.quality_of_teaching,
+            'materials': self.materials,
             'course_content': self.course_content,
             'workload': self.workload,
             'difficulty': self.difficulty,
-            'engagement': self.engagement,
+            'professor': self.professor,
             'overall': self.calculate_overall_rating()
         }
 
