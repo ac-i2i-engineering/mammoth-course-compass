@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "mammoth_course_compass_algo",
 ]
 
 MIDDLEWARE = [
