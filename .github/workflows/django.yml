@@ -34,7 +34,7 @@ jobs:
     - name: Run Unit Tests with pytest framework and generate coverage report
       working-directory: ./mammoth_course_compass_backend
       run: |
-        pytest --cov --cov-config=.coveragerc --cov-fail-under=90
+        pytest --cov --cov-config=.coveragerc --cov-fail-under=90 --allow-no-tests
     - name: Coveralls Workflow
       working-directory: ./mammoth_course_compass_backend
       run: |

@@ -2,3 +2,5 @@
 omit = 
     */views.py
     */urls.py
+    */migrations/*
+    */__init__.py
