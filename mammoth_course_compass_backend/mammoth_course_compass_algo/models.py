@@ -61,15 +61,18 @@ class Course(models.Model):
         ratings = CourseRating.objects.filter(course=self)
         count = ratings.count()
 
+        def safe_round(value):
+            return round(value, 2) if value is not None else None
+
         return {
-            'materials': round(ratings.aggregate(Avg('materials'))['materials__avg'], 2) if count > 0 else None,
-            'course_content': round(ratings.aggregate(Avg('course_content'))['course_content__avg'], 2) if count > 0 else None,
-            'workload': round(ratings.aggregate(Avg('workload'))['workload__avg'], 2) if count > 0 else None,
-            'difficulty': round(ratings.aggregate(Avg('difficulty'))['difficulty__avg'], 2) if count > 0 else None,
-            'professor': round(ratings.aggregate(Avg('professor'))['professor__avg'], 2) if count > 0 else None,
-            'overall': round(ratings.aggregate(Avg('overall'))['overall__avg'], 2) if count > 0 else None,
+            'materials': safe_round(ratings.aggregate(Avg('materials'))['materials__avg']),
+            'course_content': safe_round(ratings.aggregate(Avg('course_content'))['course_content__avg']),
+            'workload': safe_round(ratings.aggregate(Avg('workload'))['workload__avg']),
+            'difficulty': safe_round(ratings.aggregate(Avg('difficulty'))['difficulty__avg']),
+            'professor': safe_round(ratings.aggregate(Avg('professor'))['professor__avg']),
+            'overall': safe_round(ratings.aggregate(Avg('overall'))['overall__avg']),
             'total_ratings': count,
-            'would_take_again_percentage': round(ratings.filter(would_take_again=True).count() / count * 100, 2) if count > 0 else None
+            'would_take_again_percentage': safe_round(ratings.filter(would_take_again=True).count() / count * 100) if count > 0 else None
         }
 
     def __str__(self):
