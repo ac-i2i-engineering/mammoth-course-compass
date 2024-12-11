@@ -6,7 +6,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-        <title>Event Model &mdash; Access Amherst 0.0.0 documentation</title>
+        <title>Course Model &mdash; Mammoth Course Compass 0.0.0 documentation</title>
     
     <link rel="stylesheet" type="text/css" href="_static/dist/fontawesome.css" />
       <link rel="stylesheet" type="text/css" href="_static/dist/theme.css?v=310cf088" />
@@ -14,9 +14,9 @@
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=02fa4ee0" />
             <link rel="index" title="Index" href="genindex.html" />
             <link rel="search" title="Search" href="search.html" />
-            <link rel="top" title="Access Amherst 0.0.0 documentation" href="#" />
-            <link rel="next" title="RSS Scraper" href="rss_scraper.html" />
-            <link rel="prev" title="Welcome to Access Amherst&#39;s Documentation!" href="index.html" />
+            <link rel="top" title="Mammoth Course Compass 0.0.0 documentation" href="#" />
+            <link rel="next" title="Course Rating Model" href="course_rating_model.html" />
+            <link rel="prev" title="Welcome to Mammoth Course Compass&#39;s Documentation!" href="index.html" />
     </head>
 <body>
     <script type="text/javascript" src="_static/dist/blocking.js"></script>
@@ -51,11 +51,8 @@
     <nav class="toc mt-3" aria-label="Main menu">
         <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Event Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rss_scraper.html">RSS Scraper</a></li>
-<li class="toctree-l1"><a class="reference internal" href="email_scraper.html">Email Scraper</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parse_database.html">Database Parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="generate_map.html">Map Generation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Course Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="course_rating_model.html">Course Rating Model</a></li>
 </ul>
 
     </nav>
@@ -76,7 +73,7 @@
                         <nav aria-label="breadcrumb">
     <ol class="breadcrumb m-0 p-0 bg-transparent">
         <li class="breadcrumb-item"><a href="index.html">Docs</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Event Model</li>
+        <li class="breadcrumb-item active" aria-current="page">Course Model</li>
     </ol>
 </nav>
                     </div>
@@ -88,7 +85,7 @@
                             <span class="dark-only"><i class="fas fa-sun"></i> Light mode</span>
                             <span class="light-only"><i class="fas fa-moon"></i> Dark mode</span>
                         </button>
-    <a class="btn btn-sm btn-light text-decoration-none" href="https://github.com/ac-i2i-engineering/access-amherst/" rel="nofollow">
+    <a class="btn btn-sm btn-light text-decoration-none" href="https://github.com/ac-i2i-engineering/mammoth-course-compass/" rel="nofollow">
         <span class="btn-icon"><span class="fab fa-github"></span></span>
         <span class="btn-text">GitHub</span>
     </a>
@@ -103,52 +100,54 @@
                 <div class="row">
                     <div class="col-12 col-lg-9 order-last order-lg-first rst-content">
                         <main role="main" id="main">
-    <section id="module-access_amherst_algo.models">
-<span id="event-model"></span><h1>Event Model<a class="headerlink" href="#module-access_amherst_algo.models" title="Link to this heading">¶</a></h1>
+    <section id="module-mammoth_course_compass_algo.models">
+<span id="course-model"></span><h1>Course Model<a class="headerlink" href="#module-mammoth_course_compass_algo.models" title="Link to this heading">¶</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="access_amherst_algo.models.Event">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">access_amherst_algo.models.</span></span><span class="sig-name descname"><span class="pre">Event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.models.Event" title="Link to this definition">¶</a></dt>
-<dd><p>Event model representing an event with various attributes such as title, description, time,
-location, and associated metadata. This class stores the details of an event and includes
-fields for the event's author, start and end times, location, and categories. It also provides
-methods for querying and manipulating event data.</p>
+<dt class="sig sig-object py" id="mammoth_course_compass_algo.models.Course">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mammoth_course_compass_algo.models.</span></span><span class="sig-name descname"><span class="pre">Course</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mammoth_course_compass_algo.models.Course" title="Link to this definition">¶</a></dt>
+<dd><p>Course model representing an academic course at Amherst College with details about the course.
+This class stores course information and provides methods for retrieving rating data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> (<em>int</em>) -- A unique identifier for the event (primary key).</p></li>
-<li><p><strong>title</strong> (<em>str</em>) -- The title of the event.</p></li>
-<li><p><strong>author_name</strong> (<em>str</em><em>, </em><em>optional</em>) -- The name of the author of the event.</p></li>
-<li><p><strong>author_email</strong> (<em>str</em><em>, </em><em>optional</em>) -- The email address of the author of the event.</p></li>
-<li><p><strong>pub_date</strong> (<em>datetime</em><em>, </em><em>optional</em>) -- The publication date of the event.</p></li>
-<li><p><strong>host</strong> (<em>str</em><em>, </em><em>optional</em>) -- A comma-separated list or JSON of hosts for the event.</p></li>
-<li><p><strong>link</strong> (<em>str</em><em>, </em><em>optional</em>) -- A URL link related to the event (e.g., a registration page or event page).</p></li>
-<li><p><strong>picture_link</strong> (<em>str</em><em>, </em><em>optional</em>) -- A URL link to an image representing the event.</p></li>
-<li><p><strong>event_description</strong> (<em>str</em><em>, </em><em>optional</em>) -- A detailed description of the event.</p></li>
-<li><p><strong>start_time</strong> (<em>datetime</em><em>, </em><em>optional</em>) -- The start time of the event.</p></li>
-<li><p><strong>end_time</strong> (<em>datetime</em><em>, </em><em>optional</em>) -- The end time of the event.</p></li>
-<li><p><strong>location</strong> (<em>str</em><em>, </em><em>optional</em>) -- The location of the event.</p></li>
-<li><p><strong>categories</strong> (<em>str</em>) -- A comma-separated list or JSON of categories the event belongs to.</p></li>
-<li><p><strong>latitude</strong> (<em>float</em><em>, </em><em>optional</em>) -- The latitude of the event location.</p></li>
-<li><p><strong>longitude</strong> (<em>float</em><em>, </em><em>optional</em>) -- The longitude of the event location.</p></li>
-<li><p><strong>map_location</strong> (<em>str</em><em>, </em><em>optional</em>) -- A textual description of the location on a map.</p></li>
+<li><p><strong>code</strong> (<em>str</em>) -- The course code identifier (e.g., &quot;COSC111&quot;)</p></li>
+<li><p><strong>title</strong> (<em>str</em>) -- The full title of the course</p></li>
+<li><p><strong>description</strong> (<em>str</em>) -- A detailed description of the course content</p></li>
+<li><p><strong>department</strong> (<em>str</em>) -- The 4-letter department code (e.g., &quot;COSC&quot;, &quot;BCBP&quot;)</p></li>
+<li><p><strong>professor</strong> (<em>str</em>) -- Professor of the course</p></li>
+<li><p><strong>keywords</strong> (<em>str</em><em>, </em><em>optional</em>) -- Course keywords used for content-based filtering</p></li>
+<li><p><strong>prerequisites</strong> (<em>ManyToManyField</em>) -- Related Course objects that are prerequisites for this course</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__str__()</span> <span class="pre">:</span></span></dt>
-<dd><p>Returns a string representation of the event (the event's title).</p>
+<dt class="sig sig-object py" id="mammoth_course_compass_algo.models.Course.get_rating_statistics">
+<span class="sig-name descname"><span class="pre">get_rating_statistics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mammoth_course_compass_algo.models.Course.get_rating_statistics" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a dictionary containing current rating statistics</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mammoth_course_compass_algo.models.Course.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mammoth_course_compass_algo.models.Course.__str__" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a string representation of the course (code and title)</p>
 </dd></dl>
 
 <dl class="py exception">
-<dt class="sig sig-object py" id="access_amherst_algo.models.Event.DoesNotExist">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#access_amherst_algo.models.Event.DoesNotExist" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="mammoth_course_compass_algo.models.Course.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#mammoth_course_compass_algo.models.Course.DoesNotExist" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py exception">
-<dt class="sig sig-object py" id="access_amherst_algo.models.Event.MultipleObjectsReturned">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#access_amherst_algo.models.Event.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="mammoth_course_compass_algo.models.Course.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#mammoth_course_compass_algo.models.Course.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">get_rating_statistics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a dictionary of all rating statistics
+Calculates the values directly from courseRating</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -157,10 +156,10 @@ methods for querying and manipulating event data.</p>
 </main>
                         <nav aria-label="Page navigation" class="py-4 my-5 clearfix font-weight-bold border-top">
     <a class="float-left" href="index.html" title="Previous">
-        <span aria-hidden="true">←&nbsp;</span>Welcome to Access Amherst's Documentation!
+        <span aria-hidden="true">←&nbsp;</span>Welcome to Mammoth Course  Compass's Documentation!
     </a>
-    <a class="float-right" href="rss_scraper.html" title="Next">
-        RSS Scraper <span aria-hidden="true">&nbsp;→</span>
+    <a class="float-right" href="course_rating_model.html" title="Next">
+        Course Rating Model <span aria-hidden="true">&nbsp;→</span>
     </a>
 </nav>
                     </div>
@@ -169,10 +168,13 @@ methods for querying and manipulating event data.</p>
                         <div class="sticky-top toc page-toc" aria-labelledby="page-toc-heading">
                             <p class="font-weight-bold" id="page-toc-heading">Page contents</p>
                             <ul>
-<li><a class="reference internal" href="#">Event Model</a><ul>
-<li><a class="reference internal" href="#access_amherst_algo.models.Event"><code class="docutils literal notranslate"><span class="pre">Event</span></code></a><ul>
-<li><a class="reference internal" href="#access_amherst_algo.models.Event.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Event.DoesNotExist</span></code></a></li>
-<li><a class="reference internal" href="#access_amherst_algo.models.Event.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Event.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#">Course Model</a><ul>
+<li><a class="reference internal" href="#mammoth_course_compass_algo.models.Course"><code class="docutils literal notranslate"><span class="pre">Course</span></code></a><ul>
+<li><a class="reference internal" href="#mammoth_course_compass_algo.models.Course.get_rating_statistics"><code class="docutils literal notranslate"><span class="pre">Course.get_rating_statistics()</span></code></a></li>
+<li><a class="reference internal" href="#mammoth_course_compass_algo.models.Course.__str__"><code class="docutils literal notranslate"><span class="pre">Course.__str__()</span></code></a></li>
+<li><a class="reference internal" href="#mammoth_course_compass_algo.models.Course.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Course.DoesNotExist</span></code></a></li>
+<li><a class="reference internal" href="#mammoth_course_compass_algo.models.Course.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Course.MultipleObjectsReturned</span></code></a></li>
+<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">Course.get_rating_statistics()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -222,7 +224,7 @@ methods for querying and manipulating event data.</p>
                 </nav>
             
             <div class="text-center">
-                    &copy; Copyright 2024, Dhyey Mavani, Liam Davis, Ryan Ji, Shreya Hegde, Thu Hoang
+                    &copy; Copyright 2024, Dhyey Mavani, Liam Davis, Ryan Ji, Megan Li, Brendan Shen, Michael Ubarri-Sosa
             </div>
             <div class="text-center text-white-50 font-italic mt-3">
                 <small>
