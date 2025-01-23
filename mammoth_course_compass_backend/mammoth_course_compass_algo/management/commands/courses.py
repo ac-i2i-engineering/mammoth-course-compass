@@ -8,7 +8,8 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         # Add your courses here
         courses_to_create = [
-            {'code': '175', 'name': 'Introduction to Computer Science', 'department': 'COSC'},
+            {'code': '175', 'title': 'Introduction to Computer Science', 'department': 'COSC'},
+            {'code': '1', 'title': 'How to Make a Fake Class', 'department': 'COSC'},
             # Add more courses as needed
         ]
 
@@ -18,7 +19,7 @@ class Command(BaseCommand):
                 Course.objects.get_or_create(
                     code=course_data['code'],
                     defaults={
-                        'name': course_data['name'],
+                        'title': course_data['title'],
                         'department': course_data['department']
                     }
                 )
