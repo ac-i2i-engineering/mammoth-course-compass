@@ -1,0 +1,37 @@
+<!-- pages/templates/pages/home.html -->
+
+<h1>Courses</h1>
+{% if courses %}
+    <ul>
+    {% for course in courses %}
+        <li>
+            <h2>{{ course.title }}</h2>
+            <p><strong>Code:</strong> {{ course.code }}</p>
+            <p><strong>Description:</strong> {{ course.description }}</p>
+            <p><strong>Department:</strong> {{ course.department }}</p>
+            <p><strong>Professor:</strong> {{ course.professor }}</p>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No courses found.</p>
+{% endif %}
+
+<h1>Reviews</h1>
+{% if reviews %}
+    <ul>
+    {% for review in reviews %}
+        <li>
+            <h2>{{ review.course.title }}</h2>
+            <p><strong>User:</strong> {{ review.user.username }}</p>
+            <p><strong>Overall:</strong> {{ review.overall }}</p>
+            <p><strong>Review:</strong> {{ review.review }}</p>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No reviews found.</p>
+{% endif %}
+
+<a href="{% url 'create_course' %}">Create New Course</a>
+<a href="{% url 'upload_csv' %}">Upload CSV</a>

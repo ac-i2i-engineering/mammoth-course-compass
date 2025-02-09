@@ -11,15 +11,11 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         file_path = kwargs['filepath']
         
-        # Add debug print
-        self.stdout.write(f'Attempting to read file: {os.path.abspath(file_path)}')
-        
         if not os.path.exists(file_path):
             self.stdout.write(self.style.ERROR('File does not exist'))
             return
         
         try:
-            # Load and process the CSV file
             df = load_and_validate_csv(file_path)
             df_cleaned = clean_ratings_data(df)
             created, failed = create_course_ratings(df_cleaned)
