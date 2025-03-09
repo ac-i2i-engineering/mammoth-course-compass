@@ -1,0 +1,12 @@
+<h1>Confirm Your Email</h1>
+<p>A confirmation code has been sent to {{ email }}</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div>
+        <label for="id_confirmation_code">Confirmation Code:</label>
+        <input type="text" name="confirmation_code" id="id_confirmation_code" required>
+    </div>
+    <button type="submit">Verify and Submit Review</button>
+</form>
+<a href="{% url 'home' %}">Cancel</a>
